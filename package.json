@@ -1,0 +1,31 @@
+{
+  "name": "nx-cache-server",
+  "version": "1.0.0",
+  "description": "Self-hosted NX remote cache monorepo",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:rerodrigues/nx-cache-server.git"
+  },
+  "author": {
+    "name": "Renato Rodrigues",
+    "email": "renato@renatorodrigues.com",
+    "url": "http://renatorodrigues.com/"
+  },
+  "bugs": {
+    "url": "https://github.com/rerodrigues/nx-cache-server/issues"
+  },
+  "homepage": "https://github.com/rerodrigues/nx-cache-server#readme",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "prepare": "husky"
+  },
+  "license": "ISC",
+  "devDependencies": {
+    "husky": "^9.1.7",
+    "lerna": "^9.0.7",
+    "lint-staged": "^16.4.0"
+  }
+}
