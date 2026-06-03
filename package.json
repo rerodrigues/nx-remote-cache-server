@@ -22,11 +22,9 @@
   "scripts": {
     "prepare": "husky"
   },
-  "lint-staged": {},
   "license": "ISC",
   "devDependencies": {
     "husky": "^9.1.7",
-    "lerna": "^9.0.7",
-    "lint-staged": "^16.4.0"
+    "lerna": "^9.0.7"
   }
 }
