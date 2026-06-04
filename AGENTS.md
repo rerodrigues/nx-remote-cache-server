@@ -16,8 +16,11 @@
 ## Packages
 
 - Always update the README.md file in the root of the monorepo to reflect any changes to the packages or their usage.
+- Each package must have its own README.md file with usage instructions, API documentation, and examples.
 
 ## Testing
 
 - All packages must pass their test suite before changes are considered complete.
 - New public APIs must include unit tests.
+- All changes must be reflected in the tests to ensure coverage and prevent regressions. If no tests exist for the affected code, new tests must be added.
+
