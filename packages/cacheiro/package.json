@@ -1,25 +1,21 @@
 {
   "name": "@renatorodrigues/cacheiro",
   "version": "0.1.0",
-  "description": "Self-hosted NX remote cache service",
   "private": true,
-  "type": "module",
-  "main": "dist/cacheiro.js",
-  "module": "dist/cacheiro.module.js",
-  "types": "dist/cacheiro.d.ts",
+  "description": "Self-hosted NX remote cache service",
   "homepage": "https://github.com/rerodrigues/nx-cache-server/tree/main/packages/cacheiro#readme",
   "bugs": {
     "url": "https://github.com/rerodrigues/nx-cache-server/issues"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git@github.com:rerodrigues/nx-cache-server.git"
   },
   "license": "ISC",
   "author": {
     "name": "Renato Rodrigues",
     "email": "renato@renatorodrigues.com",
     "url": "http://renatorodrigues.com/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:rerodrigues/nx-cache-server.git"
   },
   "directories": {
     "lib": "dist",
@@ -28,21 +24,28 @@
   "files": [
     "dist"
   ],
+  "type": "module",
+  "main": "dist/cacheiro.js",
+  "module": "dist/cacheiro.module.js",
+  "types": "dist/cacheiro.d.ts",
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "tsc",
     "test": "vitest run",
     "test:watch": "vitest",
     "lint": "oxlint",
-    "lint:fix": "oxlint --fix"
+    "lint:fix": "oxlint --fix",
+    "fmt": "oxfmt",
+    "fmt:check": "oxfmt --check"
   },
   "devDependencies": {
     "@types/node": "^25.9.1",
     "lint-staged": "^16.4.0",
+    "oxfmt": "^0.53.0",
     "oxlint": "^1.68.0",
     "typescript": "^6.0.3",
     "vitest": "^4.1.8"
-  },
-  "publishConfig": {
-    "access": "public"
   }
 }
