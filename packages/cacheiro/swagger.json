@@ -1,0 +1,137 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Nx custom remote cache specification.",
+    "description": "Nx is an AI-first monorepo platform that connects everything from your editor to CI. Helping you deliver fast, without breaking things.",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/v1/cache/{hash}": {
+      "put": {
+        "description": "Upload a task output",
+        "operationId": "put",
+        "security": [
+          {
+            "bearerToken": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully uploaded the output"
+          },
+          "401": {
+            "description": "Missing or invalid authentication token.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "description": "Error message provided to the Nx CLI user"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access forbidden. (e.g. read-only token used to write)",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "description": "Error message provided to the Nx CLI user"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Cannot override an existing record"
+          }
+        },
+        "parameters": [
+          {
+            "in": "header",
+            "description": "The file size in bytes",
+            "required": true,
+            "schema": {
+              "type": "number"
+            },
+            "name": "Content-Length"
+          },
+          {
+            "name": "hash",
+            "description": "The task hash corresponding to the uploaded task output",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/octet-stream": {
+              "schema": {
+                "type": "string",
+                "format": "binary"
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "description": "Download a task output",
+        "operationId": "get",
+        "security": [
+          {
+            "bearerToken": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved cache artifact",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary",
+                  "description": "An octet stream with the content."
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access forbidden",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "description": "Error message provided to the Nx CLI user"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The record was not found"
+          }
+        },
+        "parameters": [
+          {
+            "name": "hash",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerToken": {
+        "type": "http",
+        "description": "Auth mechanism",
+        "scheme": "bearer"
+      }
+    }
+  }
+}

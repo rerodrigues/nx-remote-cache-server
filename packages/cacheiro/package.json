@@ -33,12 +33,17 @@
   },
   "scripts": {
     "build": "tsc",
+    "start": "node dist/cacheiro.js",
     "test": "vitest run",
     "test:watch": "vitest",
     "lint": "oxlint",
     "lint:fix": "oxlint --fix",
     "fmt": "oxfmt",
     "fmt:check": "oxfmt --check"
+  },
+  "dependencies": {
+    "fastify": "^5.0.0",
+    "openapi-backend": "^5.0.0"
   },
   "devDependencies": {
     "@types/node": "^25.9.1",
