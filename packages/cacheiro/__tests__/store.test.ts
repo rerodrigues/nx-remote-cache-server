@@ -37,6 +37,12 @@ describe('LocalStore', () => {
     expect(Buffer.concat(chunks)).toEqual(payload);
   });
 
+  it('write() creates dir if missing', async () => {
+    await rm(dir, { recursive: true, force: true });
+    await store.write('abc', Buffer.from('data'));
+    expect(await store.exists('abc')).toBe(true);
+  });
+
   it('init() is idempotent', async () => {
     await expect(store.init()).resolves.toBeUndefined();
   });
