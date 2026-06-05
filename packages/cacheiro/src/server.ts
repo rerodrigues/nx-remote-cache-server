@@ -37,10 +37,11 @@ export async function createServer(store?: Store) {
 
   api.registerSecurityHandler('bearerToken', (c) => {
     const authToken = cfg.auth.token;
+    if (!authToken) return true;
     const auth = c.request.headers['authorization'] as string | undefined;
     if (!auth) return false;
     const token = auth.replace(/^Bearer\s+/i, '');
-    return !authToken || token === authToken;
+    return token === authToken;
   });
 
   await api.init();
