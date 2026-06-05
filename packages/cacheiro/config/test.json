@@ -1,7 +1,7 @@
 {
   "$schema": "configSchema.json",
   "auth": {
-    "token": ""
+    "token": "test-token"
   },
   "store": {
     "local": {

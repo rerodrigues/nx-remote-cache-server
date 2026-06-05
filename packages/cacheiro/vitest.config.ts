@@ -4,5 +4,6 @@ export default defineConfig({
   test: {
     globals: true, // Allows using 'describe', 'test', 'expect' globally
     environment: 'node',
+    env: { AUTH_TOKEN: 'test-token' },
   },
 });
