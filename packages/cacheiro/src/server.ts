@@ -1,4 +1,4 @@
-import Fastify from 'fastify';
+import Fastify, { errorCodes } from 'fastify';
 import { OpenAPIBackend } from 'openapi-backend';
 import type { Context } from 'openapi-backend';
 import type { FastifyReply, FastifyRequest } from 'fastify';
@@ -46,7 +46,19 @@ export async function createServer(store?: Store) {
 
   await api.init();
 
-  const fastify = Fastify({ logger: true });
+  const bodyLimitMb = cfg.server.bodyLimitMb ?? 500;
+  const fastify = Fastify({ logger: true, bodyLimit: bodyLimitMb * 1024 * 1024 });
+
+  fastify.setErrorHandler((error, request, reply) => {
+    if (error instanceof errorCodes.FST_ERR_CTP_BODY_TOO_LARGE) {
+      const contentLength = request.headers['content-length'];
+      const sizePart = contentLength
+        ? ` Request size: ${(parseInt(contentLength, 10) / 1024 / 1024).toFixed(1)} MB.`
+        : '';
+      return reply.status(413).send(`Request body too large. Limit: ${bodyLimitMb} MB.${sizePart}`);
+    }
+    reply.send(error);
+  });
 
   fastify.addContentTypeParser(
     'application/octet-stream',

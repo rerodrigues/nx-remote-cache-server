@@ -17,6 +17,11 @@
         },
         "host": {
           "type": "string"
+        },
+        "bodyLimitMb": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Maximum request body size in megabytes."
         }
       }
     },

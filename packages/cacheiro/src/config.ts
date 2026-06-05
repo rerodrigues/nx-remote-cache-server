@@ -4,6 +4,7 @@ export interface AppConfig {
   server: {
     port: number;
     host: string;
+    bodyLimitMb: number;
   };
   auth: {
     token: string;

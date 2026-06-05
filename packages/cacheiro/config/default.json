@@ -2,7 +2,8 @@
   "$schema": "configSchema.json",
   "server": {
     "port": 3000,
-    "host": "0.0.0.0"
+    "host": "0.0.0.0",
+    "bodyLimitMb": 500
   },
   "auth": {
     "token": ""

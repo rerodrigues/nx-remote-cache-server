@@ -1,7 +1,8 @@
 {
   "server": {
     "port": "PORT",
-    "host": "HOST"
+    "host": "HOST",
+    "bodyLimitMb": "BODY_LIMIT_MB"
   },
   "auth": {
     "token": "AUTH_TOKEN"
