@@ -27,7 +27,24 @@ npm run build
 npm start
 ```
 
-The server runs under PM2. Use `npx pm2 logs cacheiro` and `npx pm2 stop cacheiro` to manage the process.
+The server runs under PM2 in runtime mode (foreground, no daemon).
+
+### Start (Docker)
+
+```sh
+# from repo root
+docker build -f packages/cacheiro/Dockerfile -t cacheiro .
+docker run -p 3000:3000 -v ./cache:/cache cacheiro
+```
+
+The cache directory is mounted at `/cache` inside the container. All config values can be passed as environment variables:
+
+```sh
+docker run -p 3000:3000 -v ./cache:/cache \
+  -e AUTH_TOKEN=secret \
+  -e CACHE_TTL_DAYS=30 \
+  cacheiro
+```
 
 ### Start (development)
 

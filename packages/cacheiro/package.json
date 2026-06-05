@@ -34,7 +34,7 @@
   "scripts": {
     "build": "tsc",
     "dev": "tsx watch src/cacheiro.ts",
-    "start": "pm2 start ecosystem.config.cjs",
+    "start": "pm2-runtime ecosystem.config.cjs",
     "start:node": "node dist/cacheiro.js",
     "test": "vitest run",
     "test:watch": "vitest",
