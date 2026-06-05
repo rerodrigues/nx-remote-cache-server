@@ -4,11 +4,15 @@ import { join } from 'node:path';
 import type { Readable } from 'node:stream';
 import type { Store } from './index.js';
 
-export class LocalStore implements Store {
+export interface FileSystemConfig {
+  dir: string;
+}
+
+export class FileSystemStore implements Store {
   private readonly dir: string;
 
-  constructor(dir: string) {
-    this.dir = dir;
+  constructor(config: FileSystemConfig) {
+    this.dir = config.dir;
   }
 
   async init(): Promise<void> {

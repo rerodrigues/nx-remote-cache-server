@@ -1,5 +1,5 @@
 import type { Readable } from 'node:stream';
-import { LocalStore } from './local.js';
+import { FileSystemStore } from './filesystem.js';
 import { cfg } from '../config.js';
 
 export interface Store {
@@ -12,8 +12,8 @@ export interface Store {
 export function createStore(): Store {
   const type = cfg.store.type;
   switch (type) {
-    case 'local':
-      return new LocalStore(cfg.store.local.dir);
+    case 'filesystem':
+      return new FileSystemStore(cfg.store.filesystem);
     default:
       throw new Error(`Unknown store type: "${type}"`);
   }

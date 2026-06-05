@@ -56,27 +56,27 @@ cp config/local.json.example config/local.json
 
 ### Config values
 
-| Key                  | Default     | Description                                                       |
-| -------------------- | ----------- | ----------------------------------------------------------------- |
-| `server.port`        | `3000`      | HTTP port to listen on                                            |
-| `server.host`        | `0.0.0.0`   | Host to bind to                                                   |
-| `server.bodyLimitMb` | `500`       | Max request body size in MB                                       |
-| `auth.token`         | `""`        | Bearer token required on all requests. Auth is disabled if empty. |
-| `store.type`         | `"local"`   | Storage backend. See [Stores](#stores) below.                     |
-| `store.local.dir`    | `"./cache"` | _(local store only)_ Directory where artifacts are stored.        |
+| Key                    | Default        | Description                                                       |
+| ---------------------- | -------------- | ----------------------------------------------------------------- |
+| `server.port`          | `3000`         | HTTP port to listen on                                            |
+| `server.host`          | `0.0.0.0`      | Host to bind to                                                   |
+| `server.bodyLimitMb`   | `500`          | Max request body size in MB                                       |
+| `auth.token`           | `""`           | Bearer token required on all requests. Auth is disabled if empty. |
+| `store.type`           | `"filesystem"` | Storage backend. See [Stores](#stores) below.                     |
+| `store.filesystem.dir` | `"./cache"`    | _(filesystem store only)_ Directory where artifacts are stored.   |
 
 ### Environment variable overrides
 
 All config values can still be overridden via environment variables (useful in CI/Docker):
 
-| Variable        | Config key           |
-| --------------- | -------------------- |
-| `PORT`          | `server.port`        |
-| `HOST`          | `server.host`        |
-| `BODY_LIMIT_MB` | `server.bodyLimitMb` |
-| `AUTH_TOKEN`    | `auth.token`         |
-| `CACHE_STORE`   | `store.type`         |
-| `CACHE_DIR`     | `store.local.dir`    |
+| Variable        | Config key             |
+| --------------- | ---------------------- |
+| `PORT`          | `server.port`          |
+| `HOST`          | `server.host`          |
+| `BODY_LIMIT_MB` | `server.bodyLimitMb`   |
+| `AUTH_TOKEN`    | `auth.token`           |
+| `CACHE_STORE`   | `store.type`           |
+| `CACHE_DIR`     | `store.filesystem.dir` |
 
 ## API
 
@@ -93,13 +93,13 @@ All endpoints require an `Authorization: Bearer <token>` header when `auth.token
 
 The storage backend is selected via `store.type`.
 
-### `local` (default)
+### `filesystem` (default)
 
-Stores artifacts on the local filesystem under `store.local.dir`.
+Stores artifacts on the local filesystem under `store.filesystem.dir`.
 
 ### Adding a new store
 
-Implement the `Store` interface from `src/store/index.ts` and add a `case` to `createStore()`.
+Implement the `Store` interface from `src/store/index.ts`, export a config interface, and add a `case` to `createStore()`.
 
 ## Development
 

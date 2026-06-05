@@ -4,7 +4,7 @@
     "token": "test-token"
   },
   "store": {
-    "local": {
+    "filesystem": {
       "dir": "./cache-test"
     }
   }

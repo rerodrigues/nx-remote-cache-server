@@ -8,8 +8,8 @@
     "token": ""
   },
   "store": {
-    "type": "local",
-    "local": {
+    "type": "filesystem",
+    "filesystem": {
       "dir": "./cache"
     }
   }

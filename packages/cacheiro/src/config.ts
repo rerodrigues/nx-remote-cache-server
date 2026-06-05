@@ -11,7 +11,7 @@ export interface AppConfig {
   };
   store: {
     type: string;
-    local: {
+    filesystem: {
       dir: string;
     };
   };

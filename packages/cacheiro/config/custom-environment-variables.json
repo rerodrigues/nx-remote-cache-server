@@ -9,7 +9,7 @@
   },
   "store": {
     "type": "CACHE_STORE",
-    "local": {
+    "filesystem": {
       "dir": "CACHE_DIR"
     }
   }

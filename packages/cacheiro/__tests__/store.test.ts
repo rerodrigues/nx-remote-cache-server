@@ -2,14 +2,14 @@ import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { mkdtemp, rm } from 'node:fs/promises';
 import { join } from 'node:path';
 import { tmpdir } from 'node:os';
-import { LocalStore } from '../src/store/local.js';
+import { FileSystemStore } from '../src/store/filesystem.js';
 
 let dir: string;
-let store: LocalStore;
+let store: FileSystemStore;
 
 beforeEach(async () => {
   dir = await mkdtemp(join(tmpdir(), 'cacheiro-test-'));
-  store = new LocalStore(dir);
+  store = new FileSystemStore({ dir });
   await store.init();
 });
 
@@ -17,7 +17,7 @@ afterEach(async () => {
   await rm(dir, { recursive: true, force: true });
 });
 
-describe('LocalStore', () => {
+describe('FileSystemStore', () => {
   it('exists() returns false for unknown hash', async () => {
     expect(await store.exists('missing')).toBe(false);
   });
