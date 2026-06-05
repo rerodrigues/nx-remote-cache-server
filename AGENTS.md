@@ -15,7 +15,7 @@
 
 ## Packages
 
-- Always update the README.md file in the root of the monorepo to reflect any changes to the packages or their usage.
+- Always update the README files, including the one in the root of the monorepo to reflect any relevant changes to the packages or their usage.
 - Each package must have its own README.md file with usage instructions, API documentation, and examples.
 
 ## Testing
