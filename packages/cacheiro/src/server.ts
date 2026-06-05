@@ -6,6 +6,7 @@ import type { FastifyReply, FastifyRequest } from 'fastify';
 import { readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import prettyBytes from 'pretty-bytes';
 import { createPutHandler } from './handlers/put.js';
 import { createGetHandler } from './handlers/get.js';
 import { createStore } from './store/index.js';
@@ -73,10 +74,14 @@ export async function createServer(storeArg?: Store) {
   });
 
   fastify.addHook('onResponse', (request, reply, done) => {
-    const contentLength = request.headers['content-length'];
-    const size = contentLength
-      ? ` (${(parseInt(contentLength, 10) / 1024 / 1024).toFixed(1)}MB)`
-      : '';
+    const isPut = request.method === 'PUT';
+    const rawSize =
+      reply.statusCode === 200
+        ? isPut
+          ? request.headers['content-length']
+          : reply.getHeader('content-length')
+        : undefined;
+    const size = rawSize ? ` (${prettyBytes(parseInt(String(rawSize), 10))})` : '';
     request.log.info(
       `${request.method} ${request.url} ${reply.statusCode} ${reply.elapsedTime.toFixed(1)}ms${size}`,
     );
@@ -87,9 +92,13 @@ export async function createServer(storeArg?: Store) {
     if (error instanceof errorCodes.FST_ERR_CTP_BODY_TOO_LARGE) {
       const contentLength = request.headers['content-length'];
       const sizePart = contentLength
-        ? ` Request size: ${(parseInt(contentLength, 10) / 1024 / 1024).toFixed(1)} MB.`
+        ? ` Request size: ${prettyBytes(parseInt(contentLength, 10))}.`
         : '';
-      return reply.status(413).send(`Request body too large. Limit: ${bodyLimitMb} MB.${sizePart}`);
+      return reply
+        .status(413)
+        .send(
+          `Request body too large. Limit: ${prettyBytes(bodyLimitMb * 1024 * 1024)}.${sizePart}`,
+        );
     }
     reply.send(error);
   });

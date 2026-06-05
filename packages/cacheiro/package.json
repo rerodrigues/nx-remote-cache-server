@@ -46,7 +46,8 @@
   "dependencies": {
     "config": "^4.4.1",
     "fastify": "^5.0.0",
-    "openapi-backend": "^5.0.0"
+    "openapi-backend": "^5.0.0",
+    "pretty-bytes": "^7.1.0"
   },
   "devDependencies": {
     "@types/config": "^4.4.0",
