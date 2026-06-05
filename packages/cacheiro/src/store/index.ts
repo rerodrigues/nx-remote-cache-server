@@ -13,7 +13,7 @@ export function createStore(): Store {
   const type = cfg.store.type;
   switch (type) {
     case 'local':
-      return new LocalStore();
+      return new LocalStore(cfg.store.local.dir);
     default:
       throw new Error(`Unknown store type: "${type}"`);
   }

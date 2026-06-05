@@ -2,4 +2,5 @@ import { createServer } from './server.js';
 import { cfg } from './config.js';
 
 const server = await createServer();
-await server.listen({ port: cfg.server.port, host: cfg.server.host });
+const { port, host } = cfg.server;
+await server.listen({ port, host });
