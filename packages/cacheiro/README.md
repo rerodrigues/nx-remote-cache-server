@@ -122,7 +122,9 @@ Stores artifacts on the local filesystem under `store.filesystem.dir`.
 
 ### Adding a new store
 
-Implement the `Store` interface from `src/store/index.ts`, export a config interface, and add a `case` to `createStore()`.
+1. Implement the [`Store`](../cacheiro-types/src/index.ts) interface from `@renatorodrigues/cacheiro-types`.
+2. Publish the store as a separate package (see [`@renatorodrigues/cacheiro-store-fs`](../cacheiro-store-fs) as reference).
+3. Add a `case` to `createStore()` in `src/store/index.ts`.
 
 ## Development
 
