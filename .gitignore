@@ -3,3 +3,5 @@ node_modules/
 dist/
 **/config/local.*
 !**/config/local.json.example
+**/cache/
+**/cache-test/
