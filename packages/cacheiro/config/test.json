@@ -5,7 +5,7 @@
   },
   "store": {
     "filesystem": {
-      "dir": "./cache-test"
+      "cacheDirectory": "./cache-test"
     }
   }
 }

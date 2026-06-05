@@ -12,7 +12,7 @@
   "store": {
     "type": "filesystem",
     "filesystem": {
-      "dir": "./cache",
+      "cacheDirectory": "./cache",
       "ttlDays": 7,
       "sweepIntervalHours": 24
     }

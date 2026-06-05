@@ -5,7 +5,7 @@ import type { Readable } from 'node:stream';
 import type { Store } from '@renatorodrigues/cacheiro-types';
 
 export interface FileSystemConfig {
-  dir: string;
+  cacheDirectory: string;
   ttlDays: number;
   sweepIntervalHours: number;
 }
@@ -17,7 +17,7 @@ export class FileSystemStore implements Store {
   private sweepTimer: NodeJS.Timeout | undefined;
 
   constructor(config: FileSystemConfig) {
-    this.dir = config.dir;
+    this.dir = config.cacheDirectory;
     this.ttlMs = config.ttlDays * 24 * 60 * 60 * 1000;
     this.sweepIntervalMs = config.sweepIntervalHours * 60 * 60 * 1000;
   }

@@ -8,7 +8,7 @@ Filesystem store for [`@renatorodrigues/cacheiro`](../cacheiro). Stores NX task 
 import { FileSystemStore } from '@renatorodrigues/cacheiro-store-fs';
 
 const store = new FileSystemStore({
-  dir: './cache',
+  cacheDirectory: './cache',
   ttlDays: 7,
   sweepIntervalHours: 24,
 });
@@ -20,7 +20,7 @@ await store.init();
 
 | Field                | Type     | Description                                                           |
 | -------------------- | -------- | --------------------------------------------------------------------- |
-| `dir`                | `string` | Directory where artifacts are stored.                                 |
+| `cacheDirectory`     | `string` | Directory where artifacts are stored.                                 |
 | `ttlDays`            | `number` | Artifact TTL in days. `0` disables expiration.                        |
 | `sweepIntervalHours` | `number` | How often to sweep for expired artifacts (hours). `0` disables sweep. |
 

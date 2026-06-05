@@ -13,7 +13,7 @@ FROM node:22-alpine
 WORKDIR /app
 
 ENV NODE_ENV=production
-ENV CACHE_DIR=/cache
+ENV NX_CACHE_DIRECTORY=/cache
 
 COPY package.json package-lock.json ./
 COPY packages/cacheiro/package.json ./packages/cacheiro/

@@ -14,7 +14,7 @@
   "store": {
     "type": "CACHE_STORE",
     "filesystem": {
-      "dir": "CACHE_DIR",
+      "cacheDirectory": "NX_CACHE_DIRECTORY",
       "ttlDays": "CACHE_TTL_DAYS",
       "sweepIntervalHours": "CACHE_SWEEP_INTERVAL_HOURS"
     }

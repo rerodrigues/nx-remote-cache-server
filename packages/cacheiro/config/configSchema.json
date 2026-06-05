@@ -51,7 +51,7 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "dir": {
+            "cacheDirectory": {
               "type": "string"
             },
             "ttlDays": {

@@ -81,7 +81,7 @@ cp config/local.json.example config/local.json
 | `server.banner`                       | `true`         | Show ASCII art startup banner. When `false`, prints a compact single-line header instead.           |
 | `auth.token`                          | `""`           | Bearer token required on all requests. Auth is disabled if empty.                                   |
 | `store.type`                          | `"filesystem"` | Storage backend. See [Stores](#stores) below.                                                       |
-| `store.filesystem.dir`                | `"./cache"`    | _(filesystem store only)_ Directory where artifacts are stored.                                     |
+| `store.filesystem.cacheDirectory`     | `"./cache"`    | _(filesystem store only)_ Directory where artifacts are stored.                                     |
 | `store.filesystem.ttlDays`            | `7`            | _(filesystem store only)_ Artifact TTL in days. `0` disables expiration.                            |
 | `store.filesystem.sweepIntervalHours` | `24`           | _(filesystem store only)_ How often to sweep for expired artifacts (hours). `0` disables the sweep. |
 
@@ -97,7 +97,7 @@ All config values can still be overridden via environment variables (useful in C
 | `BANNER`                     | `server.banner`                       |
 | `AUTH_TOKEN`                 | `auth.token`                          |
 | `CACHE_STORE`                | `store.type`                          |
-| `CACHE_DIR`                  | `store.filesystem.dir`                |
+| `NX_CACHE_DIRECTORY`         | `store.filesystem.cacheDirectory`     |
 | `CACHE_TTL_DAYS`             | `store.filesystem.ttlDays`            |
 | `CACHE_SWEEP_INTERVAL_HOURS` | `store.filesystem.sweepIntervalHours` |
 
@@ -118,7 +118,7 @@ The storage backend is selected via `store.type`.
 
 ### `filesystem` (default)
 
-Stores artifacts on the local filesystem under `store.filesystem.dir`.
+Stores artifacts on the local filesystem under `store.filesystem.cacheDirectory`.
 
 ### Adding a new store
 
