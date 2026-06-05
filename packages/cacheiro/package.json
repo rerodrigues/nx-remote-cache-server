@@ -50,6 +50,7 @@
     "pretty-bytes": "^7.1.0"
   },
   "devDependencies": {
+    "@renatorodrigues/cacheiro-types": "*",
     "@types/config": "^4.4.0",
     "@types/node": "^25.9.1",
     "lint-staged": "^16.4.0",

@@ -1,0 +1,37 @@
+{
+  "name": "@renatorodrigues/cacheiro-types",
+  "version": "0.1.0",
+  "private": false,
+  "description": "TypeScript types for @renatorodrigues/cacheiro",
+  "homepage": "https://github.com/rerodrigues/nx-cache-server/tree/main/packages/cacheiro-types#readme",
+  "bugs": {
+    "url": "https://github.com/rerodrigues/nx-cache-server/issues"
+  },
+  "license": "ISC",
+  "author": {
+    "name": "Renato Rodrigues",
+    "email": "renato@renatorodrigues.com",
+    "url": "http://renatorodrigues.com/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:rerodrigues/nx-cache-server.git"
+  },
+  "type": "module",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "@types/node": "^25.9.1",
+    "typescript": "^6.0.3"
+  }
+}

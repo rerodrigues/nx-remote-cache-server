@@ -1,14 +1,8 @@
-import type { Readable } from 'node:stream';
 import { FileSystemStore } from './filesystem.js';
 import { cfg } from '../config.js';
+import type { Store } from '@renatorodrigues/cacheiro-types';
 
-export interface Store {
-  init(): Promise<void>;
-  stop?(): void;
-  exists(hash: string): Promise<boolean>;
-  write(hash: string, data: Buffer): Promise<void>;
-  read(hash: string): Readable;
-}
+export type { Store };
 
 export function createStore(): Store {
   const type = cfg.store.type;

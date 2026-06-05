@@ -2,7 +2,7 @@ import { createReadStream, existsSync, statSync } from 'node:fs';
 import { mkdir, readdir, unlink, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import type { Readable } from 'node:stream';
-import type { Store } from './index.js';
+import type { Store } from '@renatorodrigues/cacheiro-types';
 
 export interface FileSystemConfig {
   dir: string;
