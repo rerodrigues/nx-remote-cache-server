@@ -20,13 +20,22 @@ npm install
 npm run build
 ```
 
-### Start
+### Start (production)
 
 ```sh
+npm run build
 npm start
 ```
 
-The server listens on `localhost:3000` by default.
+The server runs under PM2. Use `npx pm2 logs cacheiro` and `npx pm2 stop cacheiro` to manage the process.
+
+### Start (development)
+
+```sh
+npm run dev
+```
+
+Uses `tsx watch` for instant hot reload — no build step required.
 
 ## Configuration
 
@@ -96,6 +105,9 @@ Implement the `Store` interface from `src/store/index.ts` and add a `case` to `c
 
 ```sh
 npm run build        # compile TypeScript
+npm run dev          # dev server with hot reload (tsx watch)
+npm start            # production server via PM2
+npm run start:node   # production server via node (no PM2)
 npm test             # run tests
 npm run test:watch   # watch mode
 npm run lint         # oxlint

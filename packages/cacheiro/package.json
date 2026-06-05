@@ -33,7 +33,9 @@
   },
   "scripts": {
     "build": "tsc",
-    "start": "node dist/cacheiro.js",
+    "dev": "tsx watch src/cacheiro.ts",
+    "start": "pm2 start ecosystem.config.cjs",
+    "start:node": "node dist/cacheiro.js",
     "test": "vitest run",
     "test:watch": "vitest",
     "lint": "oxlint",
@@ -52,6 +54,8 @@
     "lint-staged": "^16.4.0",
     "oxfmt": "^0.53.0",
     "oxlint": "^1.68.0",
+    "pm2": "^7.0.1",
+    "tsx": "^4.22.4",
     "typescript": "^6.0.3",
     "vitest": "^4.1.8"
   }
