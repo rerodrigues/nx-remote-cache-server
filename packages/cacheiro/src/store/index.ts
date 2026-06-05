@@ -1,5 +1,6 @@
 import type { Readable } from 'node:stream';
 import { LocalStore } from './local.js';
+import { cfg } from '../config.js';
 
 export interface Store {
   init(): Promise<void>;
@@ -9,7 +10,7 @@ export interface Store {
 }
 
 export function createStore(): Store {
-  const type = process.env.CACHE_STORE ?? 'local';
+  const type = cfg.store.type;
   switch (type) {
     case 'local':
       return new LocalStore();

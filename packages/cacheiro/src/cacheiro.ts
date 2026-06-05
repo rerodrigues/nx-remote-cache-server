@@ -1,7 +1,5 @@
 import { createServer } from './server.js';
-
-const PORT = Number(process.env.PORT ?? 3000);
-const HOST = process.env.HOST ?? '0.0.0.0';
+import { cfg } from './config.js';
 
 const server = await createServer();
-await server.listen({ port: PORT, host: HOST });
+await server.listen({ port: cfg.server.port, host: cfg.server.host });

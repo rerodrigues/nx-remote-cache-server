@@ -1,0 +1,15 @@
+{
+  "server": {
+    "port": "PORT",
+    "host": "HOST"
+  },
+  "auth": {
+    "token": "AUTH_TOKEN"
+  },
+  "store": {
+    "type": "CACHE_STORE",
+    "local": {
+      "dir": "CACHE_DIR"
+    }
+  }
+}

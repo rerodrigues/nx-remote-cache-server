@@ -2,12 +2,13 @@ import { createReadStream, existsSync } from 'node:fs';
 import { mkdir, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import type { Readable } from 'node:stream';
+import { cfg } from '../config.js';
 import type { Store } from './index.js';
 
 export class LocalStore implements Store {
   private readonly dir: string;
 
-  constructor(dir = process.env.CACHE_DIR ?? './cache') {
+  constructor(dir = cfg.store.local.dir) {
     this.dir = dir;
   }
 

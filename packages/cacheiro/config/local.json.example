@@ -1,0 +1,16 @@
+{
+  "$schema": "configSchema.json",
+  "server": {
+    "port": 3000,
+    "host": "localhost"
+  },
+  "auth": {
+    "token": ""
+  },
+  "store": {
+    "type": "local",
+    "local": {
+      "dir": "./cache"
+    }
+  }
+}

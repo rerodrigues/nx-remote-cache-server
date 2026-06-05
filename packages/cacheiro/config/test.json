@@ -1,0 +1,11 @@
+{
+  "$schema": "configSchema.json",
+  "auth": {
+    "token": ""
+  },
+  "store": {
+    "local": {
+      "dir": "./cache-test"
+    }
+  }
+}

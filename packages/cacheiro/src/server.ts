@@ -9,6 +9,7 @@ import { createPutHandler } from './handlers/put.js';
 import { createGetHandler } from './handlers/get.js';
 import { createStore } from './store/index.js';
 import type { Store } from './store/index.js';
+import { cfg } from './config.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -26,13 +27,16 @@ export async function createServer(store?: Store) {
   api.register({
     put: createPutHandler(s),
     get: createGetHandler(s),
-    unauthorizedHandler: async (_c: Context, _req: FastifyRequest, reply: FastifyReply) => reply.status(401).send('Unauthorized'),
-    notFound: async (_c: Context, _req: FastifyRequest, reply: FastifyReply) => reply.status(404).send(),
-    validationFail: async (c: Context, _req: FastifyRequest, reply: FastifyReply) => reply.status(400).send(c.validation.errors),
+    unauthorizedHandler: async (_c: Context, _req: FastifyRequest, reply: FastifyReply) =>
+      reply.status(401).send('Unauthorized'),
+    notFound: async (_c: Context, _req: FastifyRequest, reply: FastifyReply) =>
+      reply.status(404).send(),
+    validationFail: async (c: Context, _req: FastifyRequest, reply: FastifyReply) =>
+      reply.status(400).send(c.validation.errors),
   });
 
   api.registerSecurityHandler('bearerToken', (c) => {
-    const authToken = process.env.AUTH_TOKEN;
+    const authToken = cfg.auth.token;
     const auth = c.request.headers['authorization'] as string | undefined;
     if (!auth) return false;
     const token = auth.replace(/^Bearer\s+/i, '');
