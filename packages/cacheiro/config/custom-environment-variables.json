@@ -2,7 +2,11 @@
   "server": {
     "port": "PORT",
     "host": "HOST",
-    "bodyLimitMb": "BODY_LIMIT_MB"
+    "bodyLimitMb": "BODY_LIMIT_MB",
+    "banner": {
+      "__name": "BANNER",
+      "__format": "boolean"
+    }
   },
   "auth": {
     "token": "AUTH_TOKEN"

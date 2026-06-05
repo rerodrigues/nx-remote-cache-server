@@ -22,6 +22,10 @@
           "type": "integer",
           "minimum": 1,
           "description": "Maximum request body size in megabytes."
+        },
+        "banner": {
+          "type": "boolean",
+          "description": "Show startup banner. When false, prints a compact single-line header instead."
         }
       }
     },

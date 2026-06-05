@@ -3,7 +3,8 @@
   "server": {
     "port": 3000,
     "host": "0.0.0.0",
-    "bodyLimitMb": 500
+    "bodyLimitMb": 500,
+    "banner": true
   },
   "auth": {
     "token": ""

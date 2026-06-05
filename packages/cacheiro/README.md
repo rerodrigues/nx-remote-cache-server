@@ -61,6 +61,7 @@ cp config/local.json.example config/local.json
 | `server.port`                         | `3000`         | HTTP port to listen on                                                                              |
 | `server.host`                         | `0.0.0.0`      | Host to bind to                                                                                     |
 | `server.bodyLimitMb`                  | `500`          | Max request body size in MB                                                                         |
+| `server.banner`                       | `true`         | Show ASCII art startup banner. When `false`, prints a compact single-line header instead.           |
 | `auth.token`                          | `""`           | Bearer token required on all requests. Auth is disabled if empty.                                   |
 | `store.type`                          | `"filesystem"` | Storage backend. See [Stores](#stores) below.                                                       |
 | `store.filesystem.dir`                | `"./cache"`    | _(filesystem store only)_ Directory where artifacts are stored.                                     |
@@ -76,6 +77,7 @@ All config values can still be overridden via environment variables (useful in C
 | `PORT`                       | `server.port`                         |
 | `HOST`                       | `server.host`                         |
 | `BODY_LIMIT_MB`              | `server.bodyLimitMb`                  |
+| `BANNER`                     | `server.banner`                       |
 | `AUTH_TOKEN`                 | `auth.token`                          |
 | `CACHE_STORE`                | `store.type`                          |
 | `CACHE_DIR`                  | `store.filesystem.dir`                |
