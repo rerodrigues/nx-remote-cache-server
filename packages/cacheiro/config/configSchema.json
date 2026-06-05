@@ -49,6 +49,16 @@
           "properties": {
             "dir": {
               "type": "string"
+            },
+            "ttlDays": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "Artifact TTL in days. 0 disables expiration."
+            },
+            "sweepIntervalHours": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "How often to sweep for expired artifacts (hours). 0 disables the sweep."
             }
           }
         }

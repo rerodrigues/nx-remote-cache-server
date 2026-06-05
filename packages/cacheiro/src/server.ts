@@ -33,15 +33,15 @@ function loadSpec() {
   return JSON.parse(raw.replace(/^\s*\/\/.*$/gm, ''));
 }
 
-export async function createServer(store?: Store) {
-  const s = store ?? createStore();
-  await s.init();
+export async function createServer(storeArg?: Store) {
+  const store = storeArg ?? createStore();
+  await store.init();
 
   const api = new OpenAPIBackend({ definition: loadSpec() });
 
   api.register({
-    put: createPutHandler(s),
-    get: createGetHandler(s),
+    put: createPutHandler(store),
+    get: createGetHandler(store),
     unauthorizedHandler: async (_c: Context, _req: FastifyRequest, reply: FastifyReply) =>
       reply.status(401).send('Unauthorized'),
     notFound: async (_c: Context, _req: FastifyRequest, reply: FastifyReply) =>
@@ -66,6 +66,10 @@ export async function createServer(store?: Store) {
     logger: loggerOptions,
     bodyLimit: bodyLimitMb * 1024 * 1024,
     disableRequestLogging: true,
+  });
+
+  fastify.addHook('onClose', () => {
+    store.stop?.();
   });
 
   fastify.addHook('onResponse', (request, reply, done) => {

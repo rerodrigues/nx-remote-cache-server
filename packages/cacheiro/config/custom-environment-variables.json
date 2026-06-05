@@ -10,7 +10,9 @@
   "store": {
     "type": "CACHE_STORE",
     "filesystem": {
-      "dir": "CACHE_DIR"
+      "dir": "CACHE_DIR",
+      "ttlDays": "CACHE_TTL_DAYS",
+      "sweepIntervalHours": "CACHE_SWEEP_INTERVAL_HOURS"
     }
   }
 }

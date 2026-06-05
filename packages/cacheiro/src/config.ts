@@ -13,6 +13,8 @@ export interface AppConfig {
     type: string;
     filesystem: {
       dir: string;
+      ttlDays: number;
+      sweepIntervalHours: number;
     };
   };
 }

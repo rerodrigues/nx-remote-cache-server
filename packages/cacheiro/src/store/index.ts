@@ -4,6 +4,7 @@ import { cfg } from '../config.js';
 
 export interface Store {
   init(): Promise<void>;
+  stop?(): void;
   exists(hash: string): Promise<boolean>;
   write(hash: string, data: Buffer): Promise<void>;
   read(hash: string): Readable;

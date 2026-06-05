@@ -11,7 +11,9 @@
   "store": {
     "type": "filesystem",
     "filesystem": {
-      "dir": "./cache"
+      "dir": "./cache",
+      "ttlDays": 7,
+      "sweepIntervalHours": 24
     }
   }
 }

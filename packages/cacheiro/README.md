@@ -56,27 +56,31 @@ cp config/local.json.example config/local.json
 
 ### Config values
 
-| Key                    | Default        | Description                                                       |
-| ---------------------- | -------------- | ----------------------------------------------------------------- |
-| `server.port`          | `3000`         | HTTP port to listen on                                            |
-| `server.host`          | `0.0.0.0`      | Host to bind to                                                   |
-| `server.bodyLimitMb`   | `500`          | Max request body size in MB                                       |
-| `auth.token`           | `""`           | Bearer token required on all requests. Auth is disabled if empty. |
-| `store.type`           | `"filesystem"` | Storage backend. See [Stores](#stores) below.                     |
-| `store.filesystem.dir` | `"./cache"`    | _(filesystem store only)_ Directory where artifacts are stored.   |
+| Key                                   | Default        | Description                                                                                         |
+| ------------------------------------- | -------------- | --------------------------------------------------------------------------------------------------- |
+| `server.port`                         | `3000`         | HTTP port to listen on                                                                              |
+| `server.host`                         | `0.0.0.0`      | Host to bind to                                                                                     |
+| `server.bodyLimitMb`                  | `500`          | Max request body size in MB                                                                         |
+| `auth.token`                          | `""`           | Bearer token required on all requests. Auth is disabled if empty.                                   |
+| `store.type`                          | `"filesystem"` | Storage backend. See [Stores](#stores) below.                                                       |
+| `store.filesystem.dir`                | `"./cache"`    | _(filesystem store only)_ Directory where artifacts are stored.                                     |
+| `store.filesystem.ttlDays`            | `7`            | _(filesystem store only)_ Artifact TTL in days. `0` disables expiration.                            |
+| `store.filesystem.sweepIntervalHours` | `24`           | _(filesystem store only)_ How often to sweep for expired artifacts (hours). `0` disables the sweep. |
 
 ### Environment variable overrides
 
 All config values can still be overridden via environment variables (useful in CI/Docker):
 
-| Variable        | Config key             |
-| --------------- | ---------------------- |
-| `PORT`          | `server.port`          |
-| `HOST`          | `server.host`          |
-| `BODY_LIMIT_MB` | `server.bodyLimitMb`   |
-| `AUTH_TOKEN`    | `auth.token`           |
-| `CACHE_STORE`   | `store.type`           |
-| `CACHE_DIR`     | `store.filesystem.dir` |
+| Variable                     | Config key                            |
+| ---------------------------- | ------------------------------------- |
+| `PORT`                       | `server.port`                         |
+| `HOST`                       | `server.host`                         |
+| `BODY_LIMIT_MB`              | `server.bodyLimitMb`                  |
+| `AUTH_TOKEN`                 | `auth.token`                          |
+| `CACHE_STORE`                | `store.type`                          |
+| `CACHE_DIR`                  | `store.filesystem.dir`                |
+| `CACHE_TTL_DAYS`             | `store.filesystem.ttlDays`            |
+| `CACHE_SWEEP_INTERVAL_HOURS` | `store.filesystem.sweepIntervalHours` |
 
 ## API
 
