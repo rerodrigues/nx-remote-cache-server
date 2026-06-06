@@ -8,6 +8,7 @@
     "strict": true,
     "declaration": false,
     "sourceMap": true,
+    "resolveJsonModule": true,
     "skipLibCheck": true,
     "outDir": "dist",
     "rootDir": "src"
