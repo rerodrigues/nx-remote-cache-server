@@ -27,3 +27,13 @@
 //     }
 //   }
 // }
+
+// GCS example:
+// {
+//   "store": {
+//     "type": "gcs",
+//     "gcs": {
+//       "bucket": "my-nx-cache"
+//     }
+//   }
+// }

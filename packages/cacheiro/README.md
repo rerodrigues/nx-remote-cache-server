@@ -92,6 +92,10 @@ cp config/local.json.example config/local.json
 | `store.s3.forcePathStyle`             | `false`        | Use path-style URLs. Required for most S3-compatible storage.                             |
 | `store.s3.prefix`                     | `""`           | Key prefix for all cache entries.                                                         |
 | `store.s3.encryptionKey`              | `""`           | AES-256-CBC encryption key. Encrypts all artifacts at rest.                               |
+| `store.gcs.bucket`                    | `""`           | GCS bucket name.                                                                          |
+| `store.gcs.endpoint`                  | `""`           | Custom GCS-compatible endpoint URL (e.g. for local emulators).                            |
+| `store.gcs.prefix`                    | `""`           | Key prefix for all cache entries.                                                         |
+| `store.gcs.encryptionKey`             | `""`           | AES-256-CBC encryption key. Encrypts all artifacts at rest.                               |
 
 ### Environment variable overrides
 
@@ -116,6 +120,10 @@ All config values can still be overridden via environment variables (useful in C
 | `S3_FORCE_PATH_STYLE`        | `store.s3.forcePathStyle`             |
 | `S3_PREFIX`                  | `store.s3.prefix`                     |
 | `S3_ENCRYPTION_KEY`          | `store.s3.encryptionKey`              |
+| `GCS_BUCKET`                 | `store.gcs.bucket`                    |
+| `GCS_ENDPOINT`               | `store.gcs.endpoint`                  |
+| `GCS_PREFIX`                 | `store.gcs.prefix`                    |
+| `GCS_ENCRYPTION_KEY`         | `store.gcs.encryptionKey`             |
 
 ## API
 
@@ -141,6 +149,12 @@ Stores artifacts on the local filesystem under `store.filesystem.cacheDirectory`
 Stores artifacts in an S3 bucket. Compatible with AWS S3 and S3-compatible storage (MinIO, LocalStack, DigitalOcean Spaces, Cloudflare R2). Set `store.type` to `"s3"` and configure `store.s3.bucket` and `store.s3.region`.
 
 > **Note:** S3 store implementation is pending.
+
+### `gcs`
+
+Stores artifacts in a Google Cloud Storage bucket. Set `store.type` to `"gcs"` and configure `store.gcs.bucket`.
+
+> **Note:** GCS store implementation is pending.
 
 ### Adding a new store
 

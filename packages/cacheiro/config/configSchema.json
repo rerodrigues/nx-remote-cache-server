@@ -45,7 +45,7 @@
       "properties": {
         "type": {
           "type": "string",
-          "enum": ["filesystem", "s3"]
+          "enum": ["filesystem", "s3", "gcs"]
         },
         "filesystem": {
           "type": "object",
@@ -85,13 +85,30 @@
               "description": "AES-256-CBC encryption key. Encrypts all artifacts at rest."
             }
           }
+        },
+        "gcs": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "bucket": { "type": "string", "description": "GCS bucket name." },
+            "endpoint": { "type": "string", "description": "Custom GCS-compatible endpoint URL." },
+            "prefix": { "type": "string", "description": "Key prefix for all cache entries." },
+            "encryptionKey": {
+              "type": "string",
+              "description": "AES-256-CBC encryption key. Encrypts all artifacts at rest."
+            }
+          }
         }
       },
       "if": { "properties": { "type": { "const": "filesystem" } } },
       "then": { "required": ["filesystem"] },
       "else": {
         "if": { "properties": { "type": { "const": "s3" } } },
-        "then": { "required": ["s3"] }
+        "then": { "required": ["s3"] },
+        "else": {
+          "if": { "properties": { "type": { "const": "gcs" } } },
+          "then": { "required": ["gcs"] }
+        }
       }
     }
   }

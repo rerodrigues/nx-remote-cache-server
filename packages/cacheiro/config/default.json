@@ -25,6 +25,12 @@
       "forcePathStyle": false,
       "prefix": "",
       "encryptionKey": ""
+    },
+    "gcs": {
+      "bucket": "",
+      "endpoint": "",
+      "prefix": "",
+      "encryptionKey": ""
     }
   }
 }

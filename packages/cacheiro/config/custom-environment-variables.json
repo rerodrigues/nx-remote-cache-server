@@ -30,6 +30,12 @@
       },
       "prefix": "S3_PREFIX",
       "encryptionKey": "S3_ENCRYPTION_KEY"
+    },
+    "gcs": {
+      "bucket": "GCS_BUCKET",
+      "endpoint": "GCS_ENDPOINT",
+      "prefix": "GCS_PREFIX",
+      "encryptionKey": "GCS_ENCRYPTION_KEY"
     }
   }
 }
