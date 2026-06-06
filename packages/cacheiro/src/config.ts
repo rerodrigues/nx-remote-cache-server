@@ -1,4 +1,5 @@
 import config from 'config';
+import type { FileSystemConfig } from '@renatorodrigues/cacheiro-store-fs';
 
 export interface AppConfig {
   server: {
@@ -12,11 +13,7 @@ export interface AppConfig {
   };
   store: {
     type: string;
-    filesystem: {
-      dir: string;
-      ttlDays: number;
-      sweepIntervalHours: number;
-    };
+    filesystem: FileSystemConfig;
   };
 }
 

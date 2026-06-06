@@ -1,4 +1,4 @@
-import { FileSystemStore } from './filesystem.js';
+import { FileSystemStore } from '@renatorodrigues/cacheiro-store-fs';
 import { cfg } from '../config.js';
 import type { Store } from '@renatorodrigues/cacheiro-types';
 
