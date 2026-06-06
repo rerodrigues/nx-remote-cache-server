@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": false,
   "description": "Filesystem store implementation for @renatorodrigues/cacheiro",
-  "homepage": "https://github.com/rerodrigues/nx-cache-server/tree/main/packages/cacheiro-store-fs#readme",
+  "homepage": "https://github.com/rerodrigues/nx-remote-cache-server/tree/main/packages/cacheiro-store-fs#readme",
   "bugs": {
-    "url": "https://github.com/rerodrigues/nx-cache-server/issues"
+    "url": "https://github.com/rerodrigues/nx-remote-cache-server/issues"
   },
   "license": "ISC",
   "author": {
@@ -15,7 +15,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:rerodrigues/nx-cache-server.git"
+    "url": "git@github.com:rerodrigues/nx-remote-cache-server.git"
   },
   "directories": {
     "lib": "dist",

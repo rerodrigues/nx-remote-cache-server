@@ -1,11 +1,11 @@
 {
-  "name": "nx-cache-server",
+  "name": "nx-remote-cache-server",
   "version": "1.0.0",
-  "description": "Self-hosted NX remote cache monorepo",
+  "description": "Self-hosted NX remote cache server monorepo",
   "private": true,
   "repository": {
     "type": "git",
-    "url": "git@github.com:rerodrigues/nx-cache-server.git"
+    "url": "git@github.com:rerodrigues/nx-remote-cache-server.git"
   },
   "author": {
     "name": "Renato Rodrigues",
@@ -13,9 +13,9 @@
     "url": "http://renatorodrigues.com/"
   },
   "bugs": {
-    "url": "https://github.com/rerodrigues/nx-cache-server/issues"
+    "url": "https://github.com/rerodrigues/nx-remote-cache-server/issues"
   },
-  "homepage": "https://github.com/rerodrigues/nx-cache-server#readme",
+  "homepage": "https://github.com/rerodrigues/nx-remote-cache-server#readme",
   "workspaces": [
     "packages/*"
   ],
