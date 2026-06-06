@@ -28,7 +28,7 @@ export class FileSystemStore implements Store {
     return Date.now() - stat.mtimeMs > this.ttlMs;
   }
 
-  async init(): Promise<void> {
+  async mount(): Promise<void> {
     await mkdir(this.dir, { recursive: true });
     if (this.ttlMs > 0 && this.sweepIntervalMs > 0) {
       this.sweepTimer = setInterval(() => {
@@ -40,7 +40,7 @@ export class FileSystemStore implements Store {
     }
   }
 
-  stop(): void {
+  unmount(): void {
     if (this.sweepTimer) clearInterval(this.sweepTimer);
   }
 

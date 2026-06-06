@@ -14,7 +14,7 @@ const store = new S3Store({
   region: 'us-east-1',
 });
 
-await store.init();
+await store.mount();
 ```
 
 ## Config

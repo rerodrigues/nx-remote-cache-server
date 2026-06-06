@@ -10,11 +10,11 @@ let store: FileSystemStore;
 beforeEach(async () => {
   dir = await mkdtemp(join(tmpdir(), 'cacheiro-test-'));
   store = new FileSystemStore({ cacheDirectory: dir, ttlDays: 0, sweepIntervalHours: 1 });
-  await store.init();
+  await store.mount();
 });
 
 afterEach(async () => {
-  store.stop();
+  store.unmount();
   await rm(dir, { recursive: true, force: true });
 });
 
@@ -44,8 +44,8 @@ describe('FileSystemStore', () => {
     expect(await store.exists('abc')).toBe(true);
   });
 
-  it('init() is idempotent', async () => {
-    await expect(store.init()).resolves.toBeUndefined();
+  it('mount() is idempotent', async () => {
+    await expect(store.mount()).resolves.toBeUndefined();
   });
 });
 
@@ -65,10 +65,10 @@ describe('FileSystemStore TTL', () => {
       ttlDays: 1,
       sweepIntervalHours: 1,
     });
-    await ttlStore.init();
+    await ttlStore.mount();
     await writeAndBackdate('expired');
     expect(await ttlStore.exists('expired')).toBe(false);
-    ttlStore.stop();
+    ttlStore.unmount();
   });
 
   it('exists() returns true for non-expired file', async () => {
@@ -77,10 +77,10 @@ describe('FileSystemStore TTL', () => {
       ttlDays: 7,
       sweepIntervalHours: 1,
     });
-    await ttlStore.init();
+    await ttlStore.mount();
     await ttlStore.write('fresh', Buffer.from('data'));
     expect(await ttlStore.exists('fresh')).toBe(true);
-    ttlStore.stop();
+    ttlStore.unmount();
   });
 
   it('exists() returns true for backdated file when ttlDays is 0 (disabled)', async () => {
@@ -94,10 +94,10 @@ describe('FileSystemStore TTL', () => {
       ttlDays: 1,
       sweepIntervalHours: 1,
     });
-    await ttlStore.init();
+    await ttlStore.mount();
     await writeAndBackdate('expired');
     expect(() => ttlStore.read('expired')).toThrow(/ENOENT/);
-    ttlStore.stop();
+    ttlStore.unmount();
   });
 
   it('sweep() deletes expired files and keeps fresh ones', async () => {
@@ -106,7 +106,7 @@ describe('FileSystemStore TTL', () => {
       ttlDays: 1,
       sweepIntervalHours: 1,
     });
-    await ttlStore.init();
+    await ttlStore.mount();
     await writeAndBackdate('expired');
     await ttlStore.write('fresh', Buffer.from('data'));
 
@@ -114,7 +114,7 @@ describe('FileSystemStore TTL', () => {
 
     expect(await ttlStore.exists('expired')).toBe(false);
     expect(await ttlStore.exists('fresh')).toBe(true);
-    ttlStore.stop();
+    ttlStore.unmount();
   });
 });
 
@@ -125,7 +125,7 @@ describe('FileSystemStore sweep disabled (sweepIntervalHours: 0)', () => {
       ttlDays: 1,
       sweepIntervalHours: 0,
     });
-    await noSweepStore.init();
+    await noSweepStore.mount();
     await noSweepStore.write('expired', Buffer.from('data'));
     const past = new Date(Date.now() - 2 * 86_400_000);
     await utimes(join(dir, 'expired'), past, past);
@@ -133,7 +133,7 @@ describe('FileSystemStore sweep disabled (sweepIntervalHours: 0)', () => {
     await (noSweepStore as unknown as { sweep(): Promise<void> }).sweep();
 
     expect(await noSweepStore.exists('expired')).toBe(false);
-    noSweepStore.stop();
+    noSweepStore.unmount();
   });
 
   it('lazy expiry on exists() still works when sweep is disabled', async () => {
@@ -142,12 +142,12 @@ describe('FileSystemStore sweep disabled (sweepIntervalHours: 0)', () => {
       ttlDays: 1,
       sweepIntervalHours: 0,
     });
-    await noSweepStore.init();
+    await noSweepStore.mount();
     await noSweepStore.write('expired', Buffer.from('data'));
     const past = new Date(Date.now() - 2 * 86_400_000);
     await utimes(join(dir, 'expired'), past, past);
 
     expect(await noSweepStore.exists('expired')).toBe(false);
-    noSweepStore.stop();
+    noSweepStore.unmount();
   });
 });

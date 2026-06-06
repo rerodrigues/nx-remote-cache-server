@@ -36,7 +36,7 @@ function loadSpec() {
 
 export async function createServer(storeArg?: Store) {
   const store = storeArg ?? createStore();
-  await store.init();
+  await store.mount();
 
   const api = new OpenAPIBackend({ definition: loadSpec() });
 
@@ -70,7 +70,7 @@ export async function createServer(storeArg?: Store) {
   });
 
   fastify.addHook('onClose', () => {
-    store.stop?.();
+    store.unmount?.();
   });
 
   fastify.addHook('onResponse', (request, reply, done) => {

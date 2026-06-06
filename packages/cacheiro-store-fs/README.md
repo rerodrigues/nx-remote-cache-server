@@ -13,7 +13,7 @@ const store = new FileSystemStore({
   sweepIntervalHours: 24,
 });
 
-await store.init();
+await store.mount();
 ```
 
 ## Config

@@ -8,9 +8,9 @@ describe('S3Store', () => {
     expect(() => new S3Store(config)).not.toThrow();
   });
 
-  it('init() resolves', async () => {
+  it('mount() resolves', async () => {
     const store = new S3Store(config);
-    await expect(store.init()).resolves.toBeUndefined();
+    await expect(store.mount()).resolves.toBeUndefined();
   });
 
   it('exists() throws not implemented', async () => {

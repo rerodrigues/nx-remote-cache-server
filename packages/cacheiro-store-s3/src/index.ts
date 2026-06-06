@@ -15,9 +15,9 @@ export interface S3StoreConfig {
 export class S3Store implements Store {
   constructor(private readonly config: S3StoreConfig) {}
 
-  async init(): Promise<void> {}
+  async mount(): Promise<void> {}
 
-  stop(): void {}
+  unmount(): void {}
 
   async exists(_hash: string): Promise<boolean> {
     throw new Error('S3Store: not implemented');
