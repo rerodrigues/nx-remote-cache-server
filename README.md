@@ -23,3 +23,29 @@ npm run dev
 ```
 
 See [`packages/cacheiro`](./packages/cacheiro) for full configuration and deployment docs.
+
+## Local emulators
+
+A `docker-compose.yml` at the repo root provides local emulators for all cloud store backends:
+
+| Service     | Emulates              | Port    |
+| ----------- | --------------------- | ------- |
+| `local-s3`  | AWS S3                | `4566`  |
+| `local-gcs` | Google Cloud Storage  | `4443`  |
+| `local-azure` | Azure Blob Storage  | `10000` |
+
+Start all emulators:
+
+```sh
+docker compose up
+```
+
+Or start a specific one:
+
+```sh
+docker compose up local-s3
+docker compose up local-gcs
+docker compose up local-azure
+```
+
+Then configure `packages/cacheiro/config/local.json` using the emulator snippets in `local.json.example`.
