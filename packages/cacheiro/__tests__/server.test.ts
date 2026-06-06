@@ -6,7 +6,7 @@ import type { Store } from '../src/store/index.js';
 class MemoryStore implements Store {
   private data = new Map<string, Buffer>();
 
-  async init(): Promise<void> {}
+  async mount(): Promise<void> {}
 
   async exists(hash: string): Promise<boolean> {
     return this.data.has(hash);

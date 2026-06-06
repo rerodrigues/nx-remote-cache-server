@@ -35,19 +35,32 @@ function readVersion(): string {
 export function printBanner(port: number): void {
   const { store, server } = cfg;
   const version = readVersion();
-  const ttl = store.filesystem.ttlDays === 0 ? 'disabled' : `${store.filesystem.ttlDays}d`;
-  const sweep =
-    store.filesystem.ttlDays === 0 || store.filesystem.sweepIntervalHours === 0
-      ? 'disabled'
-      : `every ${store.filesystem.sweepIntervalHours}h`;
+
+  const storeRows: [string, string][] =
+    store.type === 'filesystem' && store.filesystem
+      ? [
+          ['dir', store.filesystem.cacheDirectory],
+          ['ttl', store.filesystem.ttlDays === 0 ? 'disabled' : `${store.filesystem.ttlDays}d`],
+          [
+            'sweep',
+            store.filesystem.ttlDays === 0 || store.filesystem.sweepIntervalHours === 0
+              ? 'disabled'
+              : `every ${store.filesystem.sweepIntervalHours}h`,
+          ],
+        ]
+      : store.type === 's3' && store.s3
+        ? [
+            ['bucket', store.s3.bucket],
+            ['region', store.s3.region],
+            ...(store.s3.prefix ? [['prefix', store.s3.prefix] as [string, string]] : []),
+          ]
+        : [];
 
   const rows: [string, string][] = [
     ['version', version],
     ['url', `http://${server.host}:${port}`],
     ['store', store.type],
-    ['dir', store.filesystem.dir],
-    ['ttl', ttl],
-    ['sweep', sweep],
+    ...storeRows,
   ];
 
   const labelWidth = Math.max(...rows.map(([k]) => k.length));
