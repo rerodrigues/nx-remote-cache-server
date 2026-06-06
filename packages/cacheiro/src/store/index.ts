@@ -6,8 +6,7 @@ import type { Store } from '@renatorodrigues/cacheiro-types';
 export type { Store };
 
 export function createStore(): Store {
-  const type = cfg.store.type;
-  switch (type) {
+  switch (cfg.store.type) {
     case 'filesystem':
       if (!cfg.store.filesystem)
         throw new Error('store.filesystem config is required when store.type is "filesystem"');
@@ -15,7 +14,5 @@ export function createStore(): Store {
     case 's3':
       if (!cfg.store.s3) throw new Error('store.s3 config is required when store.type is "s3"');
       return new S3Store(cfg.store.s3);
-    default:
-      throw new Error(`Unknown store type: "${type}"`);
   }
 }

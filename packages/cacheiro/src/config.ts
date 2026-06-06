@@ -12,11 +12,9 @@ export interface AppConfig {
   auth: {
     token: string;
   };
-  store: {
-    type: 'filesystem' | 's3';
-    filesystem?: FileSystemConfig;
-    s3?: S3StoreConfig;
-  };
+  store:
+    | { type: 'filesystem'; filesystem: FileSystemConfig; s3?: S3StoreConfig }
+    | { type: 's3'; filesystem?: FileSystemConfig; s3: S3StoreConfig };
 }
 
 export const cfg = config.util.toObject() as AppConfig;

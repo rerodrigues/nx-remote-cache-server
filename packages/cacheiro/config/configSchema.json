@@ -45,7 +45,7 @@
       "properties": {
         "type": {
           "type": "string",
-          "enum": ["filesystem"]
+          "enum": ["filesystem", "s3"]
         },
         "filesystem": {
           "type": "object",
@@ -86,6 +86,12 @@
             }
           }
         }
+      },
+      "if": { "properties": { "type": { "const": "filesystem" } } },
+      "then": { "required": ["filesystem"] },
+      "else": {
+        "if": { "properties": { "type": { "const": "s3" } } },
+        "then": { "required": ["s3"] }
       }
     }
   }
