@@ -3,7 +3,7 @@
   "server": {
     "port": 3000,
     "host": "0.0.0.0",
-    "bodyLimitMb": 500,
+    "bodyLimitMb": 100,
     "banner": true,
     "infobox": true
   },

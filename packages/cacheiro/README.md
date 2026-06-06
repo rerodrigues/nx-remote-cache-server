@@ -77,7 +77,7 @@ cp config/local.json.example config/local.json
 | ------------------------------------- | -------------- | ---------------------------------------------------------------------------------------------------------- |
 | `server.port`                         | `3000`         | HTTP port to listen on                                                                                     |
 | `server.host`                         | `0.0.0.0`      | Host to bind to                                                                                            |
-| `server.bodyLimitMb`                  | `500`          | Max request body size in MB                                                                                |
+| `server.bodyLimitMb`                  | `100`          | Max request body size in MB                                                                                |
 | `server.banner`                       | `true`         | Show ASCII art startup banner. When `false`, prints a compact single-line header instead.                  |
 | `server.infobox`                      | `true`         | Show the info box with version, URL, and store details. When `false`, the version is shown inline instead. |
 | `auth.token`                          | `""`           | Bearer token required on all requests. Auth is disabled if empty.                                          |

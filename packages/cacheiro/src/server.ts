@@ -60,7 +60,7 @@ export async function createServer(store: Store) {
 
   await api.init();
 
-  const bodyLimitMb = cfg.server.bodyLimitMb ?? 500;
+  const bodyLimitMb = cfg.server.bodyLimitMb;
   const fastify = Fastify({
     logger: loggerOptions,
     bodyLimit: bodyLimitMb * 1024 * 1024,
