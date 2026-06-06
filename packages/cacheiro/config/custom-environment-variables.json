@@ -36,6 +36,13 @@
       "endpoint": "GCS_ENDPOINT",
       "prefix": "GCS_PREFIX",
       "encryptionKey": "GCS_ENCRYPTION_KEY"
+    },
+    "azure": {
+      "container": "AZURE_CONTAINER",
+      "accountName": "AZURE_ACCOUNT_NAME",
+      "connectionString": "AZURE_STORAGE_CONNECTION_STRING",
+      "prefix": "AZURE_PREFIX",
+      "encryptionKey": "AZURE_ENCRYPTION_KEY"
     }
   }
 }

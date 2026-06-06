@@ -45,7 +45,7 @@
       "properties": {
         "type": {
           "type": "string",
-          "enum": ["filesystem", "s3", "gcs"]
+          "enum": ["filesystem", "s3", "gcs", "azure"]
         },
         "filesystem": {
           "type": "object",
@@ -98,6 +98,23 @@
               "description": "AES-256-CBC encryption key. Encrypts all artifacts at rest."
             }
           }
+        },
+        "azure": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "container": { "type": "string", "description": "Azure Blob Storage container name." },
+            "accountName": { "type": "string", "description": "Azure Storage account name." },
+            "connectionString": {
+              "type": "string",
+              "description": "Full Azure Blob Storage connection string."
+            },
+            "prefix": { "type": "string", "description": "Key prefix for all cache entries." },
+            "encryptionKey": {
+              "type": "string",
+              "description": "AES-256-CBC encryption key. Encrypts all artifacts at rest."
+            }
+          }
         }
       },
       "if": { "properties": { "type": { "const": "filesystem" } } },
@@ -107,7 +124,11 @@
         "then": { "required": ["s3"] },
         "else": {
           "if": { "properties": { "type": { "const": "gcs" } } },
-          "then": { "required": ["gcs"] }
+          "then": { "required": ["gcs"] },
+          "else": {
+            "if": { "properties": { "type": { "const": "azure" } } },
+            "then": { "required": ["azure"] }
+          }
         }
       }
     }

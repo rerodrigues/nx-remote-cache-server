@@ -37,3 +37,14 @@
 //     }
 //   }
 // }
+
+// Azure example:
+// {
+//   "store": {
+//     "type": "azure",
+//     "azure": {
+//       "container": "my-nx-cache",
+//       "accountName": "myazurestorageaccount"
+//     }
+//   }
+// }

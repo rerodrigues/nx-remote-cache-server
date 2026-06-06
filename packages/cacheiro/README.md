@@ -96,34 +96,44 @@ cp config/local.json.example config/local.json
 | `store.gcs.endpoint`                  | `""`           | Custom GCS-compatible endpoint URL (e.g. for local emulators).                            |
 | `store.gcs.prefix`                    | `""`           | Key prefix for all cache entries.                                                         |
 | `store.gcs.encryptionKey`             | `""`           | AES-256-CBC encryption key. Encrypts all artifacts at rest.                               |
+| `store.azure.container`               | `""`           | Azure Blob Storage container name.                                                        |
+| `store.azure.accountName`             | `""`           | Azure Storage account name.                                                               |
+| `store.azure.connectionString`        | `""`           | Full Azure Blob Storage connection string. Overrides `accountName` if provided.           |
+| `store.azure.prefix`                  | `""`           | Key prefix for all cache entries.                                                         |
+| `store.azure.encryptionKey`           | `""`           | AES-256-CBC encryption key. Encrypts all artifacts at rest.                               |
 
 ### Environment variable overrides
 
 All config values can still be overridden via environment variables (useful in CI/Docker):
 
-| Variable                     | Config key                            |
-| ---------------------------- | ------------------------------------- |
-| `PORT`                       | `server.port`                         |
-| `HOST`                       | `server.host`                         |
-| `BODY_LIMIT_MB`              | `server.bodyLimitMb`                  |
-| `BANNER`                     | `server.banner`                       |
-| `AUTH_TOKEN`                 | `auth.token`                          |
-| `CACHE_STORE`                | `store.type`                          |
-| `NX_CACHE_DIRECTORY`         | `store.filesystem.cacheDirectory`     |
-| `CACHE_TTL_DAYS`             | `store.filesystem.ttlDays`            |
-| `CACHE_SWEEP_INTERVAL_HOURS` | `store.filesystem.sweepIntervalHours` |
-| `S3_BUCKET`                  | `store.s3.bucket`                     |
-| `S3_REGION`                  | `store.s3.region`                     |
-| `S3_ENDPOINT`                | `store.s3.endpoint`                   |
-| `AWS_ACCESS_KEY_ID`          | `store.s3.accessKeyId`                |
-| `AWS_SECRET_ACCESS_KEY`      | `store.s3.secretAccessKey`            |
-| `S3_FORCE_PATH_STYLE`        | `store.s3.forcePathStyle`             |
-| `S3_PREFIX`                  | `store.s3.prefix`                     |
-| `S3_ENCRYPTION_KEY`          | `store.s3.encryptionKey`              |
-| `GCS_BUCKET`                 | `store.gcs.bucket`                    |
-| `GCS_ENDPOINT`               | `store.gcs.endpoint`                  |
-| `GCS_PREFIX`                 | `store.gcs.prefix`                    |
-| `GCS_ENCRYPTION_KEY`         | `store.gcs.encryptionKey`             |
+| Variable                          | Config key                            |
+| --------------------------------- | ------------------------------------- |
+| `PORT`                            | `server.port`                         |
+| `HOST`                            | `server.host`                         |
+| `BODY_LIMIT_MB`                   | `server.bodyLimitMb`                  |
+| `BANNER`                          | `server.banner`                       |
+| `AUTH_TOKEN`                      | `auth.token`                          |
+| `CACHE_STORE`                     | `store.type`                          |
+| `NX_CACHE_DIRECTORY`              | `store.filesystem.cacheDirectory`     |
+| `CACHE_TTL_DAYS`                  | `store.filesystem.ttlDays`            |
+| `CACHE_SWEEP_INTERVAL_HOURS`      | `store.filesystem.sweepIntervalHours` |
+| `S3_BUCKET`                       | `store.s3.bucket`                     |
+| `S3_REGION`                       | `store.s3.region`                     |
+| `S3_ENDPOINT`                     | `store.s3.endpoint`                   |
+| `AWS_ACCESS_KEY_ID`               | `store.s3.accessKeyId`                |
+| `AWS_SECRET_ACCESS_KEY`           | `store.s3.secretAccessKey`            |
+| `S3_FORCE_PATH_STYLE`             | `store.s3.forcePathStyle`             |
+| `S3_PREFIX`                       | `store.s3.prefix`                     |
+| `S3_ENCRYPTION_KEY`               | `store.s3.encryptionKey`              |
+| `GCS_BUCKET`                      | `store.gcs.bucket`                    |
+| `GCS_ENDPOINT`                    | `store.gcs.endpoint`                  |
+| `GCS_PREFIX`                      | `store.gcs.prefix`                    |
+| `GCS_ENCRYPTION_KEY`              | `store.gcs.encryptionKey`             |
+| `AZURE_CONTAINER`                 | `store.azure.container`               |
+| `AZURE_ACCOUNT_NAME`              | `store.azure.accountName`             |
+| `AZURE_STORAGE_CONNECTION_STRING` | `store.azure.connectionString`        |
+| `AZURE_PREFIX`                    | `store.azure.prefix`                  |
+| `AZURE_ENCRYPTION_KEY`            | `store.azure.encryptionKey`           |
 
 ## API
 
@@ -155,6 +165,12 @@ Stores artifacts in an S3 bucket. Compatible with AWS S3 and S3-compatible stora
 Stores artifacts in a Google Cloud Storage bucket. Set `store.type` to `"gcs"` and configure `store.gcs.bucket`.
 
 > **Note:** GCS store implementation is pending.
+
+### `azure`
+
+Stores artifacts in an Azure Blob Storage container. Set `store.type` to `"azure"` and configure `store.azure.container` and either `store.azure.accountName` or `store.azure.connectionString`.
+
+> **Note:** Azure store implementation is pending.
 
 ### Adding a new store
 

@@ -1,6 +1,7 @@
 import { FileSystemStore } from '@renatorodrigues/cacheiro-store-fs';
 import { S3Store } from '@renatorodrigues/cacheiro-store-s3';
 import { GcsStore } from '@renatorodrigues/cacheiro-store-gcs';
+import { AzureStore } from '@renatorodrigues/cacheiro-store-azure';
 import { cfg } from '../config.js';
 import type { Store } from '@renatorodrigues/cacheiro-types';
 
@@ -18,5 +19,9 @@ export function createStore(): Store {
     case 'gcs':
       if (!cfg.store.gcs) throw new Error('store.gcs config is required when store.type is "gcs"');
       return new GcsStore(cfg.store.gcs);
+    case 'azure':
+      if (!cfg.store.azure)
+        throw new Error('store.azure config is required when store.type is "azure"');
+      return new AzureStore(cfg.store.azure);
   }
 }

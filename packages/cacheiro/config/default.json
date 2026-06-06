@@ -31,6 +31,13 @@
       "endpoint": "",
       "prefix": "",
       "encryptionKey": ""
+    },
+    "azure": {
+      "container": "",
+      "accountName": "",
+      "connectionString": "",
+      "prefix": "",
+      "encryptionKey": ""
     }
   }
 }
