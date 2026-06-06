@@ -1,6 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import figlet from 'figlet';
 import type { Store, Describable } from '@renatorodrigues/cacheiro-types';
 import { cfg } from './config.js';
 
@@ -13,27 +14,24 @@ const RESET = isProd ? '' : '\x1b[0m';
 
 const TAGLINE = 'NX remote cache';
 
-const LOGO = [
-  '  ██████╗ █████╗  ██████╗██╗  ██╗███████╗██╗██████╗   ██████╗ ',
-  ' ██╔════╝██╔══██╗██╔════╝██║  ██║██╔════╝██║██╔══██╗ ██╔═══██╗',
-  ' ██║     ███████║██║     ███████║█████╗  ██║██████╔╝ ██║   ██║',
-  ' ██║     ██╔══██║██║     ██╔══██║██╔══╝  ██║██╔══██╗ ██║   ██║',
-  ' ╚██████╗██║  ██║╚██████╗██║  ██║███████╗██║██║  ██║ ╚██████╔╝',
-  '  ╚═════╝╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝╚══════╝╚═╝╚═╝  ╚═╝ ╚═════╝ ',
-];
-
-const LOGO_WIDTH = Math.max(...LOGO.map((l) => l.length));
-
-function readPkg(): { name: string; version: string } {
+function init(): { pkgName: string; pkgVersion: string; LOGO: string[]; LOGO_WIDTH: number } {
   const __dirname = dirname(fileURLToPath(import.meta.url));
+  let pkgName = 'cacheiro';
+  let pkgVersion = '?';
   try {
-    return JSON.parse(readFileSync(join(__dirname, '../package.json'), 'utf-8'));
-  } catch {
-    return { name: 'cacheiro', version: '?' };
-  }
+    const pkg = JSON.parse(readFileSync(join(__dirname, '../package.json'), 'utf-8'));
+    pkgName = pkg.name;
+    pkgVersion = pkg.version;
+  } catch {}
+  const name = pkgName
+    .split('/')
+    .pop()!
+    .replace(/^(.)/, (c) => c.toUpperCase());
+  const LOGO = figlet.textSync(name, { font: 'ANSI Shadow' }).trimEnd().split('\n');
+  return { pkgName: name, pkgVersion, LOGO, LOGO_WIDTH: Math.max(...LOGO.map((l) => l.length)) };
 }
 
-const pkg = readPkg();
+const { pkgName, pkgVersion, LOGO, LOGO_WIDTH } = init();
 
 function buildBox(rows: [string, string][], minOuterWidth = 0): string {
   const labelWidth = Math.max(...rows.map(([k]) => k.length));
@@ -60,12 +58,8 @@ function renderTagline(version?: string): string {
 }
 
 function renderSimplified(version?: string): string {
-  const name = pkg.name
-    .split('/')
-    .pop()!
-    .replace(/^(.)/, (c) => c.toUpperCase());
   const v = version ? `  v${version}` : '';
-  return `${BOLD}${name}${RESET}  ${DIM}${TAGLINE}${v}${RESET}`;
+  return `${BOLD}${pkgName}${RESET}  ${DIM}${TAGLINE}${v}${RESET}`;
 }
 
 export function printBanner(port: number, store: Store): void {
@@ -74,16 +68,16 @@ export function printBanner(port: number, store: Store): void {
 
   if (server.banner) {
     parts.push(`${CYAN}${LOGO.join('\n')}${RESET}`);
-    parts.push(renderTagline(server.infobox ? undefined : pkg.version));
+    parts.push(renderTagline(server.infobox ? undefined : pkgVersion));
   } else {
-    parts.push(renderSimplified(server.infobox ? undefined : pkg.version));
+    parts.push(renderSimplified(server.infobox ? undefined : pkgVersion));
   }
 
   if (server.infobox) {
     const storeRows: [string, string][] =
       'describe' in store ? (store as unknown as Describable).describe() : [];
     const rows: [string, string][] = [
-      ['version', pkg.version],
+      ['version', pkgVersion],
       ['url', `http://${server.host}:${port}`],
       ['store', cfg.store.type],
       ...storeRows,
