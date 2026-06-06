@@ -5,12 +5,25 @@
     "host": "localhost"
   },
   "auth": {
-    "token": ""
+    "token": "change-me"
   },
   "store": {
     "type": "filesystem",
     "filesystem": {
-      "dir": "./cache"
+      "cacheDirectory": "./cache",
+      "ttlDays": 7,
+      "sweepIntervalHours": 24
     }
   }
 }
+
+// S3 example:
+// {
+//   "store": {
+//     "type": "s3",
+//     "s3": {
+//       "bucket": "my-nx-cache",
+//       "region": "us-east-1"
+//     }
+//   }
+// }
