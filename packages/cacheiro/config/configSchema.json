@@ -26,6 +26,10 @@
         "banner": {
           "type": "boolean",
           "description": "Show startup banner. When false, prints a compact single-line header instead."
+        },
+        "infobox": {
+          "type": "boolean",
+          "description": "Show the info box with version, URL, and store details."
         }
       }
     },

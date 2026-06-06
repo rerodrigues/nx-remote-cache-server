@@ -12,6 +12,7 @@ export interface AppConfig {
     host: string;
     bodyLimitMb: number;
     banner: boolean;
+    infobox: boolean;
   };
   auth: {
     token: string;

@@ -6,6 +6,10 @@
     "banner": {
       "__name": "BANNER",
       "__format": "boolean"
+    },
+    "infobox": {
+      "__name": "INFOBOX",
+      "__format": "boolean"
     }
   },
   "auth": {

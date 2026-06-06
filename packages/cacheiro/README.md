@@ -73,34 +73,35 @@ cp config/local.json.example config/local.json
 
 ### Config values
 
-| Key                                   | Default        | Description                                                                               |
-| ------------------------------------- | -------------- | ----------------------------------------------------------------------------------------- |
-| `server.port`                         | `3000`         | HTTP port to listen on                                                                    |
-| `server.host`                         | `0.0.0.0`      | Host to bind to                                                                           |
-| `server.bodyLimitMb`                  | `500`          | Max request body size in MB                                                               |
-| `server.banner`                       | `true`         | Show ASCII art startup banner. When `false`, prints a compact single-line header instead. |
-| `auth.token`                          | `""`           | Bearer token required on all requests. Auth is disabled if empty.                         |
-| `store.type`                          | `"filesystem"` | Storage backend. See [Stores](#stores) below.                                             |
-| `store.filesystem.cacheDirectory`     | `"./cache"`    | Directory where artifacts are stored.                                                     |
-| `store.filesystem.ttlDays`            | `7`            | Artifact TTL in days. `0` disables expiration.                                            |
-| `store.filesystem.sweepIntervalHours` | `24`           | How often to sweep for expired artifacts (hours). `0` disables the sweep.                 |
-| `store.s3.bucket`                     | `""`           | S3 bucket name.                                                                           |
-| `store.s3.region`                     | `"us-east-1"`  | AWS region.                                                                               |
-| `store.s3.endpoint`                   | `""`           | Custom S3-compatible endpoint URL (MinIO, LocalStack, etc.).                              |
-| `store.s3.accessKeyId`                | `""`           | AWS access key ID. Falls back to `AWS_ACCESS_KEY_ID` env / IAM role.                      |
-| `store.s3.secretAccessKey`            | `""`           | AWS secret access key. Falls back to `AWS_SECRET_ACCESS_KEY` env / IAM role.              |
-| `store.s3.forcePathStyle`             | `false`        | Use path-style URLs. Required for most S3-compatible storage.                             |
-| `store.s3.prefix`                     | `""`           | Key prefix for all cache entries.                                                         |
-| `store.s3.encryptionKey`              | `""`           | AES-256-CBC encryption key. Encrypts all artifacts at rest.                               |
-| `store.gcs.bucket`                    | `""`           | GCS bucket name.                                                                          |
-| `store.gcs.endpoint`                  | `""`           | Custom GCS-compatible endpoint URL (e.g. for local emulators).                            |
-| `store.gcs.prefix`                    | `""`           | Key prefix for all cache entries.                                                         |
-| `store.gcs.encryptionKey`             | `""`           | AES-256-CBC encryption key. Encrypts all artifacts at rest.                               |
-| `store.azure.container`               | `""`           | Azure Blob Storage container name.                                                        |
-| `store.azure.accountName`             | `""`           | Azure Storage account name.                                                               |
-| `store.azure.connectionString`        | `""`           | Full Azure Blob Storage connection string. Overrides `accountName` if provided.           |
-| `store.azure.prefix`                  | `""`           | Key prefix for all cache entries.                                                         |
-| `store.azure.encryptionKey`           | `""`           | AES-256-CBC encryption key. Encrypts all artifacts at rest.                               |
+| Key                                   | Default        | Description                                                                                                |
+| ------------------------------------- | -------------- | ---------------------------------------------------------------------------------------------------------- |
+| `server.port`                         | `3000`         | HTTP port to listen on                                                                                     |
+| `server.host`                         | `0.0.0.0`      | Host to bind to                                                                                            |
+| `server.bodyLimitMb`                  | `500`          | Max request body size in MB                                                                                |
+| `server.banner`                       | `true`         | Show ASCII art startup banner. When `false`, prints a compact single-line header instead.                  |
+| `server.infobox`                      | `true`         | Show the info box with version, URL, and store details. When `false`, the version is shown inline instead. |
+| `auth.token`                          | `""`           | Bearer token required on all requests. Auth is disabled if empty.                                          |
+| `store.type`                          | `"filesystem"` | Storage backend. See [Stores](#stores) below.                                                              |
+| `store.filesystem.cacheDirectory`     | `"./cache"`    | Directory where artifacts are stored.                                                                      |
+| `store.filesystem.ttlDays`            | `7`            | Artifact TTL in days. `0` disables expiration.                                                             |
+| `store.filesystem.sweepIntervalHours` | `24`           | How often to sweep for expired artifacts (hours). `0` disables the sweep.                                  |
+| `store.s3.bucket`                     | `""`           | S3 bucket name.                                                                                            |
+| `store.s3.region`                     | `"us-east-1"`  | AWS region.                                                                                                |
+| `store.s3.endpoint`                   | `""`           | Custom S3-compatible endpoint URL (MinIO, LocalStack, etc.).                                               |
+| `store.s3.accessKeyId`                | `""`           | AWS access key ID. Falls back to `AWS_ACCESS_KEY_ID` env / IAM role.                                       |
+| `store.s3.secretAccessKey`            | `""`           | AWS secret access key. Falls back to `AWS_SECRET_ACCESS_KEY` env / IAM role.                               |
+| `store.s3.forcePathStyle`             | `false`        | Use path-style URLs. Required for most S3-compatible storage.                                              |
+| `store.s3.prefix`                     | `""`           | Key prefix for all cache entries.                                                                          |
+| `store.s3.encryptionKey`              | `""`           | AES-256-CBC encryption key. Encrypts all artifacts at rest.                                                |
+| `store.gcs.bucket`                    | `""`           | GCS bucket name.                                                                                           |
+| `store.gcs.endpoint`                  | `""`           | Custom GCS-compatible endpoint URL (e.g. for local emulators).                                             |
+| `store.gcs.prefix`                    | `""`           | Key prefix for all cache entries.                                                                          |
+| `store.gcs.encryptionKey`             | `""`           | AES-256-CBC encryption key. Encrypts all artifacts at rest.                                                |
+| `store.azure.container`               | `""`           | Azure Blob Storage container name.                                                                         |
+| `store.azure.accountName`             | `""`           | Azure Storage account name.                                                                                |
+| `store.azure.connectionString`        | `""`           | Full Azure Blob Storage connection string. Overrides `accountName` if provided.                            |
+| `store.azure.prefix`                  | `""`           | Key prefix for all cache entries.                                                                          |
+| `store.azure.encryptionKey`           | `""`           | AES-256-CBC encryption key. Encrypts all artifacts at rest.                                                |
 
 ### Environment variable overrides
 
@@ -112,6 +113,7 @@ All config values can still be overridden via environment variables (useful in C
 | `HOST`                            | `server.host`                         |
 | `BODY_LIMIT_MB`                   | `server.bodyLimitMb`                  |
 | `BANNER`                          | `server.banner`                       |
+| `INFOBOX`                         | `server.infobox`                      |
 | `AUTH_TOKEN`                      | `auth.token`                          |
 | `CACHE_STORE`                     | `store.type`                          |
 | `NX_CACHE_DIRECTORY`              | `store.filesystem.cacheDirectory`     |
