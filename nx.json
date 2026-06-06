@@ -1,5 +1,42 @@
 {
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
   "neverConnectToCloud": true,
-  "analytics": false
+  "analytics": false,
+  "namedInputs": {
+    "source": ["{projectRoot}/src/**", "{projectRoot}/tsconfig.json"],
+    "packageFiles": ["{projectRoot}/package.json", "{workspaceRoot}/package-lock.json"]
+  },
+  "targetDefaults": {
+    "build": {
+      "dependsOn": ["^build"],
+      "inputs": ["source", "packageFiles"],
+      "outputs": ["{projectRoot}/dist/**"],
+      "cache": true
+    },
+    "test": {
+      "dependsOn": ["^build"],
+      "inputs": ["source", "packageFiles", "{projectRoot}/__tests__/**"],
+      "cache": true
+    },
+    "lint": {
+      "inputs": ["source"],
+      "cache": true
+    },
+    "lint:fix": {
+      "inputs": ["source"],
+      "cache": false
+    },
+    "fmt:check": {
+      "inputs": [
+        "{projectRoot}/src/**",
+        "{projectRoot}/__tests__/**",
+        "{projectRoot}/*.json",
+        "{projectRoot}/*.md"
+      ],
+      "cache": true
+    },
+    "fmt": {
+      "cache": false
+    }
+  }
 }
