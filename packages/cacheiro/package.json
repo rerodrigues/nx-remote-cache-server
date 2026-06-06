@@ -45,6 +45,7 @@
   },
   "dependencies": {
     "@renatorodrigues/cacheiro-store-fs": "*",
+    "@renatorodrigues/cacheiro-store-s3": "*",
     "config": "^4.4.1",
     "fastify": "^5.0.0",
     "openapi-backend": "^5.0.0",

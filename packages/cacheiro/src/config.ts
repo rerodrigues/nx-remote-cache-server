@@ -1,5 +1,6 @@
 import config from 'config';
 import type { FileSystemConfig } from '@renatorodrigues/cacheiro-store-fs';
+import type { S3StoreConfig } from '@renatorodrigues/cacheiro-store-s3';
 
 export interface AppConfig {
   server: {
@@ -12,8 +13,9 @@ export interface AppConfig {
     token: string;
   };
   store: {
-    type: string;
-    filesystem: FileSystemConfig;
+    type: 'filesystem' | 's3';
+    filesystem?: FileSystemConfig;
+    s3?: S3StoreConfig;
   };
 }
 

@@ -15,6 +15,16 @@
       "cacheDirectory": "./cache",
       "ttlDays": 7,
       "sweepIntervalHours": 24
+    },
+    "s3": {
+      "bucket": "",
+      "region": "us-east-1",
+      "endpoint": "",
+      "accessKeyId": "",
+      "secretAccessKey": "",
+      "forcePathStyle": false,
+      "prefix": "",
+      "encryptionKey": ""
     }
   }
 }

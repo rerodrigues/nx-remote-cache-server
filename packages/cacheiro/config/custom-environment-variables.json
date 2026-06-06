@@ -17,6 +17,19 @@
       "cacheDirectory": "NX_CACHE_DIRECTORY",
       "ttlDays": "CACHE_TTL_DAYS",
       "sweepIntervalHours": "CACHE_SWEEP_INTERVAL_HOURS"
+    },
+    "s3": {
+      "bucket": "S3_BUCKET",
+      "region": "S3_REGION",
+      "endpoint": "S3_ENDPOINT",
+      "accessKeyId": "AWS_ACCESS_KEY_ID",
+      "secretAccessKey": "AWS_SECRET_ACCESS_KEY",
+      "forcePathStyle": {
+        "__name": "S3_FORCE_PATH_STYLE",
+        "__format": "boolean"
+      },
+      "prefix": "S3_PREFIX",
+      "encryptionKey": "S3_ENCRYPTION_KEY"
     }
   }
 }

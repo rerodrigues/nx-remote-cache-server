@@ -65,6 +65,26 @@
               "description": "How often to sweep for expired artifacts (hours). 0 disables the sweep."
             }
           }
+        },
+        "s3": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "bucket": { "type": "string", "description": "S3 bucket name." },
+            "region": { "type": "string", "description": "AWS region (e.g. us-east-1)." },
+            "endpoint": { "type": "string", "description": "Custom S3-compatible endpoint URL." },
+            "accessKeyId": { "type": "string", "description": "AWS access key ID." },
+            "secretAccessKey": { "type": "string", "description": "AWS secret access key." },
+            "forcePathStyle": {
+              "type": "boolean",
+              "description": "Use path-style URLs. Required for most S3-compatible storage."
+            },
+            "prefix": { "type": "string", "description": "Key prefix for all cache entries." },
+            "encryptionKey": {
+              "type": "string",
+              "description": "AES-256-CBC encryption key. Encrypts all artifacts at rest."
+            }
+          }
         }
       }
     }

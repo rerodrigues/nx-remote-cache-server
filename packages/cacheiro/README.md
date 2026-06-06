@@ -73,17 +73,25 @@ cp config/local.json.example config/local.json
 
 ### Config values
 
-| Key                                   | Default        | Description                                                                                         |
-| ------------------------------------- | -------------- | --------------------------------------------------------------------------------------------------- |
-| `server.port`                         | `3000`         | HTTP port to listen on                                                                              |
-| `server.host`                         | `0.0.0.0`      | Host to bind to                                                                                     |
-| `server.bodyLimitMb`                  | `500`          | Max request body size in MB                                                                         |
-| `server.banner`                       | `true`         | Show ASCII art startup banner. When `false`, prints a compact single-line header instead.           |
-| `auth.token`                          | `""`           | Bearer token required on all requests. Auth is disabled if empty.                                   |
-| `store.type`                          | `"filesystem"` | Storage backend. See [Stores](#stores) below.                                                       |
-| `store.filesystem.cacheDirectory`     | `"./cache"`    | _(filesystem store only)_ Directory where artifacts are stored.                                     |
-| `store.filesystem.ttlDays`            | `7`            | _(filesystem store only)_ Artifact TTL in days. `0` disables expiration.                            |
-| `store.filesystem.sweepIntervalHours` | `24`           | _(filesystem store only)_ How often to sweep for expired artifacts (hours). `0` disables the sweep. |
+| Key                                   | Default        | Description                                                                               |
+| ------------------------------------- | -------------- | ----------------------------------------------------------------------------------------- |
+| `server.port`                         | `3000`         | HTTP port to listen on                                                                    |
+| `server.host`                         | `0.0.0.0`      | Host to bind to                                                                           |
+| `server.bodyLimitMb`                  | `500`          | Max request body size in MB                                                               |
+| `server.banner`                       | `true`         | Show ASCII art startup banner. When `false`, prints a compact single-line header instead. |
+| `auth.token`                          | `""`           | Bearer token required on all requests. Auth is disabled if empty.                         |
+| `store.type`                          | `"filesystem"` | Storage backend. See [Stores](#stores) below.                                             |
+| `store.filesystem.cacheDirectory`     | `"./cache"`    | Directory where artifacts are stored.                                                     |
+| `store.filesystem.ttlDays`            | `7`            | Artifact TTL in days. `0` disables expiration.                                            |
+| `store.filesystem.sweepIntervalHours` | `24`           | How often to sweep for expired artifacts (hours). `0` disables the sweep.                 |
+| `store.s3.bucket`                     | `""`           | S3 bucket name.                                                                           |
+| `store.s3.region`                     | `"us-east-1"`  | AWS region.                                                                               |
+| `store.s3.endpoint`                   | `""`           | Custom S3-compatible endpoint URL (MinIO, LocalStack, etc.).                              |
+| `store.s3.accessKeyId`                | `""`           | AWS access key ID. Falls back to `AWS_ACCESS_KEY_ID` env / IAM role.                      |
+| `store.s3.secretAccessKey`            | `""`           | AWS secret access key. Falls back to `AWS_SECRET_ACCESS_KEY` env / IAM role.              |
+| `store.s3.forcePathStyle`             | `false`        | Use path-style URLs. Required for most S3-compatible storage.                             |
+| `store.s3.prefix`                     | `""`           | Key prefix for all cache entries.                                                         |
+| `store.s3.encryptionKey`              | `""`           | AES-256-CBC encryption key. Encrypts all artifacts at rest.                               |
 
 ### Environment variable overrides
 
@@ -100,6 +108,14 @@ All config values can still be overridden via environment variables (useful in C
 | `NX_CACHE_DIRECTORY`         | `store.filesystem.cacheDirectory`     |
 | `CACHE_TTL_DAYS`             | `store.filesystem.ttlDays`            |
 | `CACHE_SWEEP_INTERVAL_HOURS` | `store.filesystem.sweepIntervalHours` |
+| `S3_BUCKET`                  | `store.s3.bucket`                     |
+| `S3_REGION`                  | `store.s3.region`                     |
+| `S3_ENDPOINT`                | `store.s3.endpoint`                   |
+| `AWS_ACCESS_KEY_ID`          | `store.s3.accessKeyId`                |
+| `AWS_SECRET_ACCESS_KEY`      | `store.s3.secretAccessKey`            |
+| `S3_FORCE_PATH_STYLE`        | `store.s3.forcePathStyle`             |
+| `S3_PREFIX`                  | `store.s3.prefix`                     |
+| `S3_ENCRYPTION_KEY`          | `store.s3.encryptionKey`              |
 
 ## API
 
@@ -119,6 +135,12 @@ The storage backend is selected via `store.type`.
 ### `filesystem` (default)
 
 Stores artifacts on the local filesystem under `store.filesystem.cacheDirectory`.
+
+### `s3`
+
+Stores artifacts in an S3 bucket. Compatible with AWS S3 and S3-compatible storage (MinIO, LocalStack, DigitalOcean Spaces, Cloudflare R2). Set `store.type` to `"s3"` and configure `store.s3.bucket` and `store.s3.region`.
+
+> **Note:** S3 store implementation is pending.
 
 ### Adding a new store
 
