@@ -25,3 +25,15 @@ export interface Store {
 | `exists()`   | Returns `true` if artifact exists and is not expired.                          |
 | `write()`    | Persist artifact data for the given hash.                                      |
 | `read()`     | Return a `Readable` stream for the artifact. Throw if not found or expired.    |
+
+## `Describable`
+
+Optional interface for stores that want to expose config info to the startup banner:
+
+```ts
+export interface Describable {
+  describe(): [string, string][];
+}
+```
+
+Returns a list of `[label, value]` rows displayed in the banner info box. The banner duck-types `'describe' in store` — implementing this interface is optional.

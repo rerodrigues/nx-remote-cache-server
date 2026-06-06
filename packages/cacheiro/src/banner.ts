@@ -1,6 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import type { Store, Describable } from '@renatorodrigues/cacheiro-types';
 import { cfg } from './config.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -32,34 +33,16 @@ function readVersion(): string {
   }
 }
 
-export function printBanner(port: number): void {
-  const { store, server } = cfg;
+export function printBanner(port: number, store: Store): void {
+  const { server } = cfg;
   const version = readVersion();
-
   const storeRows: [string, string][] =
-    store.type === 'filesystem' && store.filesystem
-      ? [
-          ['dir', store.filesystem.cacheDirectory],
-          ['ttl', store.filesystem.ttlDays === 0 ? 'disabled' : `${store.filesystem.ttlDays}d`],
-          [
-            'sweep',
-            store.filesystem.ttlDays === 0 || store.filesystem.sweepIntervalHours === 0
-              ? 'disabled'
-              : `every ${store.filesystem.sweepIntervalHours}h`,
-          ],
-        ]
-      : store.type === 's3' && store.s3
-        ? [
-            ['bucket', store.s3.bucket],
-            ['region', store.s3.region],
-            ...(store.s3.prefix ? [['prefix', store.s3.prefix] as [string, string]] : []),
-          ]
-        : [];
+    'describe' in store ? (store as unknown as Describable).describe() : [];
 
   const rows: [string, string][] = [
     ['version', version],
     ['url', `http://${server.host}:${port}`],
-    ['store', store.type],
+    ['store', cfg.store.type],
     ...storeRows,
   ];
 

@@ -1,5 +1,5 @@
 import type { Readable } from 'node:stream';
-import type { Store } from '@renatorodrigues/cacheiro-types';
+import type { Store, Describable } from '@renatorodrigues/cacheiro-types';
 
 export interface S3StoreConfig {
   bucket: string;
@@ -12,12 +12,21 @@ export interface S3StoreConfig {
   encryptionKey?: string;
 }
 
-export class S3Store implements Store {
+export class S3Store implements Store, Describable {
   constructor(private readonly config: S3StoreConfig) {}
 
   async mount(): Promise<void> {}
 
   unmount(): void {}
+
+  describe(): [string, string][] {
+    const rows: [string, string][] = [
+      ['bucket', this.config.bucket],
+      ['region', this.config.region],
+    ];
+    if (this.config.prefix) rows.push(['prefix', this.config.prefix]);
+    return rows;
+  }
 
   async exists(_hash: string): Promise<boolean> {
     throw new Error('S3Store: not implemented');

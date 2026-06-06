@@ -2,7 +2,7 @@ import { createReadStream, existsSync, statSync } from 'node:fs';
 import { mkdir, readdir, unlink, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import type { Readable } from 'node:stream';
-import type { Store } from '@renatorodrigues/cacheiro-types';
+import type { Store, Describable } from '@renatorodrigues/cacheiro-types';
 
 export interface FileSystemConfig {
   cacheDirectory: string;
@@ -10,7 +10,7 @@ export interface FileSystemConfig {
   sweepIntervalHours: number;
 }
 
-export class FileSystemStore implements Store {
+export class FileSystemStore implements Store, Describable {
   private readonly dir: string;
   private readonly ttlMs: number;
   private readonly sweepIntervalMs: number;
@@ -42,6 +42,16 @@ export class FileSystemStore implements Store {
 
   unmount(): void {
     if (this.sweepTimer) clearInterval(this.sweepTimer);
+  }
+
+  describe(): [string, string][] {
+    const ttlMs = this.ttlMs;
+    const sweepMs = this.sweepIntervalMs;
+    return [
+      ['dir', this.dir],
+      ['ttl', ttlMs === 0 ? 'disabled' : `${ttlMs / 86_400_000}d`],
+      ['sweep', ttlMs === 0 || sweepMs === 0 ? 'disabled' : `every ${sweepMs / 3_600_000}h`],
+    ];
   }
 
   async exists(hash: string): Promise<boolean> {

@@ -7,3 +7,7 @@ export interface Store {
   write(hash: string, data: Buffer): Promise<void>;
   read(hash: string): Readable;
 }
+
+export interface Describable {
+  describe(): [string, string][];
+}
