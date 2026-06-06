@@ -1,0 +1,54 @@
+{
+  "name": "@renatorodrigues/cacheiro-store-fs",
+  "version": "0.1.0",
+  "private": false,
+  "description": "Filesystem store implementation for @renatorodrigues/cacheiro",
+  "homepage": "https://github.com/rerodrigues/nx-cache-server/tree/main/packages/cacheiro-store-fs#readme",
+  "bugs": {
+    "url": "https://github.com/rerodrigues/nx-cache-server/issues"
+  },
+  "license": "ISC",
+  "author": {
+    "name": "Renato Rodrigues",
+    "email": "renato@renatorodrigues.com",
+    "url": "http://renatorodrigues.com/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:rerodrigues/nx-cache-server.git"
+  },
+  "directories": {
+    "lib": "dist",
+    "test": "__tests__"
+  },
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "oxlint",
+    "lint:fix": "oxlint --fix",
+    "fmt": "oxfmt",
+    "fmt:check": "oxfmt --check"
+  },
+  "devDependencies": {
+    "@renatorodrigues/cacheiro-types": "*",
+    "@types/node": "^25.9.1",
+    "lint-staged": "^16.4.0",
+    "oxfmt": "^0.53.0",
+    "oxlint": "^1.68.0",
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.8"
+  }
+}
