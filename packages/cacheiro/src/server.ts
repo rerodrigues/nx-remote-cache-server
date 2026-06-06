@@ -9,7 +9,6 @@ import { fileURLToPath } from 'node:url';
 import prettyBytes from 'pretty-bytes';
 import { createPutHandler } from './handlers/put.js';
 import { createGetHandler } from './handlers/get.js';
-import { createStore } from './store/index.js';
 import type { Store } from './store/index.js';
 import { cfg } from './config.js';
 
@@ -34,8 +33,7 @@ function loadSpec() {
   return JSON.parse(raw.replace(/^\s*\/\/.*$/gm, ''));
 }
 
-export async function createServer(storeArg?: Store) {
-  const store = storeArg ?? createStore();
+export async function createServer(store: Store) {
   await store.mount();
 
   const api = new OpenAPIBackend({ definition: loadSpec() });
