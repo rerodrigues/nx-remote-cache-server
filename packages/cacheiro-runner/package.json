@@ -1,0 +1,48 @@
+{
+  "name": "@renatorodrigues/cacheiro-runner",
+  "version": "0.2.0",
+  "private": true,
+  "description": "Reference runner for @renatorodrigues/cacheiro — loads config and starts the server",
+  "homepage": "https://github.com/rerodrigues/nx-remote-cache-server/tree/main/packages/cacheiro-runner#readme",
+  "bugs": {
+    "url": "https://github.com/rerodrigues/nx-remote-cache-server/issues"
+  },
+  "license": "ISC",
+  "author": {
+    "name": "Renato Rodrigues",
+    "email": "renato@renatorodrigues.com",
+    "url": "http://renatorodrigues.com/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:rerodrigues/nx-remote-cache-server.git"
+  },
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx watch src/index.ts",
+    "start": "pm2-runtime ecosystem.config.cjs",
+    "start:node": "node dist/index.js",
+    "lint": "oxlint",
+    "lint:fix": "oxlint --fix",
+    "fmt": "oxfmt",
+    "fmt:check": "oxfmt --check"
+  },
+  "dependencies": {
+    "@renatorodrigues/cacheiro": "0.2.0",
+    "ajv": "^8.20.0",
+    "config": "^4.4.1"
+  },
+  "devDependencies": {
+    "@types/config": "^4.4.0",
+    "@types/node": "^25.9.1",
+    "lint-staged": "^16.4.0",
+    "oxfmt": "^0.53.0",
+    "oxlint": "^1.68.0",
+    "pino-pretty": "^13.1.3",
+    "pm2": "^7.0.1",
+    "tsx": "^4.22.4",
+    "typescript": "^6.0.3"
+  }
+}
