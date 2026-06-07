@@ -81,9 +81,10 @@ export function printBanner(store: Store, config: CacheiroConfig): void {
       ['url', `http://${server.host}:${server.port}`],
       ['store', config.store.type],
       ...storeRows,
+      ...(config.auth.token ? [['auth', 'enabled'] as [string, string]] : []),
     ];
     parts.push(buildBox(rows, server.banner ? LOGO_WIDTH : 0));
   }
 
-  console.log('\n' + parts.join('\n\n') + '\n');
+  console.log('\n\n' + parts.join('\n\n') + '\n');
 }
