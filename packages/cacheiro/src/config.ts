@@ -1,12 +1,12 @@
-import { Ajv, type ErrorObject } from 'ajv';
-import config from 'config';
-import schema from '../config/configSchema.json' with { type: 'json' };
+import configSchema from '../configSchema.json' with { type: 'json' };
 import type { FileSystemConfig } from '@renatorodrigues/cacheiro-store-fs';
 import type { S3StoreConfig } from '@renatorodrigues/cacheiro-store-s3';
 import type { GcsStoreConfig } from '@renatorodrigues/cacheiro-store-gcs';
 import type { AzureStoreConfig } from '@renatorodrigues/cacheiro-store-azure';
 
-export interface AppConfig {
+export { configSchema };
+
+export interface CacheiroConfig {
   server: {
     port: number;
     host: string;
@@ -47,16 +47,3 @@ export interface AppConfig {
         azure: AzureStoreConfig;
       };
 }
-
-const ajv = new Ajv({ allErrors: true });
-const validate = ajv.compile(schema);
-const raw = config.util.toObject();
-
-if (!validate(raw)) {
-  const errors = (validate.errors ?? [])
-    .map((e: ErrorObject) => `  ${e.instancePath || '(root)'} ${e.message}`)
-    .join('\n');
-  throw new Error(`Invalid configuration:\n${errors}`);
-}
-
-export const cfg = raw as AppConfig;

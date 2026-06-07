@@ -1,6 +1,6 @@
 import type { Context } from 'openapi-backend';
 import type { FastifyReply, FastifyRequest } from 'fastify';
-import type { Store } from '../store/index.js';
+import type { Store } from '../store.js';
 
 export function createPutHandler(store: Store) {
   return async (c: Context, req: FastifyRequest, reply: FastifyReply): Promise<void> => {

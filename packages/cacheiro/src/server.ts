@@ -9,8 +9,8 @@ import { fileURLToPath } from 'node:url';
 import prettyBytes from 'pretty-bytes';
 import { createPutHandler } from './handlers/put.js';
 import { createGetHandler } from './handlers/get.js';
-import type { Store } from './store/index.js';
-import { cfg } from './config.js';
+import type { Store } from './store.js';
+import type { CacheiroConfig } from './config.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -33,9 +33,7 @@ function loadSpec() {
   return JSON.parse(raw.replace(/^\s*\/\/.*$/gm, ''));
 }
 
-export async function createServer(store: Store) {
-  await store.mount();
-
+export async function createServer(store: Store, config: CacheiroConfig) {
   const api = new OpenAPIBackend({ definition: loadSpec() });
 
   api.register({
@@ -50,7 +48,7 @@ export async function createServer(store: Store) {
   });
 
   api.registerSecurityHandler('bearerToken', (c) => {
-    const authToken = cfg.auth.token;
+    const authToken = config.auth.token;
     if (!authToken) return true;
     const auth = c.request.headers['authorization'] as string | undefined;
     if (!auth) return false;
@@ -60,12 +58,14 @@ export async function createServer(store: Store) {
 
   await api.init();
 
-  const bodyLimitMb = cfg.server.bodyLimitMb;
+  const bodyLimitMb = config.server.bodyLimitMb;
   const fastify = Fastify({
     logger: loggerOptions,
     bodyLimit: bodyLimitMb * 1024 * 1024,
     disableRequestLogging: true,
   });
+
+  await store.mount();
 
   fastify.addHook('onClose', () => {
     store.unmount?.();

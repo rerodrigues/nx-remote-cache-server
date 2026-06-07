@@ -1,7 +1,8 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { Readable, PassThrough } from 'node:stream';
 import { createServer } from '../src/server.js';
-import type { Store } from '../src/store/index.js';
+import type { Store } from '../src/store.js';
+import type { CacheiroConfig } from '../src/config.js';
 
 class MemoryStore implements Store {
   private data = new Map<string, Buffer>();
@@ -23,6 +24,15 @@ class MemoryStore implements Store {
   }
 }
 
+const testConfig: CacheiroConfig = {
+  server: { port: 3000, host: 'localhost', bodyLimitMb: 10, banner: false, infobox: false },
+  auth: { token: 'test-token' },
+  store: {
+    type: 'filesystem',
+    filesystem: { cacheDirectory: './cache-test', ttlDays: 0, sweepIntervalHours: 0 },
+  },
+};
+
 const AUTH = 'Bearer test-token';
 
 describe('PUT /v1/cache/:hash', () => {
@@ -33,7 +43,7 @@ describe('PUT /v1/cache/:hash', () => {
   });
 
   it('returns 401 when Authorization header is missing', async () => {
-    const app = await createServer(store);
+    const app = await createServer(store, testConfig);
     const res = await app.inject({
       method: 'PUT',
       url: '/v1/cache/abc123',
@@ -44,7 +54,7 @@ describe('PUT /v1/cache/:hash', () => {
   });
 
   it('returns 200 and stores artifact', async () => {
-    const app = await createServer(store);
+    const app = await createServer(store, testConfig);
     const res = await app.inject({
       method: 'PUT',
       url: '/v1/cache/abc123',
@@ -60,7 +70,7 @@ describe('PUT /v1/cache/:hash', () => {
   });
 
   it('returns 409 when artifact already exists', async () => {
-    const app = await createServer(store);
+    const app = await createServer(store, testConfig);
     await store.write('abc123', Buffer.from('hello'));
     const res = await app.inject({
       method: 'PUT',
@@ -84,13 +94,13 @@ describe('GET /v1/cache/:hash', () => {
   });
 
   it('returns 401 when Authorization header is missing', async () => {
-    const app = await createServer(store);
+    const app = await createServer(store, testConfig);
     const res = await app.inject({ method: 'GET', url: '/v1/cache/abc123' });
     expect(res.statusCode).toBe(401);
   });
 
   it('returns 404 when artifact does not exist', async () => {
-    const app = await createServer(store);
+    const app = await createServer(store, testConfig);
     const res = await app.inject({
       method: 'GET',
       url: '/v1/cache/abc123',
@@ -100,7 +110,7 @@ describe('GET /v1/cache/:hash', () => {
   });
 
   it('returns 200 with artifact content', async () => {
-    const app = await createServer(store);
+    const app = await createServer(store, testConfig);
     await store.write('abc123', Buffer.from('hello'));
     const res = await app.inject({
       method: 'GET',

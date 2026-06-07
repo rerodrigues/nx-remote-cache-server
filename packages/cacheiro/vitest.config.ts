@@ -2,8 +2,7 @@ import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
   test: {
-    globals: true, // Allows using 'describe', 'test', 'expect' globally
+    globals: true,
     environment: 'node',
-    env: { AUTH_TOKEN: 'test-token' },
   },
 });

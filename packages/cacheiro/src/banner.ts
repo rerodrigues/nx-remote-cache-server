@@ -3,7 +3,7 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import figlet from 'figlet';
 import type { Store, Describable } from '@renatorodrigues/cacheiro-types';
-import { cfg } from './config.js';
+import type { CacheiroConfig } from './config.js';
 
 const isProd = process.env.NODE_ENV === 'production';
 
@@ -62,8 +62,8 @@ function renderSimplified(version?: string): string {
   return `${BOLD}${pkgName}${RESET}  ${DIM}${TAGLINE}${v}${RESET}`;
 }
 
-export function printBanner(port: number, store: Store): void {
-  const { server } = cfg;
+export function printBanner(store: Store, config: CacheiroConfig): void {
+  const { server } = config;
   const parts: string[] = [];
 
   if (server.banner) {
@@ -78,8 +78,8 @@ export function printBanner(port: number, store: Store): void {
       'describe' in store ? (store as unknown as Describable).describe() : [];
     const rows: [string, string][] = [
       ['version', pkgVersion],
-      ['url', `http://${server.host}:${port}`],
-      ['store', cfg.store.type],
+      ['url', `http://${server.host}:${server.port}`],
+      ['store', config.store.type],
       ...storeRows,
     ];
     parts.push(buildBox(rows, server.banner ? LOGO_WIDTH : 0));

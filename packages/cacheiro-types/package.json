@@ -1,6 +1,6 @@
 {
   "name": "@renatorodrigues/cacheiro-types",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": false,
   "description": "TypeScript types for @renatorodrigues/cacheiro",
   "homepage": "https://github.com/rerodrigues/nx-remote-cache-server/tree/main/packages/cacheiro-types#readme",
