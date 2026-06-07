@@ -4,25 +4,27 @@ Self-hosted [NX remote cache](https://nx.dev/recipes/running-tasks/self-hosted-c
 
 ## Packages
 
-| Package                                                              | Description                                    |
-| -------------------------------------------------------------------- | ---------------------------------------------- |
-| [`@renatorodrigues/cacheiro`](./packages/cacheiro)                   | Cache server (Fastify + OpenAPI)               |
-| [`@renatorodrigues/cacheiro-store-fs`](./packages/cacheiro-store-fs) | Filesystem store implementation                |
-| [`@renatorodrigues/cacheiro-store-s3`](./packages/cacheiro-store-s3) | S3 store implementation (pending)              |
-| [`@renatorodrigues/cacheiro-store-gcs`](./packages/cacheiro-store-gcs) | GCS store implementation (pending)           |
-| [`@renatorodrigues/cacheiro-store-azure`](./packages/cacheiro-store-azure) | Azure Blob Storage store implementation (pending) |
-| [`@renatorodrigues/cacheiro-types`](./packages/cacheiro-types)       | Shared TypeScript interfaces (`Store`)         |
+| Package                                                                        | Description                                              |
+| ------------------------------------------------------------------------------ | -------------------------------------------------------- |
+| [`@renatorodrigues/cacheiro`](./packages/cacheiro)                             | Core cache server library (Fastify + OpenAPI)            |
+| [`@renatorodrigues/cacheiro-runner`](./packages/cacheiro-runner)               | Reference runner — loads config and starts the server    |
+| [`@renatorodrigues/cacheiro-store-fs`](./packages/cacheiro-store-fs)           | Filesystem store implementation                          |
+| [`@renatorodrigues/cacheiro-store-s3`](./packages/cacheiro-store-s3)           | S3 store implementation (pending)                        |
+| [`@renatorodrigues/cacheiro-store-gcs`](./packages/cacheiro-store-gcs)         | GCS store implementation (pending)                       |
+| [`@renatorodrigues/cacheiro-store-azure`](./packages/cacheiro-store-azure)     | Azure Blob Storage store implementation (pending)        |
+| [`@renatorodrigues/cacheiro-types`](./packages/cacheiro-types)                 | Shared TypeScript interfaces (`Store`)                   |
 
 ## Getting started
 
 ```sh
 npm install
-cd packages/cacheiro
+cd packages/cacheiro-runner
 cp config/local.json.example config/local.json
 npm run dev
 ```
 
-See [`packages/cacheiro`](./packages/cacheiro) for full configuration and deployment docs.
+See [`packages/cacheiro-runner`](./packages/cacheiro-runner) for full configuration and deployment docs.
+See [`packages/cacheiro`](./packages/cacheiro) for the server core library API.
 
 ## Local emulators
 
@@ -48,4 +50,4 @@ docker compose up local-gcs
 docker compose up local-azure
 ```
 
-Then configure `packages/cacheiro/config/local.json` using the emulator snippets in `local.json.example`.
+Then configure `packages/cacheiro-runner/config/local.json` using the emulator snippets in `local.json.example`.
