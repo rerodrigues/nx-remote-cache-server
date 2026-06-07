@@ -80,9 +80,14 @@ export async function createServer(store: Store, config: CacheiroConfig) {
           : reply.getHeader('content-length')
         : undefined;
     const size = rawSize ? ` (${prettyBytes(parseInt(String(rawSize), 10))})` : '';
-    request.log.info(
-      `${request.method} ${request.url} ${reply.statusCode} ${reply.elapsedTime.toFixed(1)}ms${size}`,
-    );
+    const msg = `${request.method} ${request.url} ${reply.statusCode} ${reply.elapsedTime.toFixed(1)}ms${size}`;
+    if (reply.statusCode >= 500) {
+      request.log.error(msg);
+    } else if (reply.statusCode >= 400) {
+      request.log.warn(msg);
+    } else {
+      request.log.info(msg);
+    }
     done();
   });
 
