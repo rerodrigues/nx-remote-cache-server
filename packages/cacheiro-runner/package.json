@@ -21,7 +21,9 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
-    "dev": "tsx watch src/index.ts",
+    "watch": "tsx watch src/index.ts",
+    "watch:others": "lerna watch --ignore=@renatorodrigues/cacheiro-runner --loglevel=silent -- lerna run build --scope=$LERNA_PACKAGE_NAME >/dev/null 2>&1",
+    "dev": "concurrently --raw --handle-input \"npm run --silent watch\" \"npm run --silent watch:others\"",
     "start": "pm2-runtime ecosystem.config.cjs",
     "start:node": "node dist/index.js",
     "lint": "oxlint",
@@ -37,6 +39,7 @@
   "devDependencies": {
     "@types/config": "^4.4.0",
     "@types/node": "^25.9.1",
+    "concurrently": "^10.0.3",
     "lint-staged": "^16.4.0",
     "oxfmt": "^0.53.0",
     "oxlint": "^1.68.0",

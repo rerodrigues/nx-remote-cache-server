@@ -28,7 +28,9 @@ await store.mount();
 ## Development
 
 ```sh
-npm test          # vitest run
+npm run watch          # tsc --watch (hot rebuild)
+npm run build        # compile TypeScript
+npm test             # vitest run
 npm run test:watch
 npm run lint
 npm run fmt

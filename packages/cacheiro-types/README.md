@@ -37,3 +37,10 @@ export interface Describable {
 ```
 
 Returns a list of `[label, value]` rows displayed in the banner info box. The banner duck-types `'describe' in store` — implementing this interface is optional.
+
+## Development
+
+```sh
+npm run watch          # tsc --watch (hot rebuild)
+npm run build        # compile TypeScript
+```

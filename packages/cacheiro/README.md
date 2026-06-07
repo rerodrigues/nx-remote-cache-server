@@ -93,6 +93,7 @@ Stores artifacts in an Azure Blob Storage container. See [`@renatorodrigues/cach
 ## Development
 
 ```sh
+npm run watch          # tsc --watch (hot rebuild)
 npm run build        # compile TypeScript
 npm test             # run tests
 npm run test:watch   # watch mode

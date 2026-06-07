@@ -96,12 +96,14 @@ docker run -p 3000:3000 \
 ## Development
 
 ```sh
-npm run dev          # tsx watch — hot reload
-npm run build        # compile TypeScript
-npm run lint         # oxlint
-npm run lint:fix     # oxlint --fix
-npm run fmt          # oxfmt
-npm run fmt:check    # oxfmt --check
+npm run dev            # watch + watch:others (full hot reload — server and dep packages)
+npm run watch          # tsx watch src/index.ts — server only
+npm run watch:others   # rebuilds dep packages on change (silent unless error)
+npm run build          # compile TypeScript
+npm run lint           # oxlint
+npm run lint:fix       # oxlint --fix
+npm run fmt            # oxfmt
+npm run fmt:check      # oxfmt --check
 ```
 
 ## Config values reference

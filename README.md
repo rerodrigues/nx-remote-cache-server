@@ -23,6 +23,8 @@ cp config/local.json.example config/local.json
 npm run dev
 ```
 
+`npm run dev` (inside `packages/cacheiro-runner`) runs the server with hot reload and watches all dependency packages — if any dep recompiles, the runner restarts automatically.
+
 See [`packages/cacheiro-runner`](./packages/cacheiro-runner) for full configuration and deployment docs.
 See [`packages/cacheiro`](./packages/cacheiro) for the server core library API.
 
