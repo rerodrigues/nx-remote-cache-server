@@ -40,7 +40,7 @@ export async function createServer(store: Store, config: CacheiroConfig) {
     put: createPutHandler(store),
     get: createGetHandler(store),
     unauthorizedHandler: async (_c: Context, _req: FastifyRequest, reply: FastifyReply) =>
-      reply.status(401).send('Unauthorized'),
+      reply.status(401).type('text/plain').send('Unauthorized'),
     notFound: async (_c: Context, _req: FastifyRequest, reply: FastifyReply) =>
       reply.status(404).send(),
     validationFail: async (c: Context, _req: FastifyRequest, reply: FastifyReply) =>
