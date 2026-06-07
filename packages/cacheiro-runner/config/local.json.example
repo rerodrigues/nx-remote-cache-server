@@ -33,7 +33,7 @@
 //   "store": {
 //     "type": "s3",
 //     "s3": {
-//       "bucket": "my-nx-cache",
+//       "bucket": "local-nx-cache",
 //       "region": "us-east-1",
 //       "endpoint": "http://localhost:4566",
 //       "accessKeyId": "test",
@@ -58,7 +58,7 @@
 //   "store": {
 //     "type": "gcs",
 //     "gcs": {
-//       "bucket": "my-nx-cache",
+//       "bucket": "local-nx-cache",
 //       "endpoint": "http://localhost:4443"
 //     }
 //   }
@@ -80,7 +80,7 @@
 //   "store": {
 //     "type": "azure",
 //     "azure": {
-//       "container": "my-nx-cache",
+//       "container": "local-nx-cache",
 //       "connectionString": "DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://127.0.0.1:10000/devstoreaccount1;"
 //     }
 //   }

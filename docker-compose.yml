@@ -5,15 +5,29 @@ services:
       - "4566:4566"
     environment:
       SERVICES: s3
+    volumes:
+      - ./scripts/init-s3.sh:/etc/localstack/init/ready.d/init-s3.sh
 
   local-gcs:
     image: fsouza/fake-gcs-server
     ports:
       - "4443:4443"
-    command: ["-scheme", "http", "-port", "4443"]
+    command: ["-scheme", "http", "-port", "4443", "-data", "/data"]
+    volumes:
+      - ./scripts/gcs-data:/data
 
   local-azure:
     image: mcr.microsoft.com/azure-storage/azurite
     ports:
       - "10000:10000"
     command: azurite-blob --blobHost 0.0.0.0
+
+  local-azure-init:
+    image: mcr.microsoft.com/azure-cli
+    depends_on:
+      - local-azure
+    restart: "no"
+    command: >
+      az storage container create
+      --name local-nx-cache
+      --connection-string "DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://local-azure:10000/devstoreaccount1;"
