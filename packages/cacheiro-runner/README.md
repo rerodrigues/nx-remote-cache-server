@@ -1,6 +1,6 @@
 # `@renatorodrigues/cacheiro-runner`
 
-Reference runner for [`@renatorodrigues/cacheiro`](../cacheiro). Loads config via the [`config`](https://www.npmjs.com/package/config) npm package, validates it with AJV using the schema exported from `cacheiro`, then calls `startServer`.
+Reference runner for [`@renatorodrigues/cacheiro`](../cacheiro). Loads config via the [`config`](https://www.npmjs.com/package/config) npm package, validates it with AJV using the schema exported from `cacheiro`, then instantiates and starts a `Cacheiro` server.
 
 This is a runnable application, not a library. It is not published to npm (`private: true`). Use it as-is, fork it, or write your own runner on top of `cacheiro`'s exported API.
 

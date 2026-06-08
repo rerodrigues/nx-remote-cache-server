@@ -5,6 +5,7 @@ import { createStore } from './store.js';
 import { printBanner } from './banner.js';
 import { configSchema } from './config.js';
 import type { CacheiroConfig } from './config.js';
+import type { Store } from './store.js';
 
 export type { CacheiroConfig };
 export { configSchema };
@@ -12,16 +13,36 @@ export { configSchema };
 const ajv = new Ajv({ allErrors: true });
 const validate = ajv.compile(configSchema);
 
-export async function startServer(config: CacheiroConfig): Promise<FastifyInstance> {
-  if (!validate(config)) {
-    const errors = (validate.errors ?? [])
-      .map((e: ErrorObject) => `  ${e.instancePath || '(root)'} ${e.message}`)
-      .join('\n');
-    throw new Error(`Invalid configuration:\n${errors}`);
+export class Cacheiro {
+  private readonly config: CacheiroConfig;
+  private fastify?: FastifyInstance;
+  private store?: Store;
+
+  constructor(config: CacheiroConfig) {
+    if (!validate(config)) {
+      const errors = (validate.errors ?? [])
+        .map((e: ErrorObject) => `  ${e.instancePath || '(root)'} ${e.message}`)
+        .join('\n');
+      throw new Error(`Invalid configuration:\n${errors}`);
+    }
+    this.config = config;
   }
-  const store = createStore(config.store);
-  const server = await createServer(store, config);
-  await server.listen({ port: config.server.port, host: config.server.host });
-  printBanner(store, config);
-  return server;
+
+  async start(): Promise<FastifyInstance> {
+    this.store = createStore(this.config.store);
+    this.fastify = await createServer(this.store, this.config);
+    return this.fastify;
+  }
+
+  async listen(): Promise<void> {
+    const { port, host } = this.config.server;
+    await this.fastify!.listen({ port, host });
+    printBanner(this.store!, this.config);
+  }
+
+  async stop(): Promise<void> {
+    if (!this.fastify) return;
+    this.fastify.server.closeAllConnections();
+    await this.fastify.close();
+  }
 }

@@ -1,6 +1,6 @@
 import config from 'config';
 import { Ajv, type ErrorObject } from 'ajv';
-import { startServer, configSchema, type CacheiroConfig } from '@renatorodrigues/cacheiro';
+import { Cacheiro, configSchema, type CacheiroConfig } from '@renatorodrigues/cacheiro';
 
 const ajv = new Ajv({ allErrors: true });
 const validate = ajv.compile(configSchema);
@@ -13,12 +13,17 @@ if (!validate(raw)) {
   throw new Error(`Invalid configuration:\n${errors}`);
 }
 
-const { server, close } = await startServer(raw as unknown as CacheiroConfig);
+const cacheiro = new Cacheiro(raw as unknown as CacheiroConfig);
+const _server = await cacheiro.start();
+
+// _server is a Fastify instance — add custom routes, hooks, or plugins here before listen()
+// see https://fastify.dev/docs/latest/Reference/Hooks/
+
+await cacheiro.listen();
 
 const shutdown = async () => {
   console.log('Shutting down...');
-  server.closeAllConnections();
-  await close();
+  await cacheiro.stop();
   process.exit(0);
 };
 
