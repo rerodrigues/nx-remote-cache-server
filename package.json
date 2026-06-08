@@ -22,7 +22,7 @@
   "scripts": {
     "prepare": "husky"
   },
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "husky": "^9.1.7",
     "lerna": "^9.0.7"
