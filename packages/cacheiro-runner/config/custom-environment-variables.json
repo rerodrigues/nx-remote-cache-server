@@ -1,26 +1,26 @@
 {
   "server": {
-    "port": "PORT",
-    "host": "HOST",
-    "bodyLimitMb": "BODY_LIMIT_MB",
+    "port": "CACHEIRO_PORT",
+    "host": "CACHEIRO_HOST",
+    "bodyLimitMb": "CACHEIRO_BODY_LIMIT_MB",
     "banner": {
-      "__name": "BANNER",
+      "__name": "CACHEIRO_BANNER",
       "__format": "boolean"
     },
     "infobox": {
-      "__name": "INFOBOX",
+      "__name": "CACHEIRO_INFOBOX",
       "__format": "boolean"
     }
   },
   "auth": {
-    "token": "AUTH_TOKEN"
+    "token": "CACHEIRO_AUTH_TOKEN"
   },
   "store": {
-    "type": "CACHE_STORE",
+    "type": "CACHEIRO_STORE",
     "filesystem": {
-      "cacheDirectory": "NX_CACHE_DIRECTORY",
-      "ttlDays": "CACHE_TTL_DAYS",
-      "sweepIntervalHours": "CACHE_SWEEP_INTERVAL_HOURS"
+      "cacheDirectory": "CACHEIRO_CACHE_DIRECTORY",
+      "ttlDays": "CACHEIRO_CACHE_TTL_DAYS",
+      "sweepIntervalHours": "CACHEIRO_CACHE_SWEEP_INTERVAL_HOURS"
     },
     "s3": {
       "bucket": "S3_BUCKET",

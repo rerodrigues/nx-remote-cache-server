@@ -77,8 +77,14 @@
             "bucket": { "type": "string", "description": "S3 bucket name." },
             "region": { "type": "string", "description": "AWS region (e.g. us-east-1)." },
             "endpoint": { "type": "string", "description": "Custom S3-compatible endpoint URL." },
-            "accessKeyId": { "type": "string", "description": "AWS access key ID." },
-            "secretAccessKey": { "type": "string", "description": "AWS secret access key." },
+            "accessKeyId": {
+              "type": "string",
+              "description": "AWS access key ID. When omitted, falls back to the AWS credential chain (AWS_PROFILE, IAM role, etc.)."
+            },
+            "secretAccessKey": {
+              "type": "string",
+              "description": "AWS secret access key. When omitted, falls back to the AWS credential chain (IAM role, etc.)."
+            },
             "forcePathStyle": {
               "type": "boolean",
               "description": "Use path-style URLs. Required for most S3-compatible storage."

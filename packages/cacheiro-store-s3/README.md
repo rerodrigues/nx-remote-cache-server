@@ -19,16 +19,16 @@ await store.mount();
 
 ## Config
 
-| Field             | Type      | Required | Description                                                                                               |
-| ----------------- | --------- | -------- | --------------------------------------------------------------------------------------------------------- |
-| `bucket`          | `string`  | Yes      | S3 bucket name.                                                                                           |
-| `region`          | `string`  | Yes      | AWS region (e.g. `us-east-1`).                                                                            |
-| `endpoint`        | `string`  | No       | Custom S3-compatible endpoint URL (MinIO, LocalStack, etc.).                                              |
-| `accessKeyId`     | `string`  | No       | AWS access key ID. Falls back to `AWS_ACCESS_KEY_ID` env / IAM role.                                      |
-| `secretAccessKey` | `string`  | No       | AWS secret access key. Falls back to `AWS_SECRET_ACCESS_KEY` env / IAM role.                              |
-| `forcePathStyle`  | `boolean` | No       | Use path-style URLs instead of virtual-hosted. Required for most S3-compatible storage. Default: `false`. |
-| `prefix`          | `string`  | No       | Key prefix for all cache entries. Useful when sharing a bucket across projects.                           |
-| `encryptionKey`   | `string`  | No       | AES-256-CBC encryption key. When set, all artifacts are encrypted at rest.                                |
+| Field             | Type      | Required | Description                                                                                                                          |
+| ----------------- | --------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| `bucket`          | `string`  | Yes      | S3 bucket name.                                                                                                                      |
+| `region`          | `string`  | Yes      | AWS region (e.g. `us-east-1`).                                                                                                       |
+| `endpoint`        | `string`  | No       | Custom S3-compatible endpoint URL (MinIO, LocalStack, etc.).                                                                         |
+| `accessKeyId`     | `string`  | No       | AWS access key ID. Falls back to the AWS credential chain (`AWS_ACCESS_KEY_ID` env var, `AWS_PROFILE`, IAM role, etc.) when omitted. |
+| `secretAccessKey` | `string`  | No       | AWS secret access key. Falls back to the AWS credential chain (`AWS_SECRET_ACCESS_KEY` env var, IAM role, etc.) when omitted.        |
+| `forcePathStyle`  | `boolean` | No       | Use path-style URLs instead of virtual-hosted. Required for most S3-compatible storage. Default: `false`.                            |
+| `prefix`          | `string`  | No       | Key prefix for all cache entries. Useful when sharing a bucket across projects.                                                      |
+| `encryptionKey`   | `string`  | No       | AES-256-CBC encryption key. When set, all artifacts are encrypted at rest.                                                           |
 
 ## Development
 
