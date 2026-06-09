@@ -2,7 +2,7 @@
 
 Core library for the NX remote cache server. Implements the [NX 20.8+ custom remote cache](https://nx.dev/recipes/running-tasks/self-hosted-caching) specification.
 
-This package provides the server logic, store orchestration, and the public API. It is not a runnable application — use [`@renatorodrigues/cacheiro-runner`](../cacheiro-runner) to run it, or build your own runner on top of the exported API.
+This package provides the server logic and the public API. It is not a runnable application — use [`@renatorodrigues/cacheiro-runner`](../cacheiro-runner) to run it, or build your own runner on top of the exported API.
 
 ## Requirements
 
@@ -10,13 +10,13 @@ This package provides the server logic, store orchestration, and the public API.
 
 ## API
 
-### `new Cacheiro(config: CacheiroConfig)`
+### `new Cacheiro(store: CacheiroStore, config: CacheiroConfig)`
 
-Creates a server instance. Accepts a validated `CacheiroConfig` object — use `configSchema` with AJV to validate before constructing.
+Creates a server instance. Accepts a `CacheiroStore` implementation and a validated `CacheiroConfig` object — use `configSchema` with AJV to validate before constructing.
 
 ### `cacheiro.start(): Promise<FastifyInstance>`
 
-Creates the store, builds the Fastify server, and returns the Fastify instance. The server is not yet listening — use the returned instance to add custom routes, hooks, or plugins before calling `listen()`.
+Builds the Fastify server and returns the Fastify instance. The server is not yet listening — use the returned instance to add custom routes, hooks, or plugins before calling `listen()`.
 
 ### `cacheiro.listen(): Promise<void>`
 
@@ -28,14 +28,17 @@ Drains open connections and shuts down the server gracefully.
 
 ```ts
 import { Cacheiro } from '@renatorodrigues/cacheiro';
+import { FileSystemStore } from '@renatorodrigues/cacheiro-store-fs';
 
-const cacheiro = new Cacheiro({
+const store = new FileSystemStore({
+  cacheDirectory: './cache',
+  ttlDays: 7,
+  sweepIntervalHours: 24,
+});
+
+const cacheiro = new Cacheiro(store, {
   server: { port: 3000, host: '0.0.0.0', bodyLimitMb: 100, banner: true, infobox: true },
   auth: { token: 'my-secret-token' },
-  store: {
-    type: 'filesystem',
-    filesystem: { cacheDirectory: './cache', ttlDays: 7, sweepIntervalHours: 24 },
-  },
 });
 
 const server = await cacheiro.start();
@@ -45,9 +48,17 @@ const server = await cacheiro.start();
 await cacheiro.listen();
 ```
 
+### `CacheiroStore`
+
+Interface that all store implementations must satisfy. Import it to build a custom store:
+
+```ts
+import type { CacheiroStore } from '@renatorodrigues/cacheiro';
+```
+
 ### `CacheiroConfig`
 
-TypeScript interface describing the full configuration shape. Import it to type your own config loader:
+TypeScript interface describing the server configuration shape. Import it to type your own config loader:
 
 ```ts
 import type { CacheiroConfig } from '@renatorodrigues/cacheiro';
@@ -78,35 +89,9 @@ All endpoints require an `Authorization: Bearer <token>` header when `auth.token
 
 ## Stores
 
-The storage backend is selected via `config.store.type`.
+Store packages implement the `CacheiroStore` interface and are independent of this package. Instantiate the store of your choice and pass it to the `Cacheiro` constructor.
 
-### `filesystem` (default)
-
-Stores artifacts on the local filesystem. See [`@renatorodrigues/cacheiro-store-fs`](../cacheiro-store-fs).
-
-### `s3`
-
-Stores artifacts in an S3 bucket. Compatible with AWS S3 and S3-compatible storage (MinIO, LocalStack, etc.). See [`@renatorodrigues/cacheiro-store-s3`](../cacheiro-store-s3).
-
-> **Note:** S3 store implementation is pending.
-
-### `gcs`
-
-Stores artifacts in a Google Cloud Storage bucket. See [`@renatorodrigues/cacheiro-store-gcs`](../cacheiro-store-gcs).
-
-> **Note:** GCS store implementation is pending.
-
-### `azure`
-
-Stores artifacts in an Azure Blob Storage container. See [`@renatorodrigues/cacheiro-store-azure`](../cacheiro-store-azure).
-
-> **Note:** Azure store implementation is pending.
-
-### Adding a new store
-
-1. Implement the [`Store`](../cacheiro-types/src/index.ts) interface from `@renatorodrigues/cacheiro-types`.
-2. Publish the store as a separate package (see [`@renatorodrigues/cacheiro-store-fs`](../cacheiro-store-fs) as reference).
-3. Add a `case` to `createStore()` in `src/store.ts`.
+See [`@renatorodrigues/cacheiro-types`](../cacheiro-types) for the full list of available stores and instructions on implementing a custom store.
 
 ## Development
 

@@ -1,10 +1,10 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { Readable, PassThrough } from 'node:stream';
 import { createServer } from '../src/server.js';
-import type { Store } from '../src/store.js';
+import type { CacheiroStore } from '@renatorodrigues/cacheiro-types';
 import type { CacheiroConfig } from '../src/config.js';
 
-class MemoryStore implements Store {
+class MemoryStore implements CacheiroStore {
   private data = new Map<string, Buffer>();
 
   async mount(): Promise<void> {}
@@ -27,10 +27,6 @@ class MemoryStore implements Store {
 const testConfig: CacheiroConfig = {
   server: { port: 3000, host: 'localhost', bodyLimitMb: 10, banner: false, infobox: false },
   auth: { token: 'test-token' },
-  store: {
-    type: 'filesystem',
-    filesystem: { cacheDirectory: './cache-test', ttlDays: 0, sweepIntervalHours: 0 },
-  },
 };
 
 const AUTH = 'Bearer test-token';

@@ -9,7 +9,7 @@ import { fileURLToPath } from 'node:url';
 import prettyBytes from 'pretty-bytes';
 import { createPutHandler } from './handlers/put.js';
 import { createGetHandler } from './handlers/get.js';
-import type { Store } from './store.js';
+import type { CacheiroStore } from '@renatorodrigues/cacheiro-types';
 import type { CacheiroConfig } from './config.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -33,7 +33,7 @@ function loadSpec() {
   return JSON.parse(raw.replace(/^\s*\/\/.*$/gm, ''));
 }
 
-export async function createServer(store: Store, config: CacheiroConfig) {
+export async function createServer(store: CacheiroStore, config: CacheiroConfig) {
   const api = new OpenAPIBackend({ definition: loadSpec() });
 
   api.register({
@@ -83,7 +83,7 @@ export async function createServer(store: Store, config: CacheiroConfig) {
     const msg = `${request.method} ${request.url} ${reply.statusCode} ${reply.elapsedTime.toFixed(1)}ms${size}`;
     if (reply.statusCode >= 500) {
       request.log.error(msg);
-    } else if (reply.statusCode >= 400) {
+    } else if (reply.statusCode >= 400 && reply.statusCode !== 404) {
       request.log.warn(msg);
     } else {
       request.log.info(msg);

@@ -2,7 +2,7 @@ import { readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import figlet from 'figlet';
-import type { Store, Describable } from '@renatorodrigues/cacheiro-types';
+import type { CacheiroStore, Describable } from '@renatorodrigues/cacheiro-types';
 import type { CacheiroConfig } from './config.js';
 
 const isProd = process.env.NODE_ENV === 'production';
@@ -62,7 +62,7 @@ function renderSimplified(version?: string): string {
   return `${BOLD}${pkgName}${RESET}  ${DIM}${TAGLINE}${v}${RESET}`;
 }
 
-export function printBanner(store: Store, config: CacheiroConfig): void {
+export function printBanner(store: CacheiroStore, config: CacheiroConfig): void {
   const { server } = config;
   const parts: string[] = [];
 
@@ -79,7 +79,7 @@ export function printBanner(store: Store, config: CacheiroConfig): void {
     const rows: [string, string][] = [
       ['version', pkgVersion],
       ['url', `http://${server.host}:${server.port}`],
-      ['store', config.store.type],
+      ['store', store.constructor.name],
       ...storeRows,
       ...(config.auth.token ? [['auth', 'enabled'] as [string, string]] : []),
     ];
