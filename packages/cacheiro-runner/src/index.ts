@@ -14,19 +14,26 @@ const validateStore = ajv.compile(storeSchema);
 const rawOptions = config.util.toObject() as Record<string, unknown>;
 const { storeOptions, ...cacheiroOptions } = rawOptions;
 
-if (!validateCacheiro(cacheiroOptions)) {
-  const errors = (validateCacheiro.errors ?? [])
-    .map((e: ErrorObject) => `  ${e.instancePath || '(root)'} ${e.message}`)
+const formatErrors = (errors: ErrorObject[], prefix = ''): string => {
+  return errors
+    .map((e) => {
+      const extra = e.params?.additionalProperty ? `: ${e.params.additionalProperty}` : '';
+      return `  ${prefix}${e.instancePath || (!prefix ? '(root)' : '')} ${e.message}${extra}`;
+    })
     .join('\n');
-  console.error(`Invalid configuration:\n${errors}`);
+};
+
+if (!validateCacheiro(cacheiroOptions)) {
+  console.error(
+    `Invalid configuration:\n${formatErrors(validateCacheiro.errors ?? [], 'cacheiroOptions')}`,
+  );
   process.exit(1);
 }
 
 if (!validateStore(storeOptions)) {
-  const errors = (validateStore.errors ?? [])
-    .map((e: ErrorObject) => `  storeOptions${e.instancePath || ''} ${e.message}`)
-    .join('\n');
-  console.error(`Invalid store configuration:\n${errors}`);
+  console.error(
+    `Invalid store configuration:\n${formatErrors(validateStore.errors ?? [], 'storeOptions')}`,
+  );
   process.exit(1);
 }
 
