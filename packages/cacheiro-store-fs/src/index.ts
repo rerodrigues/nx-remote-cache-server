@@ -2,7 +2,10 @@ import { createReadStream, existsSync, statSync } from 'node:fs';
 import { mkdir, readdir, unlink, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import type { Readable } from 'node:stream';
-import type { Store, Describable } from '@renatorodrigues/cacheiro-types';
+import type { CacheiroStore, Describable } from '@renatorodrigues/cacheiro-types';
+import configSchema from '../configSchema.json' with { type: 'json' };
+
+export { configSchema };
 
 export interface FileSystemConfig {
   cacheDirectory: string;
@@ -10,7 +13,7 @@ export interface FileSystemConfig {
   sweepIntervalHours: number;
 }
 
-export class FileSystemStore implements Store, Describable {
+export class FileSystemStore implements CacheiroStore, Describable {
   private readonly dir: string;
   private readonly ttlMs: number;
   private readonly sweepIntervalMs: number;

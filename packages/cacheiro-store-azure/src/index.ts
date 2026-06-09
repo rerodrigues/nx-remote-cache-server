@@ -1,5 +1,8 @@
 import type { Readable } from 'node:stream';
-import type { Store, Describable } from '@renatorodrigues/cacheiro-types';
+import type { CacheiroStore, Describable } from '@renatorodrigues/cacheiro-types';
+import configSchema from '../configSchema.json' with { type: 'json' };
+
+export { configSchema };
 
 export interface AzureStoreConfig {
   container: string;
@@ -9,7 +12,7 @@ export interface AzureStoreConfig {
   encryptionKey?: string;
 }
 
-export class AzureStore implements Store, Describable {
+export class AzureStore implements CacheiroStore, Describable {
   constructor(private readonly config: AzureStoreConfig) {}
 
   async mount(): Promise<void> {}

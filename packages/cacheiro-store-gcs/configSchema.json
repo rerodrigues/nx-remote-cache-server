@@ -1,0 +1,15 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["bucket"],
+  "additionalProperties": false,
+  "properties": {
+    "bucket": { "type": "string", "description": "GCS bucket name." },
+    "endpoint": { "type": "string", "description": "Custom GCS-compatible endpoint URL." },
+    "prefix": { "type": "string", "description": "Key prefix for all cache entries." },
+    "encryptionKey": {
+      "type": "string",
+      "description": "AES-256-CBC encryption key. Encrypts all artifacts at rest."
+    }
+  }
+}

@@ -1,5 +1,8 @@
 import type { Readable } from 'node:stream';
-import type { Store, Describable } from '@renatorodrigues/cacheiro-types';
+import type { CacheiroStore, Describable } from '@renatorodrigues/cacheiro-types';
+import configSchema from '../configSchema.json' with { type: 'json' };
+
+export { configSchema };
 
 export interface GcsStoreConfig {
   bucket: string;
@@ -8,7 +11,7 @@ export interface GcsStoreConfig {
   encryptionKey?: string;
 }
 
-export class GcsStore implements Store, Describable {
+export class GcsStore implements CacheiroStore, Describable {
   constructor(private readonly config: GcsStoreConfig) {}
 
   async mount(): Promise<void> {}

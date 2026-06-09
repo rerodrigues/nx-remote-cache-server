@@ -18,11 +18,35 @@ await store.mount();
 
 ## Config
 
-| Field                | Type     | Description                                                           |
-| -------------------- | -------- | --------------------------------------------------------------------- |
-| `cacheDirectory`     | `string` | Directory where artifacts are stored.                                 |
-| `ttlDays`            | `number` | Artifact TTL in days. `0` disables expiration.                        |
-| `sweepIntervalHours` | `number` | How often to sweep for expired artifacts (hours). `0` disables sweep. |
+| Field                | Type     | Required | Description                                                           |
+| -------------------- | -------- | -------- | --------------------------------------------------------------------- |
+| `cacheDirectory`     | `string` | Yes      | Directory where artifacts are stored.                                 |
+| `ttlDays`            | `number` | Yes      | Artifact TTL in days. `0` disables expiration.                        |
+| `sweepIntervalHours` | `number` | Yes      | How often to sweep for expired artifacts (hours). `0` disables sweep. |
+
+## Environment variables
+
+Conventional env var names for these config fields:
+
+| Variable                              | Config field         |
+| ------------------------------------- | -------------------- |
+| `CACHEIRO_CACHE_DIRECTORY`            | `cacheDirectory`     |
+| `CACHEIRO_CACHE_TTL_DAYS`             | `ttlDays`            |
+| `CACHEIRO_CACHE_SWEEP_INTERVAL_HOURS` | `sweepIntervalHours` |
+
+## Config validation
+
+This package exports a JSON Schema (draft-07) and a TypeScript type for the config shape. Use them to validate and cast a raw config object before constructing the store — the example below uses AJV, but any JSON Schema validator works:
+
+```ts
+import { configSchema, type FileSystemConfig } from '@renatorodrigues/cacheiro-store-fs';
+import { Ajv } from 'ajv';
+
+const validate = new Ajv({ allErrors: true }).compile(configSchema);
+
+if (!validate(raw)) throw new Error('invalid store config');
+const store = new FileSystemStore(raw as unknown as FileSystemConfig);
+```
 
 ## TTL behavior
 

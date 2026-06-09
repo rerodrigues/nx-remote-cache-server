@@ -27,6 +27,32 @@ await store.mount();
 | `prefix`           | `string` | No       | Key prefix for all cache entries. Useful when sharing a container across projects. |
 | `encryptionKey`    | `string` | No       | AES-256-CBC encryption key. When set, all artifacts are encrypted at rest.         |
 
+## Environment variables
+
+Conventional env var names for these config fields:
+
+| Variable                          | Config field       |
+| --------------------------------- | ------------------ |
+| `AZURE_CONTAINER`                 | `container`        |
+| `AZURE_ACCOUNT_NAME`              | `accountName`      |
+| `AZURE_STORAGE_CONNECTION_STRING` | `connectionString` |
+| `AZURE_PREFIX`                    | `prefix`           |
+| `AZURE_ENCRYPTION_KEY`            | `encryptionKey`    |
+
+## Config validation
+
+This package exports a JSON Schema (draft-07) and a TypeScript type for the config shape. Use them to validate and cast a raw config object before constructing the store — the example below uses AJV, but any JSON Schema validator works:
+
+```ts
+import { configSchema, type AzureStoreConfig } from '@renatorodrigues/cacheiro-store-azure';
+import { Ajv } from 'ajv';
+
+const validate = new Ajv({ allErrors: true }).compile(configSchema);
+
+if (!validate(raw)) throw new Error('invalid store config');
+const store = new AzureStore(raw as unknown as AzureStoreConfig);
+```
+
 ## Development
 
 ```sh

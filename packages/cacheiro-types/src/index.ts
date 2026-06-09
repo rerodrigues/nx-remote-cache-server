@@ -1,6 +1,6 @@
 import type { Readable } from 'node:stream';
 
-export interface Store {
+export interface CacheiroStore {
   mount(): Promise<void>;
   unmount?(): void;
   exists(hash: string): Promise<boolean>;

@@ -25,6 +25,31 @@ await store.mount();
 | `prefix`        | `string` | No       | Key prefix for all cache entries. Useful when sharing a bucket across projects. |
 | `encryptionKey` | `string` | No       | AES-256-CBC encryption key. When set, all artifacts are encrypted at rest.      |
 
+## Environment variables
+
+Conventional env var names for these config fields:
+
+| Variable             | Config field    |
+| -------------------- | --------------- |
+| `GCS_BUCKET`         | `bucket`        |
+| `GCS_ENDPOINT`       | `endpoint`      |
+| `GCS_PREFIX`         | `prefix`        |
+| `GCS_ENCRYPTION_KEY` | `encryptionKey` |
+
+## Config validation
+
+This package exports a JSON Schema (draft-07) and a TypeScript type for the config shape. Use them to validate and cast a raw config object before constructing the store — the example below uses AJV, but any JSON Schema validator works:
+
+```ts
+import { configSchema, type GcsStoreConfig } from '@renatorodrigues/cacheiro-store-gcs';
+import { Ajv } from 'ajv';
+
+const validate = new Ajv({ allErrors: true }).compile(configSchema);
+
+if (!validate(raw)) throw new Error('invalid store config');
+const store = new GcsStore(raw as unknown as GcsStoreConfig);
+```
+
 ## Development
 
 ```sh

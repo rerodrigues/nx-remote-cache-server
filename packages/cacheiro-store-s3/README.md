@@ -30,6 +30,35 @@ await store.mount();
 | `prefix`          | `string`  | No       | Key prefix for all cache entries. Useful when sharing a bucket across projects.                                                      |
 | `encryptionKey`   | `string`  | No       | AES-256-CBC encryption key. When set, all artifacts are encrypted at rest.                                                           |
 
+## Environment variables
+
+Conventional env var names for these config fields:
+
+| Variable                | Config field      |
+| ----------------------- | ----------------- |
+| `S3_BUCKET`             | `bucket`          |
+| `S3_REGION`             | `region`          |
+| `S3_ENDPOINT`           | `endpoint`        |
+| `AWS_ACCESS_KEY_ID`     | `accessKeyId`     |
+| `AWS_SECRET_ACCESS_KEY` | `secretAccessKey` |
+| `S3_FORCE_PATH_STYLE`   | `forcePathStyle`  |
+| `S3_PREFIX`             | `prefix`          |
+| `S3_ENCRYPTION_KEY`     | `encryptionKey`   |
+
+## Config validation
+
+This package exports a JSON Schema (draft-07) and a TypeScript type for the config shape. Use them to validate and cast a raw config object before constructing the store — the example below uses AJV, but any JSON Schema validator works:
+
+```ts
+import { configSchema, type S3StoreConfig } from '@renatorodrigues/cacheiro-store-s3';
+import { Ajv } from 'ajv';
+
+const validate = new Ajv({ allErrors: true }).compile(configSchema);
+
+if (!validate(raw)) throw new Error('invalid store config');
+const store = new S3Store(raw as unknown as S3StoreConfig);
+```
+
 ## Development
 
 ```sh
