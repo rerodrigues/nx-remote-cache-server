@@ -10,35 +10,9 @@
   "auth": {
     "token": ""
   },
-  "store": {
-    "type": "filesystem",
-    "filesystem": {
-      "cacheDirectory": "./cache",
-      "ttlDays": 7,
-      "sweepIntervalHours": 24
-    },
-    "s3": {
-      "bucket": "",
-      "region": "us-east-1",
-      "endpoint": "",
-      "accessKeyId": "",
-      "secretAccessKey": "",
-      "forcePathStyle": false,
-      "prefix": "",
-      "encryptionKey": ""
-    },
-    "gcs": {
-      "bucket": "",
-      "endpoint": "",
-      "prefix": "",
-      "encryptionKey": ""
-    },
-    "azure": {
-      "container": "",
-      "accountName": "",
-      "connectionString": "",
-      "prefix": "",
-      "encryptionKey": ""
-    }
+  "storeOptions": {
+    "cacheDirectory": "./cache",
+    "ttlDays": 7,
+    "sweepIntervalHours": 24
   }
 }

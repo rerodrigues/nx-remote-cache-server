@@ -3,9 +3,7 @@
   "auth": {
     "token": "test-token"
   },
-  "store": {
-    "filesystem": {
-      "cacheDirectory": "./cache-test"
-    }
+  "storeOptions": {
+    "cacheDirectory": "./cache-test"
   }
 }

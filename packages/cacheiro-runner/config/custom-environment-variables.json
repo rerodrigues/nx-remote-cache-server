@@ -15,38 +15,9 @@
   "auth": {
     "token": "CACHEIRO_AUTH_TOKEN"
   },
-  "store": {
-    "type": "CACHEIRO_STORE",
-    "filesystem": {
-      "cacheDirectory": "CACHEIRO_CACHE_DIRECTORY",
-      "ttlDays": "CACHEIRO_CACHE_TTL_DAYS",
-      "sweepIntervalHours": "CACHEIRO_CACHE_SWEEP_INTERVAL_HOURS"
-    },
-    "s3": {
-      "bucket": "S3_BUCKET",
-      "region": "S3_REGION",
-      "endpoint": "S3_ENDPOINT",
-      "accessKeyId": "AWS_ACCESS_KEY_ID",
-      "secretAccessKey": "AWS_SECRET_ACCESS_KEY",
-      "forcePathStyle": {
-        "__name": "S3_FORCE_PATH_STYLE",
-        "__format": "boolean"
-      },
-      "prefix": "S3_PREFIX",
-      "encryptionKey": "S3_ENCRYPTION_KEY"
-    },
-    "gcs": {
-      "bucket": "GCS_BUCKET",
-      "endpoint": "GCS_ENDPOINT",
-      "prefix": "GCS_PREFIX",
-      "encryptionKey": "GCS_ENCRYPTION_KEY"
-    },
-    "azure": {
-      "container": "AZURE_CONTAINER",
-      "accountName": "AZURE_ACCOUNT_NAME",
-      "connectionString": "AZURE_STORAGE_CONNECTION_STRING",
-      "prefix": "AZURE_PREFIX",
-      "encryptionKey": "AZURE_ENCRYPTION_KEY"
-    }
+  "storeOptions": {
+    "cacheDirectory": "CACHEIRO_CACHE_DIRECTORY",
+    "ttlDays": "CACHEIRO_CACHE_TTL_DAYS",
+    "sweepIntervalHours": "CACHEIRO_CACHE_SWEEP_INTERVAL_HOURS"
   }
 }

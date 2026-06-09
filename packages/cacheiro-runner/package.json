@@ -33,6 +33,7 @@
   },
   "dependencies": {
     "@renatorodrigues/cacheiro": "0.2.0",
+    "@renatorodrigues/cacheiro-store-fs": "0.2.0",
     "ajv": "^8.20.0",
     "config": "^4.4.1"
   },
