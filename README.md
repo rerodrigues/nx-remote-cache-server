@@ -12,7 +12,7 @@ Self-hosted [NX remote cache](https://nx.dev/recipes/running-tasks/self-hosted-c
 | [`@renatorodrigues/cacheiro-store-s3`](./packages/cacheiro-store-s3)           | S3 store implementation (pending)                        |
 | [`@renatorodrigues/cacheiro-store-gcs`](./packages/cacheiro-store-gcs)         | GCS store implementation (pending)                       |
 | [`@renatorodrigues/cacheiro-store-azure`](./packages/cacheiro-store-azure)     | Azure Blob Storage store implementation (pending)        |
-| [`@renatorodrigues/cacheiro-types`](./packages/cacheiro-types)                 | Shared TypeScript interfaces (`CacheiroStore`)                |
+| [`@renatorodrigues/cacheiro-types`](./packages/cacheiro-types)                 | Shared TypeScript interfaces                                  |
 
 ## Getting started
 

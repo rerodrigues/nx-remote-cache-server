@@ -7,7 +7,7 @@ import configSchema from '../configSchema.json' with { type: 'json' };
 
 export { configSchema };
 
-export interface FileSystemConfig {
+export interface FileSystemStoreConfig {
   cacheDirectory: string;
   ttlDays: number;
   sweepIntervalHours: number;
@@ -19,7 +19,7 @@ export class FileSystemStore implements CacheiroStore, Describable {
   private readonly sweepIntervalMs: number;
   private sweepTimer: NodeJS.Timeout | undefined;
 
-  constructor(config: FileSystemConfig) {
+  constructor(config: FileSystemStoreConfig) {
     this.dir = config.cacheDirectory;
     this.ttlMs = config.ttlDays * 24 * 60 * 60 * 1000;
     this.sweepIntervalMs = config.sweepIntervalHours * 60 * 60 * 1000;

@@ -39,13 +39,13 @@ Conventional env var names for these config fields:
 This package exports a JSON Schema (draft-07) and a TypeScript type for the config shape. Use them to validate and cast a raw config object before constructing the store — the example below uses AJV, but any JSON Schema validator works:
 
 ```ts
-import { configSchema, type FileSystemConfig } from '@renatorodrigues/cacheiro-store-fs';
+import { configSchema, type FileSystemStoreConfig } from '@renatorodrigues/cacheiro-store-fs';
 import { Ajv } from 'ajv';
 
 const validate = new Ajv({ allErrors: true }).compile(configSchema);
 
 if (!validate(raw)) throw new Error('invalid store config');
-const store = new FileSystemStore(raw as unknown as FileSystemConfig);
+const store = new FileSystemStore(raw as unknown as FileSystemStoreConfig);
 ```
 
 ## TTL behavior
