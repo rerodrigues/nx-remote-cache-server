@@ -44,7 +44,6 @@
   },
   "dependencies": {
     "@renatorodrigues/cacheiro-types": "0.2.0",
-    "ajv": "^8.20.0",
     "fastify": "^5.0.0",
     "figlet": "^1.11.0",
     "openapi-backend": "^5.0.0",

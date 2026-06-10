@@ -12,7 +12,7 @@ This package provides the server logic and the public API. It is not a runnable 
 
 ### `new Cacheiro(store: CacheiroStore, config: CacheiroConfig)`
 
-Creates a server instance. Accepts a `CacheiroStore` implementation and a validated `CacheiroConfig` object — use `configSchema` with AJV to validate before constructing.
+Creates a server instance. Accepts a `CacheiroStore` implementation and a `CacheiroConfig` object. Config is not validated at runtime — only TypeScript types are enforced. Validate before constructing using `configSchema`.
 
 ### `cacheiro.start(): Promise<FastifyInstance>`
 
@@ -66,7 +66,7 @@ import type { CacheiroConfig } from '@renatorodrigues/cacheiro';
 
 ### `configSchema`
 
-JSON Schema (draft-07) for `CacheiroConfig`. Use it with AJV or any JSON Schema validator to validate config before constructing `Cacheiro`:
+JSON Schema (draft-07) for `CacheiroConfig`. Exported for runners and custom integrations to validate config before constructing `Cacheiro`:
 
 ```ts
 import { configSchema } from '@renatorodrigues/cacheiro';
