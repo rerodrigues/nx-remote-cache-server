@@ -19,6 +19,12 @@
 //   "storeOptions": {
 //     "bucket": "my-nx-cache",
 //     "region": "us-east-1"
+//     // optional:
+//     // "prefix": "my-project",
+//     // "ssoProfile": "my-aws-sso-profile",
+//     // "encryptionKey": "my-secret-key",   // client-side AES-256-CBC
+//     // "serverSideEncryption": true,        // S3 SSE-S3 (ignored when encryptionKey is set)
+//     // "disableChecksum": false
 //   }
 // }
 
