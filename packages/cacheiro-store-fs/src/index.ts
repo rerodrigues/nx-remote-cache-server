@@ -59,12 +59,7 @@ export class FileSystemStore implements CacheiroStore, Describable {
 
   async exists(hash: string): Promise<boolean> {
     const filePath = join(this.dir, hash);
-    if (!existsSync(filePath)) return false;
-    if (this.isExpired(filePath)) {
-      unlink(filePath).catch(() => {});
-      return false;
-    }
-    return true;
+    return existsSync(filePath);
   }
 
   async write(hash: string, data: Buffer): Promise<void> {
@@ -74,11 +69,11 @@ export class FileSystemStore implements CacheiroStore, Describable {
 
   read(hash: string): Readable {
     const filePath = join(this.dir, hash);
+    const stream = createReadStream(filePath);
     if (this.ttlMs > 0 && this.isExpired(filePath)) {
-      unlink(filePath).catch(() => {});
-      throw new Error(`ENOENT: no such file or directory, open '${filePath}'`);
+      stream.once('open', () => unlink(filePath).catch(() => {}));
     }
-    return createReadStream(filePath);
+    return stream;
   }
 
   private async sweep(): Promise<void> {

@@ -50,8 +50,8 @@ const store = new FileSystemStore(raw as unknown as FileSystemStoreConfig);
 
 ## TTL behavior
 
-- **Lazy expiry**: `exists()` and `read()` check `mtime` on every call. Expired artifacts are deleted and treated as missing.
-- **Background sweep**: When both `ttlDays > 0` and `sweepIntervalHours > 0`, a `setInterval` timer scans the directory and deletes expired files. Timer is `unref()`-ed so it does not keep the process alive.
+- **Lazy expiry**: expired artifacts are served one last time then deleted asynchronously. Since the cache is hash-based, the content is always valid for a given hash — this avoids forcing NX to re-run a task just to re-upload the identical file.
+- **Background sweep**: when both `ttlDays > 0` and `sweepIntervalHours > 0`, a `setInterval` timer scans the directory and deletes expired files. Timer is `unref()`-ed so it does not keep the process alive.
 - **Sweep errors** are logged via `console.warn` and do not crash the server.
 
 ## Development

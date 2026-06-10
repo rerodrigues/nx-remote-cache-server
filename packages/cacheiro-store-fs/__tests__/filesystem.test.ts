@@ -59,7 +59,7 @@ describe('FileSystemStore TTL', () => {
     return filePath;
   }
 
-  it('exists() returns false for expired file', async () => {
+  it('exists() returns true for expired file (lazy expiry)', async () => {
     const ttlStore = new FileSystemStore({
       cacheDirectory: dir,
       ttlDays: 1,
@@ -67,7 +67,7 @@ describe('FileSystemStore TTL', () => {
     });
     await ttlStore.mount();
     await writeAndBackdate('expired');
-    expect(await ttlStore.exists('expired')).toBe(false);
+    expect(await ttlStore.exists('expired')).toBe(true);
     ttlStore.unmount();
   });
 
@@ -88,7 +88,7 @@ describe('FileSystemStore TTL', () => {
     expect(await store.exists('old')).toBe(true);
   });
 
-  it('read() throws for expired file', async () => {
+  it('read() serves expired file then deletes it asynchronously', async () => {
     const ttlStore = new FileSystemStore({
       cacheDirectory: dir,
       ttlDays: 1,
@@ -96,7 +96,13 @@ describe('FileSystemStore TTL', () => {
     });
     await ttlStore.mount();
     await writeAndBackdate('expired');
-    expect(() => ttlStore.read('expired')).toThrow(/ENOENT/);
+    const chunks: Buffer[] = [];
+    for await (const chunk of ttlStore.read('expired')) {
+      chunks.push(chunk as Buffer);
+    }
+    expect(Buffer.concat(chunks).toString()).toBe('data');
+    await new Promise((r) => setTimeout(r, 50));
+    expect(await ttlStore.exists('expired')).toBe(false);
     ttlStore.unmount();
   });
 
@@ -136,7 +142,7 @@ describe('FileSystemStore sweep disabled (sweepIntervalHours: 0)', () => {
     noSweepStore.unmount();
   });
 
-  it('lazy expiry on exists() still works when sweep is disabled', async () => {
+  it('read() serves expired file and deletes it even when sweep is disabled', async () => {
     const noSweepStore = new FileSystemStore({
       cacheDirectory: dir,
       ttlDays: 1,
@@ -147,6 +153,12 @@ describe('FileSystemStore sweep disabled (sweepIntervalHours: 0)', () => {
     const past = new Date(Date.now() - 2 * 86_400_000);
     await utimes(join(dir, 'expired'), past, past);
 
+    const chunks: Buffer[] = [];
+    for await (const chunk of noSweepStore.read('expired')) {
+      chunks.push(chunk as Buffer);
+    }
+    expect(Buffer.concat(chunks).toString()).toBe('data');
+    await new Promise((r) => setTimeout(r, 50));
     expect(await noSweepStore.exists('expired')).toBe(false);
     noSweepStore.unmount();
   });
