@@ -121,3 +121,8 @@ npm run fmt:check      # oxfmt --check
 | `CACHEIRO_CACHE_DIRECTORY`            | `storeOptions.cacheDirectory`     | `./cache`      |
 | `CACHEIRO_CACHE_TTL_DAYS`             | `storeOptions.ttlDays`            | `7`            |
 | `CACHEIRO_CACHE_SWEEP_INTERVAL_HOURS` | `storeOptions.sweepIntervalHours` | `24`           |
+
+---
+
+<br/>
+<p align="center">Crafted with 🤍 by a 🇧🇷 human in 🇩🇪, for the humans of the 🌐</p>

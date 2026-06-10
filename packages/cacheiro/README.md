@@ -96,10 +96,15 @@ See [`@renatorodrigues/cacheiro-types`](../cacheiro-types) for the full list of 
 ## Development
 
 ```sh
-npm run watch          # tsc --watch (hot rebuild)
+npm run watch        # tsc --watch (hot rebuild)
 npm run build        # compile TypeScript
 npm test             # run tests
 npm run test:watch   # watch mode
 npm run lint         # oxlint
 npm run fmt          # oxfmt
 ```
+
+---
+
+<br/>
+<p align="center">Crafted with 🤍 by a 🇧🇷 human in 🇩🇪, for the humans of the 🌐</p>

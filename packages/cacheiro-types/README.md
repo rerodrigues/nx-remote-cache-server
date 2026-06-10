@@ -69,6 +69,11 @@ See [`cacheiro-store-fs`](../cacheiro-store-fs) as a reference implementation.
 ## Development
 
 ```sh
-npm run watch          # tsc --watch (hot rebuild)
+npm run watch        # tsc --watch (hot rebuild)
 npm run build        # compile TypeScript
 ```
+
+---
+
+<br/>
+<p align="center">Crafted with 🤍 by a 🇧🇷 human in 🇩🇪, for the humans of the 🌐</p>

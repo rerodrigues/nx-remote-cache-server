@@ -50,7 +50,7 @@ const store = new S3Store(raw as unknown as S3StoreConfig);
 ## Development
 
 ```sh
-npm run watch          # tsc --watch (hot rebuild)
+npm run watch        # tsc --watch (hot rebuild)
 npm run build        # compile TypeScript
 npm test             # vitest run
 npm run test:watch
@@ -70,3 +70,8 @@ npm run fmt
 | `S3_FORCE_PATH_STYLE`   | `forcePathStyle`  |
 | `S3_PREFIX`             | `prefix`          |
 | `S3_ENCRYPTION_KEY`     | `encryptionKey`   |
+
+---
+
+<br/>
+<p align="center">Crafted with 🤍 by a 🇧🇷 human in 🇩🇪, for the humans of the 🌐</p>

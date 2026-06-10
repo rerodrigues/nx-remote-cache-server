@@ -50,7 +50,7 @@ const store = new FileSystemStore(raw as unknown as FileSystemStoreConfig);
 ## Development
 
 ```sh
-npm run watch          # tsc --watch (hot rebuild)
+npm run watch        # tsc --watch (hot rebuild)
 npm run build        # compile TypeScript
 npm test             # vitest run
 npm run test:watch
@@ -65,3 +65,8 @@ npm run fmt
 | `CACHEIRO_CACHE_DIRECTORY`            | `cacheDirectory`     |
 | `CACHEIRO_CACHE_TTL_DAYS`             | `ttlDays`            |
 | `CACHEIRO_CACHE_SWEEP_INTERVAL_HOURS` | `sweepIntervalHours` |
+
+---
+
+<br/>
+<p align="center">Crafted with 🤍 by a 🇧🇷 human in 🇩🇪, for the humans of the 🌐</p>

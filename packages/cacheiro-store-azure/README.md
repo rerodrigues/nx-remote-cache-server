@@ -47,7 +47,7 @@ const store = new AzureStore(raw as unknown as AzureStoreConfig);
 ## Development
 
 ```sh
-npm run watch          # tsc --watch (hot rebuild)
+npm run watch        # tsc --watch (hot rebuild)
 npm run build        # compile TypeScript
 npm test             # vitest run
 npm run test:watch
@@ -64,3 +64,8 @@ npm run fmt
 | `AZURE_STORAGE_CONNECTION_STRING` | `connectionString` |
 | `AZURE_PREFIX`                    | `prefix`           |
 | `AZURE_ENCRYPTION_KEY`            | `encryptionKey`    |
+
+---
+
+<br/>
+<p align="center">Crafted with 🤍 by a 🇧🇷 human in 🇩🇪, for the humans of the 🌐</p>

@@ -45,7 +45,7 @@ const store = new GcsStore(raw as unknown as GcsStoreConfig);
 ## Development
 
 ```sh
-npm run watch          # tsc --watch (hot rebuild)
+npm run watch        # tsc --watch (hot rebuild)
 npm run build        # compile TypeScript
 npm test             # vitest run
 npm run test:watch
@@ -61,3 +61,8 @@ npm run fmt
 | `GCS_ENDPOINT`       | `endpoint`      |
 | `GCS_PREFIX`         | `prefix`        |
 | `GCS_ENCRYPTION_KEY` | `encryptionKey` |
+
+---
+
+<br/>
+<p align="center">Crafted with 🤍 by a 🇧🇷 human in 🇩🇪, for the humans of the 🌐</p>
