@@ -1,41 +1,12 @@
 import config from 'config';
-import { Ajv, type ErrorObject } from 'ajv';
-import { Cacheiro, configSchema, type CacheiroConfig } from '@renatorodrigues/cacheiro';
-import {
-  FileSystemStore,
-  configSchema as storeSchema,
-  type FileSystemConfig,
-} from '@renatorodrigues/cacheiro-store-fs';
-
-const ajv = new Ajv({ allErrors: true });
-const validateCacheiro = ajv.compile(configSchema);
-const validateStore = ajv.compile(storeSchema);
+import { Cacheiro, type CacheiroConfig } from '@renatorodrigues/cacheiro';
+import { FileSystemStore, type FileSystemConfig } from '@renatorodrigues/cacheiro-store-fs';
+import { validateConfig } from './validate.js';
 
 const rawOptions = config.util.toObject() as Record<string, unknown>;
 const { storeOptions, ...cacheiroOptions } = rawOptions;
 
-const formatErrors = (errors: ErrorObject[], prefix = ''): string => {
-  return errors
-    .map((e) => {
-      const extra = e.params?.additionalProperty ? `: ${e.params.additionalProperty}` : '';
-      return `  ${prefix}${e.instancePath || (!prefix ? '(root)' : '')} ${e.message}${extra}`;
-    })
-    .join('\n');
-};
-
-if (!validateCacheiro(cacheiroOptions)) {
-  console.error(
-    `Invalid configuration:\n${formatErrors(validateCacheiro.errors ?? [], 'cacheiroOptions')}`,
-  );
-  process.exit(1);
-}
-
-if (!validateStore(storeOptions)) {
-  console.error(
-    `Invalid store configuration:\n${formatErrors(validateStore.errors ?? [], 'storeOptions')}`,
-  );
-  process.exit(1);
-}
+validateConfig(cacheiroOptions, storeOptions);
 
 const store = new FileSystemStore(storeOptions as unknown as FileSystemConfig);
 const cacheiro = new Cacheiro(store, cacheiroOptions as unknown as CacheiroConfig);
