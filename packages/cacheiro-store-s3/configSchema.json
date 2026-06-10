@@ -22,7 +22,19 @@
     "prefix": { "type": "string", "description": "Key prefix for all cache entries." },
     "encryptionKey": {
       "type": "string",
-      "description": "AES-256-CBC encryption key. Encrypts all artifacts at rest."
+      "description": "Client-side AES-256-CBC encryption key. Encrypts artifacts before upload."
+    },
+    "ssoProfile": {
+      "type": "string",
+      "description": "AWS SSO profile name. Falls back to AWS_PROFILE env var when omitted."
+    },
+    "disableChecksum": {
+      "type": "boolean",
+      "description": "Disable AWS response checksum validation. Default: false."
+    },
+    "serverSideEncryption": {
+      "type": "boolean",
+      "description": "Enable S3 SSE-S3 server-side encryption. Ignored when encryptionKey is set. Default: false."
     }
   }
 }
