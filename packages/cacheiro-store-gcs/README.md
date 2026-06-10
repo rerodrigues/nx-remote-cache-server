@@ -25,16 +25,7 @@ await store.mount();
 | `prefix`        | `string` | No       | Key prefix for all cache entries. Useful when sharing a bucket across projects. |
 | `encryptionKey` | `string` | No       | AES-256-CBC encryption key. When set, all artifacts are encrypted at rest.      |
 
-## Environment variables
-
-Conventional env var names for these config fields:
-
-| Variable             | Config field    |
-| -------------------- | --------------- |
-| `GCS_BUCKET`         | `bucket`        |
-| `GCS_ENDPOINT`       | `endpoint`      |
-| `GCS_PREFIX`         | `prefix`        |
-| `GCS_ENCRYPTION_KEY` | `encryptionKey` |
+See [Environment variables reference](#environment-variables-reference) for conventional env var names.
 
 ## Config validation
 
@@ -46,6 +37,7 @@ import { Ajv } from 'ajv';
 
 const validate = new Ajv({ allErrors: true }).compile(configSchema);
 
+// example — error handling is up to your runner
 if (!validate(raw)) throw new Error('invalid store config');
 const store = new GcsStore(raw as unknown as GcsStoreConfig);
 ```
@@ -60,3 +52,12 @@ npm run test:watch
 npm run lint
 npm run fmt
 ```
+
+## Environment variables reference
+
+| Variable             | Config field    |
+| -------------------- | --------------- |
+| `GCS_BUCKET`         | `bucket`        |
+| `GCS_ENDPOINT`       | `endpoint`      |
+| `GCS_PREFIX`         | `prefix`        |
+| `GCS_ENCRYPTION_KEY` | `encryptionKey` |

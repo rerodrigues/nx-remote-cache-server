@@ -30,20 +30,7 @@ await store.mount();
 | `prefix`          | `string`  | No       | Key prefix for all cache entries. Useful when sharing a bucket across projects.                                                      |
 | `encryptionKey`   | `string`  | No       | AES-256-CBC encryption key. When set, all artifacts are encrypted at rest.                                                           |
 
-## Environment variables
-
-Conventional env var names for these config fields:
-
-| Variable                | Config field      |
-| ----------------------- | ----------------- |
-| `S3_BUCKET`             | `bucket`          |
-| `S3_REGION`             | `region`          |
-| `S3_ENDPOINT`           | `endpoint`        |
-| `AWS_ACCESS_KEY_ID`     | `accessKeyId`     |
-| `AWS_SECRET_ACCESS_KEY` | `secretAccessKey` |
-| `S3_FORCE_PATH_STYLE`   | `forcePathStyle`  |
-| `S3_PREFIX`             | `prefix`          |
-| `S3_ENCRYPTION_KEY`     | `encryptionKey`   |
+See [Environment variables reference](#environment-variables-reference) for conventional env var names.
 
 ## Config validation
 
@@ -55,6 +42,7 @@ import { Ajv } from 'ajv';
 
 const validate = new Ajv({ allErrors: true }).compile(configSchema);
 
+// example — error handling is up to your runner
 if (!validate(raw)) throw new Error('invalid store config');
 const store = new S3Store(raw as unknown as S3StoreConfig);
 ```
@@ -69,3 +57,16 @@ npm run test:watch
 npm run lint
 npm run fmt
 ```
+
+## Environment variables reference
+
+| Variable                | Config field      |
+| ----------------------- | ----------------- |
+| `S3_BUCKET`             | `bucket`          |
+| `S3_REGION`             | `region`          |
+| `S3_ENDPOINT`           | `endpoint`        |
+| `AWS_ACCESS_KEY_ID`     | `accessKeyId`     |
+| `AWS_SECRET_ACCESS_KEY` | `secretAccessKey` |
+| `S3_FORCE_PATH_STYLE`   | `forcePathStyle`  |
+| `S3_PREFIX`             | `prefix`          |
+| `S3_ENCRYPTION_KEY`     | `encryptionKey`   |

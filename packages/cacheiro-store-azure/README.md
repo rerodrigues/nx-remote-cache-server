@@ -27,17 +27,7 @@ await store.mount();
 | `prefix`           | `string` | No       | Key prefix for all cache entries. Useful when sharing a container across projects. |
 | `encryptionKey`    | `string` | No       | AES-256-CBC encryption key. When set, all artifacts are encrypted at rest.         |
 
-## Environment variables
-
-Conventional env var names for these config fields:
-
-| Variable                          | Config field       |
-| --------------------------------- | ------------------ |
-| `AZURE_CONTAINER`                 | `container`        |
-| `AZURE_ACCOUNT_NAME`              | `accountName`      |
-| `AZURE_STORAGE_CONNECTION_STRING` | `connectionString` |
-| `AZURE_PREFIX`                    | `prefix`           |
-| `AZURE_ENCRYPTION_KEY`            | `encryptionKey`    |
+See [Environment variables reference](#environment-variables-reference) for conventional env var names.
 
 ## Config validation
 
@@ -49,6 +39,7 @@ import { Ajv } from 'ajv';
 
 const validate = new Ajv({ allErrors: true }).compile(configSchema);
 
+// example — error handling is up to your runner
 if (!validate(raw)) throw new Error('invalid store config');
 const store = new AzureStore(raw as unknown as AzureStoreConfig);
 ```
@@ -63,3 +54,13 @@ npm run test:watch
 npm run lint
 npm run fmt
 ```
+
+## Environment variables reference
+
+| Variable                          | Config field       |
+| --------------------------------- | ------------------ |
+| `AZURE_CONTAINER`                 | `container`        |
+| `AZURE_ACCOUNT_NAME`              | `accountName`      |
+| `AZURE_STORAGE_CONNECTION_STRING` | `connectionString` |
+| `AZURE_PREFIX`                    | `prefix`           |
+| `AZURE_ENCRYPTION_KEY`            | `encryptionKey`    |

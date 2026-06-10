@@ -24,15 +24,7 @@ await store.mount();
 | `ttlDays`            | `number` | Yes      | Artifact TTL in days. `0` disables expiration.                        |
 | `sweepIntervalHours` | `number` | Yes      | How often to sweep for expired artifacts (hours). `0` disables sweep. |
 
-## Environment variables
-
-Conventional env var names for these config fields:
-
-| Variable                              | Config field         |
-| ------------------------------------- | -------------------- |
-| `CACHEIRO_CACHE_DIRECTORY`            | `cacheDirectory`     |
-| `CACHEIRO_CACHE_TTL_DAYS`             | `ttlDays`            |
-| `CACHEIRO_CACHE_SWEEP_INTERVAL_HOURS` | `sweepIntervalHours` |
+See [Environment variables reference](#environment-variables-reference) for conventional env var names.
 
 ## Config validation
 
@@ -44,6 +36,7 @@ import { Ajv } from 'ajv';
 
 const validate = new Ajv({ allErrors: true }).compile(configSchema);
 
+// example — error handling is up to your runner
 if (!validate(raw)) throw new Error('invalid store config');
 const store = new FileSystemStore(raw as unknown as FileSystemStoreConfig);
 ```
@@ -64,3 +57,11 @@ npm run test:watch
 npm run lint
 npm run fmt
 ```
+
+## Environment variables reference
+
+| Variable                              | Config field         |
+| ------------------------------------- | -------------------- |
+| `CACHEIRO_CACHE_DIRECTORY`            | `cacheDirectory`     |
+| `CACHEIRO_CACHE_TTL_DAYS`             | `ttlDays`            |
+| `CACHEIRO_CACHE_SWEEP_INTERVAL_HOURS` | `sweepIntervalHours` |
