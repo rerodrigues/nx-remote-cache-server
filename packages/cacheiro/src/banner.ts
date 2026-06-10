@@ -1,9 +1,7 @@
-import { readFileSync } from 'node:fs';
-import { dirname, join } from 'node:path';
-import { fileURLToPath } from 'node:url';
 import figlet from 'figlet';
 import type { CacheiroStore, Describable } from '@renatorodrigues/cacheiro-types';
 import type { CacheiroConfig } from './config.js';
+import { createRequire } from 'node:module';
 
 const isProd = process.env.NODE_ENV === 'production';
 
@@ -12,26 +10,12 @@ const BOLD = isProd ? '' : '\x1b[1m';
 const DIM = isProd ? '' : '\x1b[2m';
 const RESET = isProd ? '' : '\x1b[0m';
 
+const PKG_NAME = 'Cacheiro';
 const TAGLINE = 'NX remote cache';
+const PKG_VERSION: string = createRequire(import.meta.url)('../package.json').version;
 
-function init(): { pkgName: string; pkgVersion: string; LOGO: string[]; LOGO_WIDTH: number } {
-  const __dirname = dirname(fileURLToPath(import.meta.url));
-  let pkgName = 'cacheiro';
-  let pkgVersion = '?';
-  try {
-    const pkg = JSON.parse(readFileSync(join(__dirname, '../package.json'), 'utf-8'));
-    pkgName = pkg.name;
-    pkgVersion = pkg.version;
-  } catch {}
-  const name = pkgName
-    .split('/')
-    .pop()!
-    .replace(/^(.)/, (c) => c.toUpperCase());
-  const LOGO = figlet.textSync(name, { font: 'ANSI Shadow' }).trimEnd().split('\n');
-  return { pkgName: name, pkgVersion, LOGO, LOGO_WIDTH: Math.max(...LOGO.map((l) => l.length)) };
-}
-
-const { pkgName, pkgVersion, LOGO, LOGO_WIDTH } = init();
+const LOGO = figlet.textSync(PKG_NAME, { font: 'ANSI Shadow' }).trimEnd().split('\n');
+const LOGO_WIDTH = Math.max(...LOGO.map((l) => l.length));
 
 function buildBox(rows: [string, string][], minOuterWidth = 0): string {
   const labelWidth = Math.max(...rows.map(([k]) => k.length));
@@ -59,7 +43,7 @@ function renderTagline(version?: string): string {
 
 function renderSimplified(version?: string): string {
   const v = version ? `  v${version}` : '';
-  return `${BOLD}${pkgName}${RESET}  ${DIM}${TAGLINE}${v}${RESET}`;
+  return `${BOLD}${PKG_NAME}${RESET}  ${DIM}${TAGLINE}${v}${RESET}`;
 }
 
 export function printBanner(store: CacheiroStore, config: CacheiroConfig): void {
@@ -68,16 +52,16 @@ export function printBanner(store: CacheiroStore, config: CacheiroConfig): void 
 
   if (server.banner) {
     parts.push(`${CYAN}${LOGO.join('\n')}${RESET}`);
-    parts.push(renderTagline(server.infobox ? undefined : pkgVersion));
+    parts.push(renderTagline(server.infobox ? undefined : PKG_VERSION));
   } else {
-    parts.push(renderSimplified(server.infobox ? undefined : pkgVersion));
+    parts.push(renderSimplified(server.infobox ? undefined : PKG_VERSION));
   }
 
   if (server.infobox) {
     const storeRows: [string, string][] =
       'describe' in store ? (store as unknown as Describable).describe() : [];
     const rows: [string, string][] = [
-      ['version', pkgVersion],
+      ['version', PKG_VERSION],
       ['url', `http://${server.host}:${server.port}`],
       ['store', store.constructor.name],
       ...storeRows,
