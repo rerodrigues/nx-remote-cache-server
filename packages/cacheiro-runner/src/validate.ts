@@ -1,10 +1,8 @@
 import { Ajv, type ErrorObject } from 'ajv';
 import { configSchema } from '@renatorodrigues/cacheiro';
-import { configSchema as storeSchema } from '@renatorodrigues/cacheiro-store-fs';
 
 const ajv = new Ajv({ allErrors: true });
 const validateCacheiro = ajv.compile(configSchema);
-const validateStore = ajv.compile(storeSchema);
 
 const formatErrors = (errors: ErrorObject[], prefix = ''): string =>
   errors
@@ -14,7 +12,11 @@ const formatErrors = (errors: ErrorObject[], prefix = ''): string =>
     })
     .join('\n');
 
-export function validateConfig(cacheiroOptions: unknown, storeOptions: unknown): void {
+export function validateConfig(
+  cacheiroOptions: unknown,
+  storeOptions: unknown,
+  storeSchema: object,
+): void {
   if (!validateCacheiro(cacheiroOptions)) {
     console.error(
       `Invalid configuration:\n${formatErrors(validateCacheiro.errors ?? [], 'cacheiroOptions')}`,
@@ -22,6 +24,7 @@ export function validateConfig(cacheiroOptions: unknown, storeOptions: unknown):
     process.exit(1);
   }
 
+  const validateStore = ajv.compile(storeSchema);
   if (!validateStore(storeOptions)) {
     console.error(
       `Invalid store configuration:\n${formatErrors(validateStore.errors ?? [], 'storeOptions')}`,
