@@ -1,6 +1,6 @@
 {
   "name": "@renatorodrigues/cacheiro-runner",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "private": true,
   "description": "Reference runner for @renatorodrigues/cacheiro — loads config and starts the server",
   "homepage": "https://github.com/rerodrigues/nx-remote-cache-server/tree/main/packages/cacheiro-runner#readme",
@@ -32,8 +32,8 @@
     "fmt:check": "oxfmt --check"
   },
   "dependencies": {
-    "@renatorodrigues/cacheiro": "0.2.0",
-    "@renatorodrigues/cacheiro-store-fs": "0.2.0",
+    "@renatorodrigues/cacheiro": "0.3.0",
+    "@renatorodrigues/cacheiro-store-fs": "0.3.0",
     "ajv": "^8.20.0",
     "config": "^4.4.1"
   },
