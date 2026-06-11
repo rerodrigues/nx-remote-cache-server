@@ -29,10 +29,14 @@
   },
   "scripts": {
     "build": "tsc",
-    "watch": "tsc --watch"
+    "watch": "tsc --watch",
+    "fmt": "oxfmt",
+    "fmt:check": "oxfmt --check"
   },
   "devDependencies": {
     "@types/node": "^22",
+    "lint-staged": "^16.4.0",
+    "oxfmt": "^0.53.0",
     "typescript": "^6.0.3"
   },
   "engines": {
