@@ -1,8 +1,8 @@
 import config from 'config';
 import { Cacheiro, type CacheiroConfig } from '@renatorodrigues/cacheiro';
 import {
-  FileSystemStore,
-  type FileSystemStoreConfig,
+  FileSystemStore as Store,
+  type FileSystemStoreConfig as StoreConfig,
   configSchema as storeSchema,
 } from '@renatorodrigues/cacheiro-store-fs';
 import { validateConfig } from './validate.js';
@@ -12,7 +12,7 @@ const { storeOptions, ...cacheiroOptions } = rawOptions;
 
 validateConfig(cacheiroOptions, storeOptions, storeSchema);
 
-const store = new FileSystemStore(storeOptions as unknown as FileSystemStoreConfig);
+const store = new Store(storeOptions as unknown as StoreConfig);
 const cacheiro = new Cacheiro(store, cacheiroOptions as unknown as CacheiroConfig);
 const _server = await cacheiro.start();
 
