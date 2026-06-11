@@ -107,7 +107,8 @@ export async function createServer(store: CacheiroStore, config: CacheiroConfig)
           `Request body too large. Limit: ${prettyBytes(bodyLimitMb * 1024 * 1024)}.${sizePart}`,
         );
     }
-    reply.send(error);
+    request.log.error(error);
+    reply.status(500).send({ error: 'Internal Server Error' });
   });
 
   fastify.addContentTypeParser(
