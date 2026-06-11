@@ -1,9 +1,11 @@
-import { createReadStream, existsSync, statSync } from 'node:fs';
-import { mkdir, readdir, unlink, writeFile } from 'node:fs/promises';
-import { join, resolve, sep } from 'node:path';
+import { createReadStream, existsSync } from 'node:fs';
+import { mkdir, unlink } from 'node:fs/promises';
 import type { Readable } from 'node:stream';
 import type { CacheiroStore, Describable } from '@renatorodrigues/cacheiro-types';
 import configSchema from '../configSchema.json' with { type: 'json' };
+import { shardPath } from './paths.js';
+import { atomicWrite } from './write.js';
+import { isExpired, sweepShards } from './sweep.js';
 
 export { configSchema };
 
@@ -25,24 +27,11 @@ export class FileSystemStore implements CacheiroStore, Describable {
     this.sweepIntervalMs = config.sweepIntervalHours * 60 * 60 * 1000;
   }
 
-  private safePath(hash: string): string {
-    const base = resolve(this.dir);
-    const target = resolve(base, hash);
-    if (!target.startsWith(base + sep)) throw new Error('Invalid hash');
-    return target;
-  }
-
-  private isExpired(filePath: string): boolean {
-    if (this.ttlMs === 0) return false;
-    const stat = statSync(filePath);
-    return Date.now() - stat.mtimeMs > this.ttlMs;
-  }
-
   async mount(): Promise<void> {
     await mkdir(this.dir, { recursive: true });
     if (this.ttlMs > 0 && this.sweepIntervalMs > 0) {
       this.sweepTimer = setInterval(() => {
-        this.sweep().catch((err) => {
+        sweepShards(this.dir, this.ttlMs).catch((err) => {
           console.warn('cache sweep failed:', err);
         });
       }, this.sweepIntervalMs);
@@ -65,29 +54,21 @@ export class FileSystemStore implements CacheiroStore, Describable {
   }
 
   async exists(hash: string): Promise<boolean> {
-    const filePath = this.safePath(hash);
-    return existsSync(filePath);
+    const { finalPath } = shardPath(this.dir, hash);
+    return existsSync(finalPath);
   }
 
   async write(hash: string, data: Buffer): Promise<void> {
-    await mkdir(this.dir, { recursive: true });
-    await writeFile(this.safePath(hash), data);
+    const { shardDir, finalPath } = shardPath(this.dir, hash);
+    await atomicWrite(shardDir, finalPath, data);
   }
 
   read(hash: string): Readable {
-    const filePath = this.safePath(hash);
-    const stream = createReadStream(filePath);
-    if (this.ttlMs > 0 && this.isExpired(filePath)) {
-      stream.once('open', () => unlink(filePath).catch(() => {}));
+    const { finalPath } = shardPath(this.dir, hash);
+    const stream = createReadStream(finalPath);
+    if (this.ttlMs > 0 && isExpired(finalPath, this.ttlMs)) {
+      stream.once('open', () => unlink(finalPath).catch(() => {}));
     }
     return stream;
-  }
-
-  private async sweep(): Promise<void> {
-    const files = await readdir(this.dir).catch(() => []);
-    for (const file of files) {
-      const filePath = join(this.dir, file);
-      if (this.isExpired(filePath)) await unlink(filePath).catch(() => {});
-    }
   }
 }
