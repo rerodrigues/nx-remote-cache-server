@@ -39,7 +39,7 @@
   },
   "devDependencies": {
     "@types/config": "^4.4.0",
-    "@types/node": "^25.9.1",
+    "@types/node": "^22",
     "concurrently": "^10.0.3",
     "lint-staged": "^16.4.0",
     "oxfmt": "^0.53.0",
@@ -48,5 +48,8 @@
     "pm2": "^7.0.1",
     "tsx": "^4.22.4",
     "typescript": "^6.0.3"
+  },
+  "engines": {
+    "node": ">=22"
   }
 }
