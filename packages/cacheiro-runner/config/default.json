@@ -2,13 +2,13 @@
   "$schema": "../../../node_modules/@renatorodrigues/cacheiro/configSchema.json",
   "server": {
     "port": 3000,
-    "host": "0.0.0.0",
+    "host": "127.0.0.1",
     "bodyLimitMb": 100,
     "banner": true,
     "infobox": true
   },
   "auth": {
-    "token": ""
+    "token": "change-me"
   },
   "storeOptions": {
     "cacheDirectory": "./cache",

@@ -37,7 +37,7 @@ const store = new FileSystemStore({
 });
 
 const cacheiro = new Cacheiro(store, {
-  server: { port: 3000, host: '0.0.0.0', bodyLimitMb: 100, banner: true, infobox: true },
+  server: { port: 3000, host: '127.0.0.1', bodyLimitMb: 100, banner: true, infobox: true },
   auth: { token: 'my-secret-token' },
 });
 

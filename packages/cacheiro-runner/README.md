@@ -98,31 +98,31 @@ npm run fmt:check      # oxfmt --check
 
 ## Config values reference
 
-| Key                               | Default     | Description                                                                                                |
-| --------------------------------- | ----------- | ---------------------------------------------------------------------------------------------------------- |
-| `server.port`                     | `3000`      | HTTP port to listen on                                                                                     |
-| `server.host`                     | `0.0.0.0`   | Host to bind to                                                                                            |
-| `server.bodyLimitMb`              | `100`       | Max request body size in MB                                                                                |
-| `server.banner`                   | `true`      | Show ASCII art startup banner. When `false`, prints a compact single-line header instead.                  |
-| `server.infobox`                  | `true`      | Show the info box with version, URL, and store details. When `false`, the version is shown inline instead. |
-| `auth.token`                      | `""`        | Bearer token required on all requests. Auth is disabled if empty.                                          |
-| `storeOptions.cacheDirectory`     | `"./cache"` | Directory where artifacts are stored.                                                                      |
-| `storeOptions.ttlDays`            | `7`         | Artifact TTL in days. `0` disables expiration.                                                             |
-| `storeOptions.sweepIntervalHours` | `24`        | How often to sweep for expired artifacts (hours). `0` disables the sweep.                                  |
+| Key                               | Default       | Description                                                                                                |
+| --------------------------------- | ------------- | ---------------------------------------------------------------------------------------------------------- |
+| `server.port`                     | `3000`        | HTTP port to listen on                                                                                     |
+| `server.host`                     | `127.0.0.1`   | Host to bind to. Use `0.0.0.0` to expose on all interfaces.                                                |
+| `server.bodyLimitMb`              | `100`         | Max request body size in MB                                                                                |
+| `server.banner`                   | `true`        | Show ASCII art startup banner. When `false`, prints a compact single-line header instead.                  |
+| `server.infobox`                  | `true`        | Show the info box with version, URL, and store details. When `false`, the version is shown inline instead. |
+| `auth.token`                      | `"change-me"` | Bearer token required on all requests. Auth is disabled if empty.                                          |
+| `storeOptions.cacheDirectory`     | `"./cache"`   | Directory where artifacts are stored.                                                                      |
+| `storeOptions.ttlDays`            | `7`           | Artifact TTL in days. `0` disables expiration.                                                             |
+| `storeOptions.sweepIntervalHours` | `24`          | How often to sweep for expired artifacts (hours). `0` disables the sweep.                                  |
 
 ## Environment variables reference
 
-| Variable                              | Config key                        | Default        |
-| ------------------------------------- | --------------------------------- | -------------- |
-| `CACHEIRO_AUTH_TOKEN`                 | `auth.token`                      | `""` (no auth) |
-| `CACHEIRO_PORT`                       | `server.port`                     | `3000`         |
-| `CACHEIRO_HOST`                       | `server.host`                     | `0.0.0.0`      |
-| `CACHEIRO_BODY_LIMIT_MB`              | `server.bodyLimitMb`              | `100`          |
-| `CACHEIRO_BANNER`                     | `server.banner`                   | `true`         |
-| `CACHEIRO_INFOBOX`                    | `server.infobox`                  | `true`         |
-| `CACHEIRO_CACHE_DIRECTORY`            | `storeOptions.cacheDirectory`     | `./cache`      |
-| `CACHEIRO_CACHE_TTL_DAYS`             | `storeOptions.ttlDays`            | `7`            |
-| `CACHEIRO_CACHE_SWEEP_INTERVAL_HOURS` | `storeOptions.sweepIntervalHours` | `24`           |
+| Variable                              | Config key                        | Default       |
+| ------------------------------------- | --------------------------------- | ------------- |
+| `CACHEIRO_AUTH_TOKEN`                 | `auth.token`                      | `"change-me"` |
+| `CACHEIRO_PORT`                       | `server.port`                     | `3000`        |
+| `CACHEIRO_HOST`                       | `server.host`                     | `127.0.0.1`   |
+| `CACHEIRO_BODY_LIMIT_MB`              | `server.bodyLimitMb`              | `100`         |
+| `CACHEIRO_BANNER`                     | `server.banner`                   | `true`        |
+| `CACHEIRO_INFOBOX`                    | `server.infobox`                  | `true`        |
+| `CACHEIRO_CACHE_DIRECTORY`            | `storeOptions.cacheDirectory`     | `./cache`     |
+| `CACHEIRO_CACHE_TTL_DAYS`             | `storeOptions.ttlDays`            | `7`           |
+| `CACHEIRO_CACHE_SWEEP_INTERVAL_HOURS` | `storeOptions.sweepIntervalHours` | `24`          |
 
 ---
 
