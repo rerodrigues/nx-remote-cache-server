@@ -81,6 +81,8 @@ docker run -p 3000:3000 \
 
 To use a cloud store (S3, GCS, Azure), use this runner as a starting point: update `src/index.ts` to import and instantiate the appropriate store package, and update the config files to match. See each store package's README for config fields and conventional env var names. `config/local.json.example` includes working `storeOptions` examples for all supported stores.
 
+> **Note:** The `Dockerfile` is wired for `FileSystemStore` only. If you swap the store, update the `Dockerfile` accordingly — add the store package's `package.json` copy, build step, and `dist` copy to both stages.
+
 ## Development
 
 ```sh
