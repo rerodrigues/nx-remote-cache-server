@@ -1,6 +1,6 @@
 import { createReadStream, existsSync, statSync } from 'node:fs';
 import { mkdir, readdir, unlink, writeFile } from 'node:fs/promises';
-import { join } from 'node:path';
+import { join, resolve, sep } from 'node:path';
 import type { Readable } from 'node:stream';
 import type { CacheiroStore, Describable } from '@renatorodrigues/cacheiro-types';
 import configSchema from '../configSchema.json' with { type: 'json' };
@@ -23,6 +23,13 @@ export class FileSystemStore implements CacheiroStore, Describable {
     this.dir = config.cacheDirectory;
     this.ttlMs = config.ttlDays * 24 * 60 * 60 * 1000;
     this.sweepIntervalMs = config.sweepIntervalHours * 60 * 60 * 1000;
+  }
+
+  private safePath(hash: string): string {
+    const base = resolve(this.dir);
+    const target = resolve(base, hash);
+    if (!target.startsWith(base + sep)) throw new Error('Invalid hash');
+    return target;
   }
 
   private isExpired(filePath: string): boolean {
@@ -58,17 +65,17 @@ export class FileSystemStore implements CacheiroStore, Describable {
   }
 
   async exists(hash: string): Promise<boolean> {
-    const filePath = join(this.dir, hash);
+    const filePath = this.safePath(hash);
     return existsSync(filePath);
   }
 
   async write(hash: string, data: Buffer): Promise<void> {
     await mkdir(this.dir, { recursive: true });
-    await writeFile(join(this.dir, hash), data);
+    await writeFile(this.safePath(hash), data);
   }
 
   read(hash: string): Readable {
-    const filePath = join(this.dir, hash);
+    const filePath = this.safePath(hash);
     const stream = createReadStream(filePath);
     if (this.ttlMs > 0 && this.isExpired(filePath)) {
       stream.once('open', () => unlink(filePath).catch(() => {}));
