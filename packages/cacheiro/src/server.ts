@@ -44,8 +44,10 @@ export async function createServer(store: CacheiroStore, config: CacheiroConfig)
       reply.status(401).type('text/plain').send('Unauthorized'),
     notFound: async (_c: Context, _req: FastifyRequest, reply: FastifyReply) =>
       reply.status(404).send(),
-    validationFail: async (c: Context, _req: FastifyRequest, reply: FastifyReply) =>
-      reply.status(400).send(c.validation.errors),
+    validationFail: async (c: Context, req: FastifyRequest, reply: FastifyReply) => {
+      req.log.warn({ errors: c.validation.errors }, 'request validation failed');
+      return reply.status(400).send({ error: 'Bad Request' });
+    },
   });
 
   api.registerSecurityHandler('bearerToken', (c) => {
