@@ -6,6 +6,7 @@ import type { FastifyReply, FastifyRequest } from 'fastify';
 import { readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { timingSafeEqual } from 'node:crypto';
 import prettyBytes from 'pretty-bytes';
 import { createPutHandler } from './handlers/put.js';
 import { createGetHandler } from './handlers/get.js';
@@ -53,7 +54,10 @@ export async function createServer(store: CacheiroStore, config: CacheiroConfig)
     const auth = c.request.headers['authorization'] as string | undefined;
     if (!auth) return false;
     const token = auth.replace(/^Bearer\s+/i, '');
-    return token === authToken;
+    const a = Buffer.from(token);
+    const b = Buffer.from(authToken);
+    if (a.length !== b.length) return false;
+    return timingSafeEqual(a, b);
   });
 
   await api.init();
