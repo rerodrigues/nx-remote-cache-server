@@ -1,14 +1,13 @@
 import { Transform, type TransformCallback } from 'node:stream';
-import { createCipheriv, createDecipheriv, randomBytes } from 'node:crypto';
+import { createCipheriv, createDecipheriv, randomBytes, scryptSync } from 'node:crypto';
 
 const ALGORITHM = 'aes-256-cbc';
 const IV_LENGTH = 16;
 const KEY_LENGTH = 32;
+const KEY_SALT = Buffer.from('cacheiro-store-s3:v1', 'utf8');
 
 export function deriveKey(key: string): Buffer {
-  let padded = key;
-  while (padded.length < KEY_LENGTH) padded += key;
-  return Buffer.from(padded).subarray(0, KEY_LENGTH);
+  return scryptSync(key, KEY_SALT, KEY_LENGTH);
 }
 
 export function encryptBuffer(data: Buffer, key: Buffer): Buffer {

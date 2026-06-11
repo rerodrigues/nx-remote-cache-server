@@ -156,6 +156,9 @@ export class S3Store implements CacheiroStore, Describable {
   }
 
   private buildKey(hash: string): string {
+    if (!hash || hash.includes('/') || hash.includes('\\') || hash.includes('..')) {
+      throw new Error('Invalid hash');
+    }
     return this.config.prefix ? posix.join(this.config.prefix, hash) : hash;
   }
 

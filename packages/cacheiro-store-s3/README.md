@@ -44,7 +44,7 @@ Two mutually exclusive modes are supported:
 | set             | `true`                 | Warns and uses client-side only.                                |
 | unset           | `false`                | No encryption (relies on bucket policies and TLS in transit).   |
 
-Client-side keys are pad/repeated and truncated to 32 bytes (no KDF). The IV is randomly generated per write and prepended to the ciphertext: `[16-byte IV][ciphertext]`.
+Client-side keys are stretched with `scrypt` (fixed salt, default cost) to a 32-byte AES key. The IV is randomly generated per write and prepended to the ciphertext: `[16-byte IV][ciphertext]`. This KDF differs from the deprecated official Nx S3 plugin (which truncated/repeated the key), so buckets encrypted with the upstream plugin are not interoperable.
 
 ## Config validation
 
