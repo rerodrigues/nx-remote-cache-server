@@ -15,6 +15,8 @@ import type { CacheiroConfig } from './config.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
+const DEFAULT_BODY_LIMIT_MB = 100;
+
 const isDev = process.env.NODE_ENV !== 'production';
 
 const loggerOptions: FastifyServerOptions['logger'] = isDev
@@ -64,7 +66,7 @@ export async function createServer(store: CacheiroStore, config: CacheiroConfig)
 
   await api.init();
 
-  const bodyLimitMb = config.server.bodyLimitMb;
+  const bodyLimitMb = config.server.bodyLimitMb ?? DEFAULT_BODY_LIMIT_MB;
   const fastify = Fastify({
     logger: loggerOptions,
     bodyLimit: bodyLimitMb * 1024 * 1024,

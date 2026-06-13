@@ -48,16 +48,18 @@ function renderSimplified(version?: string): string {
 
 export function printBanner(store: CacheiroStore, config: CacheiroConfig): void {
   const { server } = config;
+  const showBanner = server.banner ?? true;
+  const showInfobox = server.infobox ?? true;
   const parts: string[] = [];
 
-  if (server.banner) {
+  if (showBanner) {
     parts.push(`${CYAN}${LOGO.join('\n')}${RESET}`);
-    parts.push(renderTagline(server.infobox ? undefined : PKG_VERSION));
+    parts.push(renderTagline(showInfobox ? undefined : PKG_VERSION));
   } else {
-    parts.push(renderSimplified(server.infobox ? undefined : PKG_VERSION));
+    parts.push(renderSimplified(showInfobox ? undefined : PKG_VERSION));
   }
 
-  if (server.infobox) {
+  if (showInfobox) {
     const storeRows: [string, string][] =
       'describe' in store ? (store as unknown as Describable).describe() : [];
     const rows: [string, string][] = [

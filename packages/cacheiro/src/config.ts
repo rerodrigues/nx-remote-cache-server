@@ -6,9 +6,9 @@ export interface CacheiroConfig {
   server: {
     port: number;
     host: string;
-    bodyLimitMb: number;
-    banner: boolean;
-    infobox: boolean;
+    bodyLimitMb?: number;
+    banner?: boolean;
+    infobox?: boolean;
   };
   auth: {
     token: string;
