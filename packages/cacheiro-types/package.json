@@ -17,6 +17,9 @@
     "type": "git",
     "url": "git@github.com:rerodrigues/nx-remote-cache-server.git"
   },
+  "files": [
+    "dist"
+  ],
   "type": "module",
   "types": "dist/index.d.ts",
   "exports": {
