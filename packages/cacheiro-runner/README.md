@@ -11,8 +11,8 @@ This is a runnable application, not a library. It is not published to npm (`priv
 ## Getting started
 
 ```sh
-cp config/local.json.example config/local.json
-# edit config/local.json — set auth.token and adjust storeOptions
+cp config/local.jsonc.example config/local.jsonc
+# edit config/local.jsonc — set auth.token and adjust storeOptions
 npm run dev
 ```
 
@@ -24,12 +24,12 @@ Two layers: JSON config files + environment variables. Environment variables alw
 
 Resolved in order — later entries override earlier ones:
 
-| File                                       | Purpose                                                                               |
-| ------------------------------------------ | ------------------------------------------------------------------------------------- |
-| `config/default.json`                      | Base defaults (port 3000, filesystem store, 100 MB body limit)                        |
-| `config/production.json`                   | Production overrides — applied when `NODE_ENV=production`                             |
-| `config/local.json`                        | Local overrides — highest file priority, gitignored, create from `local.json.example` |
-| `config/custom-environment-variables.json` | Maps env vars to config keys — overrides all files when the env var is set            |
+| File                                       | Purpose                                                                                |
+| ------------------------------------------ | -------------------------------------------------------------------------------------- |
+| `config/default.json`                      | Base defaults (port 3000, filesystem store, 100 MB body limit)                         |
+| `config/production.json`                   | Production overrides — applied when `NODE_ENV=production`                              |
+| `config/local.jsonc`                       | Local overrides — highest file priority, gitignored, create from `local.jsonc.example` |
+| `config/custom-environment-variables.json` | Maps env vars to config keys — overrides all files when the env var is set             |
 
 ### Config values
 
@@ -79,7 +79,7 @@ docker run -p 3000:3000 \
   cacheiro-runner
 ```
 
-To use a cloud store (S3, GCS, Azure), use this runner as a starting point: update `src/index.ts` to import and instantiate the appropriate store package, and update the config files to match. See each store package's README for config fields and conventional env var names. `config/local.json.example` includes working `storeOptions` examples for all supported stores.
+To use a cloud store (S3, GCS, Azure), use this runner as a starting point: update `src/index.ts` to import and instantiate the appropriate store package, and update the config files to match. See each store package's README for config fields and conventional env var names. `config/local.jsonc.example` includes working `storeOptions` examples for all supported stores.
 
 > **Note:** The `Dockerfile` is wired for `FileSystemStore` only. If you swap the store, update the `Dockerfile` accordingly — add the store package's `package.json` copy, build step, and `dist` copy to both stages.
 

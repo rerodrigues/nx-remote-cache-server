@@ -2,6 +2,6 @@ node_modules/
 .nx
 dist/
 **/config/local.*
-!**/config/local.json.example
+!**/config/local.jsonc.example
 **/cache/
 **/cache-test/
