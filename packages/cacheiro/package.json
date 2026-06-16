@@ -1,6 +1,6 @@
 {
   "name": "@renatorodrigues/cacheiro",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": false,
   "description": "NX remote cache server",
   "homepage": "https://github.com/rerodrigues/nx-remote-cache-server/tree/main/packages/cacheiro#readme",

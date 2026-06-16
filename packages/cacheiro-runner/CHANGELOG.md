@@ -1,4 +1,17 @@
-# Changelog
+# Change Log
+
+All notable changes to this project will be documented in this file.
+See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+# [1.1.0](https://github.com/rerodrigues/nx-remote-cache-server/compare/@renatorodrigues/cacheiro-runner@1.0.0...@renatorodrigues/cacheiro-runner@1.1.0) (2026-06-16)
+
+### Bug Fixes
+
+- **cacheiro-runner:** rename config example to .jsonc, update refs ([e9a1be4](https://github.com/rerodrigues/nx-remote-cache-server/commit/e9a1be40cd1e53a38f369cf29575501373abb76e))
+
+### Features
+
+- **cacheiro-store-azure:** implement Azure Blob Storage store ([b24d213](https://github.com/rerodrigues/nx-remote-cache-server/commit/b24d213eab810a026bb06dca67b1294be387c79a))
 
 ## [1.0.0] - 2026-06-14
 
