@@ -82,7 +82,12 @@ Or start a specific one:
 ```sh
 docker compose up local-s3
 docker compose up local-gcs
-docker compose up local-azure
+```
+
+Azure requires an extra init step to create the blob container — without it the server will return errors on every request:
+
+```sh
+docker compose up local-azure local-azure-init
 ```
 
 Then configure `packages/cacheiro-runner/config/local.json` using the emulator snippets in `local.json.example`.
