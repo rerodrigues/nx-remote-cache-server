@@ -18,13 +18,13 @@ export interface CacheiroStore {
 }
 ```
 
-| Method       | Description                                                                    |
-| ------------ | ------------------------------------------------------------------------------ |
-| `mount()`    | Called on server startup. Create directories, start timers, etc.               |
-| `unmount()`  | Optional. Called on server shutdown. Stop timers, flush buffers, etc.          |
-| `exists()`   | Returns `true` if artifact exists and is not expired.                          |
-| `write()`    | Persist artifact data for the given hash.                                      |
-| `read()`     | Return a `Readable` stream for the artifact. Throw if not found or expired.    |
+| Method      | Description                                                                 |
+| ----------- | --------------------------------------------------------------------------- |
+| `mount()`   | Called on server startup. Create directories, start timers, etc.            |
+| `unmount()` | Optional. Called on server shutdown. Stop timers, flush buffers, etc.       |
+| `exists()`  | Returns `true` if artifact exists and is not expired.                       |
+| `write()`   | Persist artifact data for the given hash.                                   |
+| `read()`    | Return a `Readable` stream for the artifact. Throw if not found or expired. |
 
 ## `Describable`
 
@@ -40,14 +40,14 @@ Returns a list of `[label, value]` rows displayed in the banner info box. The ba
 
 ## Available stores
 
-| Package                                                  | Description                                                  |
-| -------------------------------------------------------- | ------------------------------------------------------------ |
-| [`cacheiro-store-fs`](../cacheiro-store-fs)              | Local filesystem                                             |
-| [`cacheiro-store-s3`](../cacheiro-store-s3)              | AWS S3 and S3-compatible storage (MinIO, LocalStack, etc.)   |
-| [`cacheiro-store-gcs`](../cacheiro-store-gcs)            | Google Cloud Storage                                         |
-| [`cacheiro-store-azure`](../cacheiro-store-azure)        | Azure Blob Storage                                           |
+| Package                                           | Description                                                |
+| ------------------------------------------------- | ---------------------------------------------------------- |
+| [`cacheiro-store-fs`](../cacheiro-store-fs)       | Local filesystem                                           |
+| [`cacheiro-store-s3`](../cacheiro-store-s3)       | AWS S3 and S3-compatible storage (MinIO, LocalStack, etc.) |
+| [`cacheiro-store-gcs`](../cacheiro-store-gcs)     | Google Cloud Storage                                       |
+| [`cacheiro-store-azure`](../cacheiro-store-azure) | Azure Blob Storage                                         |
 
-> **Note:** S3, GCS, and Azure store implementations are pending.
+> **Note:** GCS store implementation is pending.
 
 ## Adding a custom store
 
