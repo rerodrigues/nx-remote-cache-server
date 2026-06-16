@@ -13,7 +13,11 @@
     "prefix": { "type": "string", "description": "Key prefix for all cache entries." },
     "encryptionKey": {
       "type": "string",
-      "description": "AES-256-CBC encryption key. Encrypts all artifacts at rest."
+      "description": "Client-side AES-256-CBC encryption key. Encrypts artifacts before upload."
+    },
+    "encryptionScope": {
+      "type": "string",
+      "description": "Azure encryption scope name. When set, blobs are written under this scope so Azure encrypts them at rest with the scope's key (typically a customer-managed key in Key Vault). Reads are transparent."
     }
   }
 }

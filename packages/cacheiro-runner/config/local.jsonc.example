@@ -60,6 +60,10 @@
 //   "storeOptions": {
 //     "container": "my-nx-cache",
 //     "accountName": "myazurestorageaccount"
+//     // optional:
+//     // "prefix": "my-project",
+//     // "encryptionKey": "my-secret-key",       // client-side AES-256-CBC
+//     // "encryptionScope": "my-cmk-scope"       // server-side scope-keyed CMK (Key Vault)
 //   }
 // }
 
