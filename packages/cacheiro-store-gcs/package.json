@@ -1,6 +1,6 @@
 {
   "name": "@renatorodrigues/cacheiro-store-gcs",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Google Cloud Storage store implementation for @renatorodrigues/cacheiro",
   "homepage": "https://github.com/rerodrigues/nx-remote-cache-server/tree/main/packages/cacheiro-store-gcs#readme",
   "bugs": {

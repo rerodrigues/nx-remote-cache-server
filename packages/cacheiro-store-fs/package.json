@@ -1,6 +1,6 @@
 {
   "name": "@renatorodrigues/cacheiro-store-fs",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": false,
   "description": "Filesystem store for @renatorodrigues/cacheiro — sharded layout, atomic writes",
   "homepage": "https://github.com/rerodrigues/nx-remote-cache-server/tree/main/packages/cacheiro-store-fs#readme",
