@@ -15,6 +15,21 @@ const store = new AzureStore({
 await store.mount();
 ```
 
+## Config validation
+
+This package exports a JSON Schema (draft-07) and a TypeScript type for the config shape. Use them to validate and cast a raw config object before constructing the store — the example below uses AJV, but any JSON Schema validator works:
+
+```ts
+import { configSchema, type AzureStoreConfig } from '@renatorodrigues/cacheiro-store-azure';
+import { Ajv } from 'ajv';
+
+const validate = new Ajv({ allErrors: true }).compile(configSchema);
+
+// example — error handling is up to your runner
+if (!validate(raw)) throw new Error('invalid store config');
+const store = new AzureStore(raw as unknown as AzureStoreConfig);
+```
+
 ## Development
 
 ```sh
@@ -64,32 +79,6 @@ Azure encrypts every blob at rest by default with Microsoft-managed keys — thi
 `encryptionScope` is write-time only — Azure tracks which scope each blob was written with and decrypts transparently on read. Use scopes when one storage account holds artifacts under multiple keys (per tenant, per environment). For a single account-wide key, configure CMK on the storage account in the Azure portal and leave `encryptionScope` unset.
 
 Client-side keys are stretched with `scrypt` (fixed salt, default cost) to a 32-byte AES key. The IV is randomly generated per write and prepended to the ciphertext: `[16-byte IV][ciphertext]`. This KDF differs from the deprecated official Nx Azure plugin (which used a different scheme), so containers encrypted with the upstream plugin are not interoperable.
-
-## Config validation
-
-This package exports a JSON Schema (draft-07) and a TypeScript type for the config shape. Use them to validate and cast a raw config object before constructing the store — the example below uses AJV, but any JSON Schema validator works:
-
-```ts
-import { configSchema, type AzureStoreConfig } from '@renatorodrigues/cacheiro-store-azure';
-import { Ajv } from 'ajv';
-
-const validate = new Ajv({ allErrors: true }).compile(configSchema);
-
-// example — error handling is up to your runner
-if (!validate(raw)) throw new Error('invalid store config');
-const store = new AzureStore(raw as unknown as AzureStoreConfig);
-```
-
-## Development
-
-```sh
-npm run watch        # tsc --watch (hot rebuild)
-npm run build        # compile TypeScript
-npm test             # vitest run
-npm run test:watch
-npm run lint
-npm run fmt
-```
 
 ## Environment variables reference
 

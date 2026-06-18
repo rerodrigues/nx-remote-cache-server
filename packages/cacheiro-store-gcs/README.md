@@ -2,8 +2,6 @@
 
 Google Cloud Storage store for [`@renatorodrigues/cacheiro`](../cacheiro). Stores NX task artifacts in a GCS bucket.
 
-> **Note:** Implementation is pending. Methods currently throw `GcsStore: not implemented`.
-
 ## Usage
 
 ```ts
@@ -15,17 +13,6 @@ const store = new GcsStore({
 
 await store.mount();
 ```
-
-## Config
-
-| Field           | Type     | Required | Description                                                                     |
-| --------------- | -------- | -------- | ------------------------------------------------------------------------------- |
-| `bucket`        | `string` | Yes      | GCS bucket name.                                                                |
-| `endpoint`      | `string` | No       | Custom GCS-compatible endpoint URL (e.g. for local emulators).                  |
-| `prefix`        | `string` | No       | Key prefix for all cache entries. Useful when sharing a bucket across projects. |
-| `encryptionKey` | `string` | No       | AES-256-CBC encryption key. When set, all artifacts are encrypted at rest.      |
-
-See [Environment variables reference](#environment-variables-reference) for conventional env var names.
 
 ## Config validation
 
@@ -52,6 +39,28 @@ npm run test:watch
 npm run lint
 npm run fmt
 ```
+
+## Config
+
+| Field           | Type     | Required | Description                                                                     |
+| --------------- | -------- | -------- | ------------------------------------------------------------------------------- |
+| `bucket`        | `string` | Yes      | GCS bucket name.                                                                |
+| `endpoint`      | `string` | No       | Custom GCS-compatible endpoint URL (e.g. for local emulators).                  |
+| `prefix`        | `string` | No       | Key prefix for all cache entries. Useful when sharing a bucket across projects. |
+| `encryptionKey` | `string` | No       | AES-256-CBC encryption key. When set, all artifacts are encrypted at rest.      |
+
+See [Environment variables reference](#environment-variables-reference) for conventional env var names.
+
+## Encryption
+
+GCS encrypts every object at rest by default with Google-managed keys — no configuration needed. For additional client-side encryption, set `encryptionKey`:
+
+| `encryptionKey` | Behavior                                                     |
+| --------------- | ------------------------------------------------------------ |
+| unset           | Google-managed server-side encryption only.                  |
+| set             | Client-side AES-256-CBC on top of Google-managed encryption. |
+
+Client-side keys are stretched with `scrypt` (fixed salt, default cost) to a 32-byte AES key. The IV is randomly generated per write and prepended to the ciphertext: `[16-byte IV][ciphertext]`. The salt is scoped to this store (`cacheiro-store-gcs:v1`), so GCS and S3 stores with the same passphrase produce incompatible ciphertexts.
 
 ## Environment variables reference
 

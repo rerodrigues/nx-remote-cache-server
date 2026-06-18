@@ -15,6 +15,32 @@ const store = new S3Store({
 await store.mount();
 ```
 
+## Config validation
+
+This package exports a JSON Schema (draft-07) and a TypeScript type for the config shape. Use them to validate and cast a raw config object before constructing the store — the example below uses AJV, but any JSON Schema validator works:
+
+```ts
+import { configSchema, type S3StoreConfig } from '@renatorodrigues/cacheiro-store-s3';
+import { Ajv } from 'ajv';
+
+const validate = new Ajv({ allErrors: true }).compile(configSchema);
+
+// example — error handling is up to your runner
+if (!validate(raw)) throw new Error('invalid store config');
+const store = new S3Store(raw as unknown as S3StoreConfig);
+```
+
+## Development
+
+```sh
+npm run watch        # tsc --watch (hot rebuild)
+npm run build        # compile TypeScript
+npm test             # vitest run
+npm run test:watch
+npm run lint
+npm run fmt
+```
+
 ## Config
 
 | Field                  | Type      | Required | Description                                                                                                                          |
@@ -45,32 +71,6 @@ Two mutually exclusive modes are supported:
 | unset           | `false`                | No encryption (relies on bucket policies and TLS in transit).   |
 
 Client-side keys are stretched with `scrypt` (fixed salt, default cost) to a 32-byte AES key. The IV is randomly generated per write and prepended to the ciphertext: `[16-byte IV][ciphertext]`. This KDF differs from the deprecated official Nx S3 plugin (which truncated/repeated the key), so buckets encrypted with the upstream plugin are not interoperable.
-
-## Config validation
-
-This package exports a JSON Schema (draft-07) and a TypeScript type for the config shape. Use them to validate and cast a raw config object before constructing the store — the example below uses AJV, but any JSON Schema validator works:
-
-```ts
-import { configSchema, type S3StoreConfig } from '@renatorodrigues/cacheiro-store-s3';
-import { Ajv } from 'ajv';
-
-const validate = new Ajv({ allErrors: true }).compile(configSchema);
-
-// example — error handling is up to your runner
-if (!validate(raw)) throw new Error('invalid store config');
-const store = new S3Store(raw as unknown as S3StoreConfig);
-```
-
-## Development
-
-```sh
-npm run watch        # tsc --watch (hot rebuild)
-npm run build        # compile TypeScript
-npm test             # vitest run
-npm run test:watch
-npm run lint
-npm run fmt
-```
 
 ## Environment variables reference
 
