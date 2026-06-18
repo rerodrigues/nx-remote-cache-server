@@ -47,8 +47,6 @@ Returns a list of `[label, value]` rows displayed in the banner info box. The ba
 | [`cacheiro-store-gcs`](../cacheiro-store-gcs)     | Google Cloud Storage                                       |
 | [`cacheiro-store-azure`](../cacheiro-store-azure) | Azure Blob Storage                                         |
 
-> **Note:** GCS store implementation is pending.
-
 ## Adding a custom store
 
 Implement the `CacheiroStore` interface:

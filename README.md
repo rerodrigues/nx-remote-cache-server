@@ -37,11 +37,11 @@ Huge thanks to the brilliant folks at [NRWL](https://nrwl.io) for creating *Nx* 
 | [`@renatorodrigues/cacheiro-runner`](./packages/cacheiro-runner)               | Reference runner — loads config and starts the server    |
 | [`@renatorodrigues/cacheiro-store-fs`](./packages/cacheiro-store-fs)           | Filesystem store — sharded layout, atomic writes         |
 | [`@renatorodrigues/cacheiro-store-s3`](./packages/cacheiro-store-s3)           | S3 store implementation                                  |
-| [`@renatorodrigues/cacheiro-store-gcs`](./packages/cacheiro-store-gcs)         | GCS store implementation (pending)                       |
+| [`@renatorodrigues/cacheiro-store-gcs`](./packages/cacheiro-store-gcs)         | GCS store implementation                                 |
 | [`@renatorodrigues/cacheiro-store-azure`](./packages/cacheiro-store-azure)     | Azure Blob Storage store implementation                  |
 | [`@renatorodrigues/cacheiro-types`](./packages/cacheiro-types)                 | Shared TypeScript types                             |
 
-> **Status:** Filesystem, S3, and Azure Blob stores are production-ready. GCS store is under development. See the [roadmap](#roadmap) below.
+> **Status:** Filesystem, S3, Azure Blob, and GCS stores are production-ready.
 
 ## Architecture
 
@@ -94,7 +94,7 @@ Then configure `packages/cacheiro-runner/config/local.json` using the emulator s
 
 ## Roadmap
 
-- [ ] GCS store
+- [x] GCS store (v1.0.0)
 - [x] Azure Blob Storage store (v1.0.0)
 - [x] S3 store (v0.3.0)
 - [x] Decoupled pluggable store architecture (v0.3.0)

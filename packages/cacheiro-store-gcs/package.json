@@ -1,7 +1,6 @@
 {
   "name": "@renatorodrigues/cacheiro-store-gcs",
-  "version": "0.3.0",
-  "private": true,
+  "version": "1.0.0",
   "description": "Google Cloud Storage store implementation for @renatorodrigues/cacheiro",
   "homepage": "https://github.com/rerodrigues/nx-remote-cache-server/tree/main/packages/cacheiro-store-gcs#readme",
   "bugs": {
@@ -46,6 +45,9 @@
     "lint:fix": "oxlint --fix",
     "fmt": "oxfmt",
     "fmt:check": "oxfmt --check"
+  },
+  "dependencies": {
+    "@google-cloud/storage": "^7.0.0"
   },
   "devDependencies": {
     "@renatorodrigues/cacheiro-types": "1.0.0",
