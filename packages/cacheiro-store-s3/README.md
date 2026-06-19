@@ -1,6 +1,6 @@
 # `@renatorodrigues/cacheiro-store-s3`
 
-S3 store for [`@renatorodrigues/cacheiro`](../cacheiro). Stores Nx cache artifacts in an AWS S3 bucket (or any S3-compatible storage: MinIO, LocalStack, DigitalOcean Spaces, Cloudflare R2).
+S3 store for [`@renatorodrigues/cacheiro`](https://www.npmjs.com/package/@renatorodrigues/cacheiro). Stores Nx cache artifacts in an AWS S3 bucket (or any S3-compatible storage: MinIO, LocalStack, DigitalOcean Spaces, Cloudflare R2).
 
 ## Usage
 

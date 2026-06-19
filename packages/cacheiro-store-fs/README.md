@@ -1,6 +1,6 @@
 # `@renatorodrigues/cacheiro-store-fs`
 
-Filesystem store for [`@renatorodrigues/cacheiro`](../cacheiro). Stores artifacts in a sharded directory layout with atomic temp+rename writes, `fsync` for durability, and optional TTL with background sweep.
+Filesystem store for [`@renatorodrigues/cacheiro`](https://www.npmjs.com/package/@renatorodrigues/cacheiro). Stores artifacts in a sharded directory layout with atomic temp+rename writes, `fsync` for durability, and optional TTL with background sweep.
 
 ## On-disk layout
 

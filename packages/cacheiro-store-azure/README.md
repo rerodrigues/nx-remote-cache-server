@@ -1,6 +1,6 @@
 # `@renatorodrigues/cacheiro-store-azure`
 
-Azure Blob Storage store for [`@renatorodrigues/cacheiro`](../cacheiro). Stores Nx cache artifacts in an Azure Blob Storage container.
+Azure Blob Storage store for [`@renatorodrigues/cacheiro`](https://www.npmjs.com/package/@renatorodrigues/cacheiro). Stores Nx cache artifacts in an Azure Blob Storage container.
 
 ## Usage
 

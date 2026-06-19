@@ -40,12 +40,12 @@ Returns a list of `[label, value]` rows displayed in the banner info box. The ba
 
 ## Available stores
 
-| Package                                           | Description                                                |
-| ------------------------------------------------- | ---------------------------------------------------------- |
-| [`cacheiro-store-fs`](../cacheiro-store-fs)       | Local filesystem                                           |
-| [`cacheiro-store-s3`](../cacheiro-store-s3)       | AWS S3 and S3-compatible storage (MinIO, LocalStack, etc.) |
-| [`cacheiro-store-gcs`](../cacheiro-store-gcs)     | Google Cloud Storage                                       |
-| [`cacheiro-store-azure`](../cacheiro-store-azure) | Azure Blob Storage                                         |
+| Package                                                                                       | Description                                                |
+| --------------------------------------------------------------------------------------------- | ---------------------------------------------------------- |
+| [`cacheiro-store-fs`](https://www.npmjs.com/package/@renatorodrigues/cacheiro-store-fs)       | Local filesystem                                           |
+| [`cacheiro-store-s3`](https://www.npmjs.com/package/@renatorodrigues/cacheiro-store-s3)       | AWS S3 and S3-compatible storage (MinIO, LocalStack, etc.) |
+| [`cacheiro-store-gcs`](https://www.npmjs.com/package/@renatorodrigues/cacheiro-store-gcs)     | Google Cloud Storage                                       |
+| [`cacheiro-store-azure`](https://www.npmjs.com/package/@renatorodrigues/cacheiro-store-azure) | Azure Blob Storage                                         |
 
 ## Adding a custom store
 
@@ -62,7 +62,7 @@ export class MyStore implements CacheiroStore {
 }
 ```
 
-See [`cacheiro-store-fs`](../cacheiro-store-fs) as a reference implementation.
+See [`cacheiro-store-fs`](https://www.npmjs.com/package/@renatorodrigues/cacheiro-store-fs) as a reference implementation.
 
 ## Development
 

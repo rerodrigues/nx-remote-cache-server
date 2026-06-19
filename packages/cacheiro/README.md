@@ -2,7 +2,7 @@
 
 Core library for the NX remote cache server. Implements the [NX 20.8+ custom remote cache](https://nx.dev/recipes/running-tasks/self-hosted-caching) specification.
 
-This package provides the server logic and the public API. It is not a runnable application — use [`@renatorodrigues/cacheiro-runner`](../cacheiro-runner) to run it, or build your own runner on top of the exported API.
+This package provides the server logic and the public API. It is not a runnable application — use [`@renatorodrigues/cacheiro-runner`](https://github.com/rerodrigues/nx-remote-cache-server/tree/main/packages/cacheiro-runner) to run it, or build your own runner on top of the exported API.
 
 ## Requirements
 
@@ -87,7 +87,7 @@ const validate = ajv.compile(configSchema);
 
 ## HTTP API
 
-Defined by [`swagger.json`](./swagger.json) (OpenAPI 3.0).
+Defined by [`swagger.json`](https://github.com/rerodrigues/nx-remote-cache-server/blob/main/packages/cacheiro/swagger.json) (OpenAPI 3.0).
 
 | Method | Path              | Description              |
 | ------ | ----------------- | ------------------------ |
@@ -100,7 +100,7 @@ All endpoints require an `Authorization: Bearer <token>` header when `auth.token
 
 Store packages implement the `CacheiroStore` interface and are independent of this package. Instantiate the store of your choice and pass it to the `Cacheiro` constructor.
 
-See [`@renatorodrigues/cacheiro-types`](../cacheiro-types) for the full list of available stores and instructions on implementing a custom store.
+See [`@renatorodrigues/cacheiro-types`](https://www.npmjs.com/package/@renatorodrigues/cacheiro-types) for the full list of available stores and instructions on implementing a custom store.
 
 ## Development
 

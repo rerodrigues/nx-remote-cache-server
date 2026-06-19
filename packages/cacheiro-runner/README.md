@@ -1,6 +1,6 @@
 # `@renatorodrigues/cacheiro-runner`
 
-Reference runner for [`@renatorodrigues/cacheiro`](../cacheiro). Loads config via the [`config`](https://www.npmjs.com/package/config) npm package, validates it with AJV, instantiates a store, then starts a `Cacheiro` server. Ships with `FileSystemStore` by default — swap in any other store package to change the backend.
+Reference runner for [`@renatorodrigues/cacheiro`](https://github.com/rerodrigues/nx-remote-cache-server/tree/main/packages/cacheiro). Loads config via the [`config`](https://www.npmjs.com/package/config) npm package, validates it with AJV, instantiates a store, then starts a `Cacheiro` server. Ships with `FileSystemStore` by default — swap in any other store package to change the backend.
 
 This is a runnable application, not a library. It is not published to npm (`private: true`). Use it as-is, fork it, or write your own runner on top of `cacheiro`'s exported API.
 

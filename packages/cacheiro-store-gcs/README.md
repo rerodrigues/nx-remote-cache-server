@@ -1,6 +1,6 @@
 # `@renatorodrigues/cacheiro-store-gcs`
 
-Google Cloud Storage store for [`@renatorodrigues/cacheiro`](../cacheiro). Stores NX task artifacts in a GCS bucket.
+Google Cloud Storage store for [`@renatorodrigues/cacheiro`](https://www.npmjs.com/package/@renatorodrigues/cacheiro). Stores NX task artifacts in a GCS bucket.
 
 ## Usage
 
