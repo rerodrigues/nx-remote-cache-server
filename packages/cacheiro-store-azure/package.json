@@ -1,6 +1,6 @@
 {
   "name": "@renatorodrigues/cacheiro-store-azure",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Azure Blob Storage store implementation for @renatorodrigues/cacheiro",
   "homepage": "https://github.com/rerodrigues/nx-remote-cache-server/tree/main/packages/cacheiro-store-azure#readme",
   "bugs": {
@@ -51,7 +51,7 @@
     "@azure/storage-blob": "^12.24.0"
   },
   "devDependencies": {
-    "@renatorodrigues/cacheiro-types": "1.0.0",
+    "@renatorodrigues/cacheiro-types": "1.1.0",
     "@types/node": "^22",
     "lint-staged": "^16.4.0",
     "oxfmt": "^0.53.0",
