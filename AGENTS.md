@@ -9,18 +9,21 @@
 
 ## Commits
 
-- Scope commit messages to the affected package(s) (e.g. `fix(cache-server): ...`).
-- Never commit auto-generated files (dist, build output, lock file regeneration) alongside source changes — keep them in separate commits or exclude them.
-- Breaking changes must include a `BREAKING CHANGE:` footer in the commit body.
+### Before You Commit
+
+1. Separate auto-generated files (dist, build output, lock file regeneration) into their own commit or exclude them.
+2. Bundle README/doc updates with the related code change in the same commit. A `docs:` commit is only for standalone documentation fixes (typos, wording) with no related code change.
+3. Add `BREAKING CHANGE:` footer in the commit body if applicable.
+4. Scope the message to the affected package(s) (e.g. `fix(cacheiro): ...`).
 
 ## Packages
 
-- Always update the README files, including the one in the root of the monorepo to reflect any relevant changes to the packages or their usage.
+- `packages/cacheiro/swagger.json` is the verbatim Nx remote cache OpenAPI spec and must never be modified. It defines the NX-mandated contract. Extra routes must be registered directly on the Fastify instance in `server.ts`, not added to the spec. Extra routes registered in `server.ts` must still be documented in the package README and covered by unit or integration tests, even though they are absent from `swagger.json`.
+- Always update the README files, including the one in the root of the monorepo to reflect any changes to the packages or their usage.
 - Each package must have its own README.md file with usage instructions, API documentation, and examples.
 
 ## Testing
 
 - All packages must pass their test suite before changes are considered complete.
-- New public APIs must include unit tests.
+- Any function, class, or type that is exported from a package's main entry point (i.e., listed in the package's `exports` or `index.ts`) must include unit tests.
 - All changes must be reflected in the tests to ensure coverage and prevent regressions. If no tests exist for the affected code, new tests must be added.
-
