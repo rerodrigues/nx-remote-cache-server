@@ -64,7 +64,7 @@ export function printBanner(store: CacheiroStore, config: CacheiroConfig): void 
       'describe' in store ? (store as unknown as Describable).describe() : [];
     const rows: [string, string][] = [
       ['version', PKG_VERSION],
-      ['url', `http://${server.host}:${server.port}`],
+      ['url', `${server.tls ? 'https' : 'http'}://${server.host}:${server.port}`],
       ['store', store.constructor.name],
       ...storeRows,
       ...(config.auth.token ? [['auth', 'enabled'] as [string, string]] : []),

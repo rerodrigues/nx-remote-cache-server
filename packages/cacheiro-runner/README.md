@@ -79,6 +79,19 @@ docker run -p 3000:3000 \
   cacheiro-runner
 ```
 
+With TLS:
+
+```sh
+docker run -p 3000:3000 \
+  -e CACHEIRO_AUTH_TOKEN=my-secret-token \
+  -e CACHEIRO_TLS_CERT_FILE=/certs/cert.pem \
+  -e CACHEIRO_TLS_KEY_FILE=/certs/key.pem \
+  -e NODE_ENV=production \
+  -v $(pwd)/cache:/cache \
+  -v $(pwd)/certs:/certs:ro \
+  cacheiro-runner
+```
+
 To use a cloud store (S3, GCS, Azure), use this runner as a starting point: update `src/index.ts` to import and instantiate the appropriate store package, and update the config files to match. See each store package's README for config fields and conventional env var names. `config/local.jsonc.example` includes working `storeOptions` examples for all supported stores.
 
 > **Note:** The `Dockerfile` is wired for `FileSystemStore` only. If you swap the store, update the `Dockerfile` accordingly — add the store package's `package.json` copy, build step, and `dist` copy to both stages.
@@ -100,11 +113,14 @@ npm run fmt:check      # oxfmt --check
 
 | Key                               | Default       | Description                                                                                                |
 | --------------------------------- | ------------- | ---------------------------------------------------------------------------------------------------------- |
-| `server.port`                     | `3000`        | HTTP port to listen on                                                                                     |
+| `server.port`                     | `3000`        | Port to listen on                                                                                          |
 | `server.host`                     | `127.0.0.1`   | Host to bind to. Use `0.0.0.0` to expose on all interfaces.                                                |
 | `server.bodyLimitMb`              | `100`         | Max request body size in MB                                                                                |
 | `server.banner`                   | `true`        | Show ASCII art startup banner. When `false`, prints a compact single-line header instead.                  |
 | `server.infobox`                  | `true`        | Show the info box with version, URL, and store details. When `false`, the version is shown inline instead. |
+| `server.tls.certFile`             | —             | Path to PEM certificate file. When set (with `keyFile`), enables HTTPS.                                    |
+| `server.tls.keyFile`              | —             | Path to PEM private key file.                                                                              |
+| `server.tls.caFile`               | —             | Path to CA certificate file (optional).                                                                    |
 | `auth.token`                      | `"change-me"` | Bearer token required on all requests. Auth is disabled if empty.                                          |
 | `storeOptions.cacheDirectory`     | `"./cache"`   | Directory where artifacts are stored.                                                                      |
 | `storeOptions.ttlDays`            | `7`           | Artifact TTL in days. `0` disables expiration.                                                             |
@@ -120,6 +136,9 @@ npm run fmt:check      # oxfmt --check
 | `CACHEIRO_BODY_LIMIT_MB`              | `server.bodyLimitMb`              | `100`         |
 | `CACHEIRO_BANNER`                     | `server.banner`                   | `true`        |
 | `CACHEIRO_INFOBOX`                    | `server.infobox`                  | `true`        |
+| `CACHEIRO_TLS_CERT_FILE`              | `server.tls.certFile`             | —             |
+| `CACHEIRO_TLS_KEY_FILE`               | `server.tls.keyFile`              | —             |
+| `CACHEIRO_TLS_CA_FILE`                | `server.tls.caFile`               | —             |
 | `CACHEIRO_CACHE_DIRECTORY`            | `storeOptions.cacheDirectory`     | `./cache`     |
 | `CACHEIRO_CACHE_TTL_DAYS`             | `storeOptions.ttlDays`            | `7`           |
 | `CACHEIRO_CACHE_SWEEP_INTERVAL_HOURS` | `storeOptions.sweepIntervalHours` | `24`          |

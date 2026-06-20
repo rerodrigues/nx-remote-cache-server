@@ -52,7 +52,7 @@ Huge thanks to the brilliant folks at [NRWL](https://nrwl.io) for creating *Nx* 
 ```sh
 npm install
 cd packages/cacheiro-runner
-cp config/local.json.example config/local.json
+cp config/local.jsonc.example config/local.jsonc
 npm run dev
 ```
 
@@ -94,6 +94,7 @@ Then configure `packages/cacheiro-runner/config/local.json` using the emulator s
 
 ## Roadmap
 
+- [x] TLS / native HTTPS support
 - [x] GCS store (v1.0.0)
 - [x] Azure Blob Storage store (v1.0.0)
 - [x] S3 store (v0.3.0)

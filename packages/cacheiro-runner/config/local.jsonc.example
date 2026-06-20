@@ -14,6 +14,21 @@
   }
 }
 
+// TLS example — serve HTTPS natively (no reverse proxy needed):
+// {
+//   "server": {
+//     "tls": {
+//       "certFile": "/path/to/cert.pem",
+//       "keyFile": "/path/to/key.pem"
+//       // "caFile": "/path/to/ca.pem"   // optional, for custom CA
+//     }
+//   }
+// }
+//
+// To generate a self-signed cert for local development:
+//   openssl req -x509 -newkey rsa:2048 -keyout key.pem -out cert.pem -days 365 -nodes -subj "/CN=localhost"
+
+
 // S3 example — also update src/index.ts to import and use S3Store:
 // {
 //   "storeOptions": {

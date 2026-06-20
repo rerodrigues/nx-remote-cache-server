@@ -30,6 +30,26 @@
         "infobox": {
           "type": "boolean",
           "description": "Show the info box with version, URL, and store details."
+        },
+        "tls": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "TLS configuration. When present, server serves HTTPS instead of HTTP.",
+          "required": ["certFile", "keyFile"],
+          "properties": {
+            "certFile": {
+              "type": "string",
+              "description": "Path to PEM certificate file."
+            },
+            "keyFile": {
+              "type": "string",
+              "description": "Path to PEM private key file."
+            },
+            "caFile": {
+              "type": "string",
+              "description": "Path to CA certificate file (optional)."
+            }
+          }
         }
       }
     },

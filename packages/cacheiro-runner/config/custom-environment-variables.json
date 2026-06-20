@@ -10,6 +10,11 @@
     "infobox": {
       "__name": "CACHEIRO_INFOBOX",
       "__format": "boolean"
+    },
+    "tls": {
+      "certFile": "CACHEIRO_TLS_CERT_FILE",
+      "keyFile": "CACHEIRO_TLS_KEY_FILE",
+      "caFile": "CACHEIRO_TLS_CA_FILE"
     }
   },
   "auth": {

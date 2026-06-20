@@ -60,14 +60,17 @@ import type { CacheiroStore } from '@renatorodrigues/cacheiro';
 
 TypeScript interface describing the server configuration shape. Import it to type your own config loader:
 
-| Field                | Type      | Required | Default | Description                                                            |
-| -------------------- | --------- | -------- | ------- | ---------------------------------------------------------------------- |
-| `server.port`        | `number`  | Yes      | —       | Port to listen on.                                                     |
-| `server.host`        | `string`  | Yes      | —       | Host to bind to (e.g. `"127.0.0.1"` or `"0.0.0.0"`).                   |
-| `server.bodyLimitMb` | `number`  | No       | `100`   | Maximum request body size in megabytes.                                |
-| `server.banner`      | `boolean` | No       | `true`  | Show the large ASCII art banner on startup. Compact header if `false`. |
-| `server.infobox`     | `boolean` | No       | `true`  | Show the info box (version, URL, store details) on startup.            |
-| `auth.token`         | `string`  | Yes      | —       | Bearer token required on all requests. Auth disabled if empty.         |
+| Field                 | Type      | Required | Default | Description                                                            |
+| --------------------- | --------- | -------- | ------- | ---------------------------------------------------------------------- |
+| `server.port`         | `number`  | Yes      | —       | Port to listen on.                                                     |
+| `server.host`         | `string`  | Yes      | —       | Host to bind to (e.g. `"127.0.0.1"` or `"0.0.0.0"`).                   |
+| `server.bodyLimitMb`  | `number`  | No       | `100`   | Maximum request body size in megabytes.                                |
+| `server.banner`       | `boolean` | No       | `true`  | Show the large ASCII art banner on startup. Compact header if `false`. |
+| `server.infobox`      | `boolean` | No       | `true`  | Show the info box (version, URL, store details) on startup.            |
+| `server.tls.certFile` | `string`  | No       | —       | Path to PEM certificate file. Enables HTTPS when set (with `keyFile`). |
+| `server.tls.keyFile`  | `string`  | No       | —       | Path to PEM private key file.                                          |
+| `server.tls.caFile`   | `string`  | No       | —       | Path to CA certificate file (optional).                                |
+| `auth.token`          | `string`  | Yes      | —       | Bearer token required on all requests. Auth disabled if empty.         |
 
 ```ts
 import type { CacheiroConfig } from '@renatorodrigues/cacheiro';

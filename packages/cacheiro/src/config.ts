@@ -9,6 +9,11 @@ export interface CacheiroConfig {
     bodyLimitMb?: number;
     banner?: boolean;
     infobox?: boolean;
+    tls?: {
+      certFile: string;
+      keyFile: string;
+      caFile?: string;
+    };
   };
   auth: {
     token: string;
