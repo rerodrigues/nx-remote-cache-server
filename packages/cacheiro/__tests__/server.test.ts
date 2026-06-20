@@ -1,8 +1,13 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { Readable, PassThrough } from 'node:stream';
+import { join, dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { createServer } from '../src/server.js';
 import type { CacheiroStore } from '@renatorodrigues/cacheiro-types';
 import type { CacheiroConfig } from '../src/config.js';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const FIXTURES = join(__dirname, 'fixtures');
 
 class MemoryStore implements CacheiroStore {
   private data = new Map<string, Buffer>();
@@ -116,5 +121,61 @@ describe('GET /v1/cache/:hash', () => {
     expect(res.statusCode).toBe(200);
     expect(res.headers['content-type']).toContain('application/octet-stream');
     expect(res.rawPayload).toEqual(Buffer.from('hello'));
+  });
+});
+
+describe('TLS', () => {
+  let store: MemoryStore;
+
+  beforeEach(() => {
+    store = new MemoryStore();
+  });
+
+  it('creates an HTTP server when tls config is absent', async () => {
+    const { Server: TLSServer } = await import('node:tls');
+    const app = await createServer(store, testConfig);
+    expect(app.server).not.toBeInstanceOf(TLSServer);
+  });
+
+  it('creates an HTTPS server when tls config is present', async () => {
+    const { Server: TLSServer } = await import('node:tls');
+    const tlsConfig: CacheiroConfig = {
+      ...testConfig,
+      server: {
+        ...testConfig.server,
+        tls: {
+          certFile: join(FIXTURES, 'cert.pem'),
+          keyFile: join(FIXTURES, 'key.pem'),
+        },
+      },
+    };
+    const app = await createServer(store, tlsConfig);
+    expect(app.server).toBeInstanceOf(TLSServer);
+  });
+
+  it('throws a clear error when certFile does not exist', async () => {
+    const tlsConfig: CacheiroConfig = {
+      ...testConfig,
+      server: {
+        ...testConfig.server,
+        tls: { certFile: '/nonexistent/cert.pem', keyFile: join(FIXTURES, 'key.pem') },
+      },
+    };
+    await expect(createServer(store, tlsConfig)).rejects.toThrow(
+      'TLS certFile file not found: /nonexistent/cert.pem',
+    );
+  });
+
+  it('throws a clear error when keyFile does not exist', async () => {
+    const tlsConfig: CacheiroConfig = {
+      ...testConfig,
+      server: {
+        ...testConfig.server,
+        tls: { certFile: join(FIXTURES, 'cert.pem'), keyFile: '/nonexistent/key.pem' },
+      },
+    };
+    await expect(createServer(store, tlsConfig)).rejects.toThrow(
+      'TLS keyFile file not found: /nonexistent/key.pem',
+    );
   });
 });
