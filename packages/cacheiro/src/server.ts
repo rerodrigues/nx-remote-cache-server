@@ -142,6 +142,10 @@ export async function createServer(store: CacheiroStore, config: CacheiroConfig)
     (_req, body, done) => done(null, body),
   );
 
+  fastify.get('/health', async (_request, reply) => {
+    return reply.status(200).type('text/plain').send('OK');
+  });
+
   fastify.all('/v1/cache/*', async (request, reply) => {
     return api.handleRequest(
       {

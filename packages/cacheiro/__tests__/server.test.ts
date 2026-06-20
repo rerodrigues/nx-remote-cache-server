@@ -36,6 +36,17 @@ const testConfig: CacheiroConfig = {
 
 const AUTH = 'Bearer test-token';
 
+describe('GET /health', () => {
+  it('returns 200 with status ok', async () => {
+    const store = new MemoryStore();
+    const app = await createServer(store, testConfig);
+    const res = await app.inject({ method: 'GET', url: '/health' });
+    expect(res.statusCode).toBe(200);
+    expect(res.headers['content-type']).toContain('text/plain');
+    expect(res.body).toBe('OK');
+  });
+});
+
 describe('PUT /v1/cache/:hash', () => {
   let store: MemoryStore;
 

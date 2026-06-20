@@ -92,12 +92,13 @@ const validate = ajv.compile(configSchema);
 
 Defined by [`swagger.json`](https://github.com/rerodrigues/nx-remote-cache-server/blob/main/packages/cacheiro/swagger.json) (OpenAPI 3.0).
 
-| Method | Path              | Description              |
-| ------ | ----------------- | ------------------------ |
-| `PUT`  | `/v1/cache/:hash` | Upload a task artifact   |
-| `GET`  | `/v1/cache/:hash` | Download a task artifact |
+| Method | Path              | Auth required | Description                     |
+| ------ | ----------------- | ------------- | ------------------------------- |
+| `PUT`  | `/v1/cache/:hash` | Yes           | Upload a task artifact          |
+| `GET`  | `/v1/cache/:hash` | Yes           | Download a task artifact        |
+| `GET`  | `/health`         | No            | Health check — returns `200 OK` |
 
-All endpoints require an `Authorization: Bearer <token>` header when `auth.token` is set.
+`/v1/cache/*` endpoints require an `Authorization: Bearer <token>` header when `auth.token` is set.
 
 ## Stores
 
