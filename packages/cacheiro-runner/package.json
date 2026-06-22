@@ -23,6 +23,7 @@
     "build": "tsc",
     "watch": "tsx watch src/index.ts",
     "watch:others": "lerna watch --ignore=@renatorodrigues/cacheiro-runner --loglevel=silent -- lerna run build --scope=$LERNA_PACKAGE_NAME >/dev/null 2>&1",
+    "predev": "lerna run build --ignore=@renatorodrigues/cacheiro-runner >/dev/null",
     "dev": "concurrently --raw --handle-input \"npm run --silent watch\" \"npm run --silent watch:others\"",
     "start": "pm2-runtime ecosystem.config.cjs",
     "start:node": "node dist/index.js",
