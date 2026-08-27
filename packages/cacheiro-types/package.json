@@ -40,7 +40,7 @@
     "@types/node": "^22",
     "lint-staged": "^17.4.1",
     "oxfmt": "^0.66.0",
-    "typescript": "^6.0.3"
+    "typescript": "^7.0.2"
   },
   "engines": {
     "node": ">=22"
