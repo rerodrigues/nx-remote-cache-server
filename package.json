@@ -20,7 +20,8 @@
     "packages/*"
   ],
   "scripts": {
-    "prepare": "husky"
+    "prepare": "husky",
+    "test": "lerna run test"
   },
   "license": "MIT",
   "devDependencies": {
