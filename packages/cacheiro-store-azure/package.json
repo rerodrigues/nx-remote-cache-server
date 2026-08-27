@@ -47,17 +47,17 @@
     "fmt:check": "oxfmt --check"
   },
   "dependencies": {
-    "@azure/identity": "^4.4.0",
-    "@azure/storage-blob": "^12.24.0"
+    "@azure/identity": "^4.13.2",
+    "@azure/storage-blob": "^12.33.0"
   },
   "devDependencies": {
     "@renatorodrigues/cacheiro-types": "1.1.0",
     "@types/node": "^22",
     "lint-staged": "^16.4.0",
     "oxfmt": "^0.53.0",
-    "oxlint": "^1.68.0",
+    "oxlint": "^1.81.0",
     "typescript": "^6.0.3",
-    "vitest": "^4.1.8"
+    "vitest": "^4.1.11"
   },
   "engines": {
     "node": ">=22"
