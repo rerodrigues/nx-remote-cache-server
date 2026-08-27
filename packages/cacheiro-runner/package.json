@@ -42,7 +42,7 @@
     "@types/config": "^4.4.0",
     "@types/node": "^22",
     "concurrently": "^10.0.5",
-    "lint-staged": "^16.4.0",
+    "lint-staged": "^17.4.1",
     "oxfmt": "^0.53.0",
     "oxlint": "^1.81.0",
     "pino-pretty": "^13.1.3",
