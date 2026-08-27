@@ -47,7 +47,7 @@
     "fmt:check": "oxfmt --check"
   },
   "dependencies": {
-    "@google-cloud/storage": "^7.0.0"
+    "@google-cloud/storage": "^8.0.1"
   },
   "devDependencies": {
     "@renatorodrigues/cacheiro-types": "1.1.0",
