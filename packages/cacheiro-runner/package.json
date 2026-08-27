@@ -36,7 +36,7 @@
     "@renatorodrigues/cacheiro": "1.1.0",
     "@renatorodrigues/cacheiro-store-fs": "1.0.2",
     "ajv": "^8.20.0",
-    "config": "^4.4.1"
+    "config": "^5.0.1"
   },
   "devDependencies": {
     "@types/config": "^4.4.0",
