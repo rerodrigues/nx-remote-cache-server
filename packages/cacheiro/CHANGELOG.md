@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.2](https://github.com/rerodrigues/nx-remote-cache-server/compare/@renatorodrigues/cacheiro@1.1.1...@renatorodrigues/cacheiro@1.1.2) (2026-09-03)
+
+### Bug Fixes
+
+- **cacheiro:** use LogController for request logging ([ad82359](https://github.com/rerodrigues/nx-remote-cache-server/commit/ad823590ab7473a3f2d0088abe7c5553908afdd9))
+
 ## [1.1.1](https://github.com/rerodrigues/nx-remote-cache-server/compare/@renatorodrigues/cacheiro@1.1.0...@renatorodrigues/cacheiro@1.1.1) (2026-09-03)
 
 **Note:** Version bump only for package @renatorodrigues/cacheiro
