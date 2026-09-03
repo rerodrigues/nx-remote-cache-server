@@ -1,4 +1,4 @@
-import Fastify, { errorCodes } from 'fastify';
+import Fastify, { errorCodes, LogController } from 'fastify';
 import type { FastifyServerOptions } from 'fastify';
 import { OpenAPIBackend } from 'openapi-backend';
 import type { Context } from 'openapi-backend';
@@ -89,7 +89,7 @@ export async function createServer(store: CacheiroStore, config: CacheiroConfig)
   const fastify = Fastify({
     logger: loggerOptions,
     bodyLimit: bodyLimitMb * 1024 * 1024,
-    disableRequestLogging: true,
+    logController: new LogController({ disableRequestLogging: true }),
     ...tlsOptions,
   });
 
