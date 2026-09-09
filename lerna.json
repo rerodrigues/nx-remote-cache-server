@@ -4,7 +4,7 @@
   "command": {
     "version": {
       "conventionalCommits": true,
-      "message": "chore(release): publish new version",
+      "message": "chore(release): publish new version [skip ci]",
       "exact": true,
       "changelogPreset": {
         "name": "conventionalcommits"
