@@ -1,8 +1,9 @@
 import { describe, it, expect, beforeEach } from 'vitest';
-import { Readable, PassThrough } from 'node:stream';
+import { PassThrough } from 'node:stream';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createServer } from '../src/server.js';
+import { CacheiroEmitter } from '../src/hooks.js';
 import type { CacheiroStore } from '@renatorodrigues/cacheiro-types';
 import type { CacheiroConfig } from '../src/config.js';
 
@@ -22,7 +23,7 @@ class MemoryStore implements CacheiroStore {
     this.data.set(hash, data);
   }
 
-  read(hash: string): Readable {
+  read(hash: string): PassThrough {
     const stream = new PassThrough();
     stream.end(this.data.get(hash)!);
     return stream;
@@ -132,6 +133,86 @@ describe('GET /v1/cache/:hash', () => {
     expect(res.statusCode).toBe(200);
     expect(res.headers['content-type']).toContain('application/octet-stream');
     expect(res.rawPayload).toEqual(Buffer.from('hello'));
+  });
+});
+
+describe('hooks', () => {
+  let store: MemoryStore;
+
+  beforeEach(() => {
+    store = new MemoryStore();
+  });
+
+  it('emits cacheMiss when the artifact does not exist', async () => {
+    const emitter = new CacheiroEmitter();
+    const misses: { hash: string }[] = [];
+    emitter.on('cacheMiss', (e) => misses.push(e));
+    const app = await createServer(store, testConfig, emitter);
+
+    await app.inject({
+      method: 'GET',
+      url: '/v1/cache/abc123',
+      headers: { Authorization: AUTH },
+    });
+
+    expect(misses).toEqual([{ hash: 'abc123' }]);
+  });
+
+  it('emits cacheHit with expired:false on a normal hit', async () => {
+    const emitter = new CacheiroEmitter();
+    const hits: { hash: string; expired: boolean }[] = [];
+    emitter.on('cacheHit', (e) => hits.push(e));
+    const app = await createServer(store, testConfig, emitter);
+    await store.write('abc123', Buffer.from('hello'));
+
+    await app.inject({
+      method: 'GET',
+      url: '/v1/cache/abc123',
+      headers: { Authorization: AUTH },
+    });
+
+    expect(hits).toEqual([{ hash: 'abc123', expired: false }]);
+  });
+
+  it('emits cacheSet after a successful PUT', async () => {
+    const emitter = new CacheiroEmitter();
+    const sets: { hash: string }[] = [];
+    emitter.on('cacheSet', (e) => sets.push(e));
+    const app = await createServer(store, testConfig, emitter);
+
+    await app.inject({
+      method: 'PUT',
+      url: '/v1/cache/abc123',
+      headers: {
+        Authorization: AUTH,
+        'Content-Type': 'application/octet-stream',
+        'Content-Length': '5',
+      },
+      payload: Buffer.from('hello'),
+    });
+
+    expect(sets).toEqual([{ hash: 'abc123' }]);
+  });
+
+  it('does not emit cacheSet when the artifact already exists (409)', async () => {
+    const emitter = new CacheiroEmitter();
+    const sets: { hash: string }[] = [];
+    emitter.on('cacheSet', (e) => sets.push(e));
+    const app = await createServer(store, testConfig, emitter);
+    await store.write('abc123', Buffer.from('hello'));
+
+    await app.inject({
+      method: 'PUT',
+      url: '/v1/cache/abc123',
+      headers: {
+        Authorization: AUTH,
+        'Content-Type': 'application/octet-stream',
+        'Content-Length': '5',
+      },
+      payload: Buffer.from('hello'),
+    });
+
+    expect(sets).toEqual([]);
   });
 });
 

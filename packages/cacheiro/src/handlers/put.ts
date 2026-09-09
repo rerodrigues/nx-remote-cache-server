@@ -1,8 +1,9 @@
 import type { Context } from 'openapi-backend';
 import type { FastifyReply, FastifyRequest } from 'fastify';
 import type { CacheiroStore } from '@renatorodrigues/cacheiro-types';
+import type { CacheiroEmitter } from '../hooks.js';
 
-export function createPutHandler(store: CacheiroStore) {
+export function createPutHandler(store: CacheiroStore, emitter: CacheiroEmitter) {
   return async (c: Context, req: FastifyRequest, reply: FastifyReply): Promise<void> => {
     const { hash } = c.request.params as { hash: string };
 
@@ -17,6 +18,7 @@ export function createPutHandler(store: CacheiroStore) {
     }
 
     await store.write(hash, req.body);
+    emitter.emit('cacheSet', { hash });
     reply.status(200).send();
   };
 }
