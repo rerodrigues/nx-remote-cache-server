@@ -21,6 +21,8 @@
   ],
   "scripts": {
     "prepare": "husky",
+    "build": "lerna run build",
+    "lint": "lerna run lint",
     "test": "lerna run test"
   },
   "license": "MIT",
