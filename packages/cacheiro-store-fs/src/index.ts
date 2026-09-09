@@ -1,7 +1,6 @@
 import { createReadStream, existsSync } from 'node:fs';
 import { mkdir, unlink } from 'node:fs/promises';
-import type { Readable } from 'node:stream';
-import type { CacheiroStore, Describable } from '@renatorodrigues/cacheiro-types';
+import type { CacheiroStore, Describable, ExpiringReadable } from '@renatorodrigues/cacheiro-types';
 import configSchema from '../configSchema.json' with { type: 'json' };
 import { shardPath } from './paths.js';
 import { atomicWrite } from './write.js';
@@ -63,11 +62,14 @@ export class FileSystemStore implements CacheiroStore, Describable {
     await atomicWrite(shardDir, finalPath, data);
   }
 
-  read(hash: string): Readable {
+  read(hash: string): ExpiringReadable {
     const { finalPath } = shardPath(this.dir, hash);
-    const stream = createReadStream(finalPath);
-    if (this.ttlMs > 0 && isExpired(finalPath, this.ttlMs)) {
-      stream.once('open', () => unlink(finalPath).catch(() => {}));
+    const stream: ExpiringReadable = createReadStream(finalPath);
+    stream.expired = this.ttlMs > 0 && isExpired(finalPath, this.ttlMs);
+    if (stream.expired) {
+      stream.once('open', () => {
+        unlink(finalPath).catch(() => {});
+      });
     }
     return stream;
   }

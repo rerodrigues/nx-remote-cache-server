@@ -38,10 +38,12 @@ describe('FileSystemStore', () => {
     const payload = Buffer.from('hello world');
     await store.write(H1, payload);
     const chunks: Buffer[] = [];
-    for await (const chunk of store.read(H1)) {
+    const stream = store.read(H1);
+    for await (const chunk of stream) {
       chunks.push(chunk as Buffer);
     }
     expect(Buffer.concat(chunks)).toEqual(payload);
+    expect(stream.expired).toBe(false);
   });
 
   it('write() creates shard dir if missing', async () => {
@@ -81,7 +83,8 @@ describe('FileSystemStore', () => {
     const b = Buffer.alloc(64 * 1024, 0xbb);
     await Promise.all([store.write(H1, a), store.write(H1, b)]);
     const chunks: Buffer[] = [];
-    for await (const chunk of store.read(H1)) chunks.push(chunk as Buffer);
+    const stream = store.read(H1);
+    for await (const chunk of stream) chunks.push(chunk as Buffer);
     const result = Buffer.concat(chunks);
     expect(result.length).toBe(64 * 1024);
     const first = result[0];
@@ -151,10 +154,12 @@ describe('FileSystemStore TTL', () => {
     await ttlStore.mount();
     await writeAndBackdate(ttlStore, H1);
     const chunks: Buffer[] = [];
-    for await (const chunk of ttlStore.read(H1)) {
+    const stream = ttlStore.read(H1);
+    for await (const chunk of stream) {
       chunks.push(chunk as Buffer);
     }
     expect(Buffer.concat(chunks).toString()).toBe('data');
+    expect(stream.expired).toBe(true);
     await new Promise((r) => setTimeout(r, 50));
     expect(await ttlStore.exists(H1)).toBe(false);
     ttlStore.unmount();
@@ -246,10 +251,12 @@ describe('FileSystemStore sweep disabled (sweepIntervalHours: 0)', () => {
     await utimes(join(dir, H1.slice(0, 2), H1.slice(2, 4), H1), past, past);
 
     const chunks: Buffer[] = [];
-    for await (const chunk of noSweepStore.read(H1)) {
+    const stream = noSweepStore.read(H1);
+    for await (const chunk of stream) {
       chunks.push(chunk as Buffer);
     }
     expect(Buffer.concat(chunks).toString()).toBe('data');
+    expect(stream.expired).toBe(true);
     await new Promise((r) => setTimeout(r, 50));
     expect(await noSweepStore.exists(H1)).toBe(false);
     noSweepStore.unmount();
