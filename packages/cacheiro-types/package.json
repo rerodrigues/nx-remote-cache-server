@@ -32,6 +32,7 @@
   },
   "scripts": {
     "build": "tsc",
+    "prepublishOnly": "npm run build",
     "watch": "tsc --watch",
     "fmt": "oxfmt",
     "fmt:check": "oxfmt --check"
