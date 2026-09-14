@@ -30,6 +30,28 @@ class MemoryStore implements CacheiroStore {
   }
 }
 
+class ExpiringMemoryStore extends MemoryStore {
+  override read(hash: string): PassThrough & { expired?: boolean } {
+    const stream = super.read(hash) as PassThrough & { expired?: boolean };
+    stream.expired = true;
+    return stream;
+  }
+}
+
+class FailingStore implements CacheiroStore {
+  async mount(): Promise<void> {}
+
+  async exists(): Promise<boolean> {
+    throw new Error('store unavailable');
+  }
+
+  async write(): Promise<void> {}
+
+  read(): PassThrough {
+    return new PassThrough();
+  }
+}
+
 const testConfig: CacheiroConfig = {
   server: { port: 3000, host: 'localhost', bodyLimitMb: 10, banner: false, infobox: false },
   auth: { token: 'test-token' },
@@ -213,6 +235,58 @@ describe('hooks', () => {
     });
 
     expect(sets).toEqual([]);
+  });
+
+  it('emits cacheHit with expired:true when the store marks the stream expired', async () => {
+    const expiringStore = new ExpiringMemoryStore();
+    await expiringStore.write('abc123', Buffer.from('hello'));
+    const emitter = new CacheiroEmitter();
+    const hits: { hash: string; expired: boolean }[] = [];
+    emitter.on('cacheHit', (e) => hits.push(e));
+    const app = await createServer(expiringStore, testConfig, emitter);
+
+    await app.inject({
+      method: 'GET',
+      url: '/v1/cache/abc123',
+      headers: { Authorization: AUTH },
+    });
+
+    expect(hits).toEqual([{ hash: 'abc123', expired: true }]);
+  });
+
+  it('emits serverError and returns 500 when a handler throws', async () => {
+    const failingStore = new FailingStore();
+    const emitter = new CacheiroEmitter();
+    const errors: { error: Error }[] = [];
+    emitter.on('serverError', (e) => errors.push(e));
+    const app = await createServer(failingStore, testConfig, emitter);
+
+    const res = await app.inject({
+      method: 'GET',
+      url: '/v1/cache/abc123',
+      headers: { Authorization: AUTH },
+    });
+
+    expect(res.statusCode).toBe(500);
+    expect(errors).toHaveLength(1);
+    expect(errors[0].error.message).toBe('store unavailable');
+  });
+
+  it('off() stops a listener from receiving further events', async () => {
+    const emitter = new CacheiroEmitter();
+    const misses: { hash: string }[] = [];
+    const listener = (e: { hash: string }) => misses.push(e);
+    emitter.on('cacheMiss', listener);
+    emitter.off('cacheMiss', listener);
+    const app = await createServer(store, testConfig, emitter);
+
+    await app.inject({
+      method: 'GET',
+      url: '/v1/cache/abc123',
+      headers: { Authorization: AUTH },
+    });
+
+    expect(misses).toEqual([]);
   });
 });
 
