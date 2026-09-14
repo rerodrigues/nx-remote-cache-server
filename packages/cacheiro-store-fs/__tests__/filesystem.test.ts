@@ -165,6 +165,65 @@ describe('FileSystemStore TTL', () => {
     ttlStore.unmount();
   });
 
+  it("read() emits 'expired' with the hash when serving a stale file", async () => {
+    const ttlStore = new FileSystemStore({
+      cacheDirectory: dir,
+      ttlDays: 1,
+      sweepIntervalHours: 1,
+    });
+    await ttlStore.mount();
+    await writeAndBackdate(ttlStore, H1);
+    const expired: { hash: string }[] = [];
+    ttlStore.on('expired', (e) => expired.push(e));
+
+    const stream = ttlStore.read(H1);
+    for await (const _chunk of stream) {
+      // drain
+    }
+
+    expect(expired).toEqual([{ hash: H1 }]);
+    ttlStore.unmount();
+  });
+
+  it("read() does not emit 'expired' for a fresh file", async () => {
+    const ttlStore = new FileSystemStore({
+      cacheDirectory: dir,
+      ttlDays: 1,
+      sweepIntervalHours: 1,
+    });
+    await ttlStore.mount();
+    await ttlStore.write(H1, Buffer.from('data'));
+    const expired: { hash: string }[] = [];
+    ttlStore.on('expired', (e) => expired.push(e));
+
+    const stream = ttlStore.read(H1);
+    for await (const _chunk of stream) {
+      // drain
+    }
+
+    expect(expired).toEqual([]);
+    ttlStore.unmount();
+  });
+
+  it("sweepNow() emits 'swept' with the removed count", async () => {
+    const ttlStore = new FileSystemStore({
+      cacheDirectory: dir,
+      ttlDays: 1,
+      sweepIntervalHours: 1,
+    });
+    await ttlStore.mount();
+    await writeAndBackdate(ttlStore, H1);
+    await ttlStore.write(H2, Buffer.from('data'));
+    const swept: { count: number }[] = [];
+    ttlStore.on('swept', (e) => swept.push(e));
+
+    const count = await ttlStore.sweepNow();
+
+    expect(count).toBe(1);
+    expect(swept).toEqual([{ count: 1 }]);
+    ttlStore.unmount();
+  });
+
   it('sweep() deletes expired files and keeps fresh ones', async () => {
     const ttlStore = new FileSystemStore({
       cacheDirectory: dir,
