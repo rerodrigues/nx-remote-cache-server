@@ -60,6 +60,10 @@
         "token": {
           "type": "string",
           "description": "Bearer token required on all requests. Auth is disabled if empty."
+        },
+        "readOnlyToken": {
+          "type": "string",
+          "description": "Optional bearer token granting read-only access (GET only, no PUT). Give this to untrusted CI (e.g. PR builds) so it can use the cache without being able to poison it (CVE-2025-36852 / CREEP). Must differ from `token`."
         }
       }
     },

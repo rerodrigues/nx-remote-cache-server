@@ -55,11 +55,26 @@ function buildTlsOptions(tls: NonNullable<CacheiroConfig['server']['tls']>) {
   };
 }
 
+function safeEqual(a: string, b: string): boolean {
+  const bufA = Buffer.from(a);
+  const bufB = Buffer.from(b);
+  if (bufA.length !== bufB.length) return false;
+  return timingSafeEqual(bufA, bufB);
+}
+
 export async function createServer(
   store: CacheiroStore,
   config: CacheiroConfig,
   emitter: CacheiroEmitter = new CacheiroEmitter(),
 ) {
+  const { token: authToken, readOnlyToken } = config.auth;
+  if (readOnlyToken === '') {
+    throw new Error('auth.readOnlyToken must not be empty when set');
+  }
+  if (readOnlyToken !== undefined && readOnlyToken === authToken) {
+    throw new Error('auth.readOnlyToken must differ from auth.token');
+  }
+
   const api = new OpenAPIBackend({ definition: loadSpec() });
 
   api.register({
@@ -76,15 +91,16 @@ export async function createServer(
   });
 
   api.registerSecurityHandler('bearerToken', (c) => {
-    const authToken = config.auth.token;
     if (!authToken) return true;
     const auth = c.request.headers['authorization'] as string | undefined;
     if (!auth) return false;
     const token = auth.replace(/^Bearer\s+/i, '');
-    const a = Buffer.from(token);
-    const b = Buffer.from(authToken);
-    if (a.length !== b.length) return false;
-    return timingSafeEqual(a, b);
+
+    const isReadWrite = safeEqual(token, authToken);
+    const isReadOnly = readOnlyToken ? safeEqual(token, readOnlyToken) : false;
+    if (!isReadWrite && !isReadOnly) return false;
+
+    return { readOnly: !isReadWrite };
   });
 
   await api.init();

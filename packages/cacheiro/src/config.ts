@@ -17,5 +17,6 @@ export interface CacheiroConfig {
   };
   auth: {
     token: string;
+    readOnlyToken?: string;
   };
 }
