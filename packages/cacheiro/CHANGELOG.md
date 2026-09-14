@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.0](https://github.com/rerodrigues/nx-remote-cache-server/compare/@renatorodrigues/cacheiro@1.1.3...@renatorodrigues/cacheiro@1.2.0) (2026-09-14)
+
+### Features
+
+- **cacheiro:** add lifecycle hooks ([bf0969e](https://github.com/rerodrigues/nx-remote-cache-server/commit/bf0969e0ed323a6ee435cee611f5605defe94ada))
+
 ## [1.1.3](https://github.com/rerodrigues/nx-remote-cache-server/compare/@renatorodrigues/cacheiro@1.1.2...@renatorodrigues/cacheiro@1.1.3) (2026-09-09)
 
 ### Bug Fixes

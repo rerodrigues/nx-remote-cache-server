@@ -1,6 +1,6 @@
 {
   "name": "@renatorodrigues/cacheiro-store-fs",
-  "version": "1.0.4",
+  "version": "1.1.0",
   "private": false,
   "description": "Filesystem store for @renatorodrigues/cacheiro — sharded layout, atomic writes",
   "homepage": "https://github.com/rerodrigues/nx-remote-cache-server/tree/main/packages/cacheiro-store-fs#readme",
@@ -49,7 +49,7 @@
     "fmt:check": "oxfmt --check"
   },
   "devDependencies": {
-    "@renatorodrigues/cacheiro-types": "1.1.2",
+    "@renatorodrigues/cacheiro-types": "1.2.0",
     "@types/node": "^22",
     "lint-staged": "^17.4.1",
     "oxfmt": "^0.66.0",

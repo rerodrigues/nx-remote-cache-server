@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.0](https://github.com/rerodrigues/nx-remote-cache-server/compare/@renatorodrigues/cacheiro-store-fs@1.0.4...@renatorodrigues/cacheiro-store-fs@1.1.0) (2026-09-14)
+
+### Features
+
+- **cacheiro-store-fs:** add local expired/swept events ([7ac191b](https://github.com/rerodrigues/nx-remote-cache-server/commit/7ac191b3c0535e938d90e7d2b89fb31008880c33))
+- **cacheiro-types:** add ExpiringReadable for non-breaking TTL signaling ([348d6fa](https://github.com/rerodrigues/nx-remote-cache-server/commit/348d6fad0ecf8ecfb9302c2d64361123cb49bf10))
+
 ## [1.0.4](https://github.com/rerodrigues/nx-remote-cache-server/compare/@renatorodrigues/cacheiro-store-fs@1.0.3...@renatorodrigues/cacheiro-store-fs@1.0.4) (2026-09-09)
 
 ### Bug Fixes
