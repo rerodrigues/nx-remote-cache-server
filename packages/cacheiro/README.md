@@ -54,29 +54,6 @@ const server = await cacheiro.start();
 await cacheiro.listen();
 ```
 
-## Hooks
-
-`Cacheiro` exposes lifecycle events for metrics, logging, or custom side effects. Register them either via the third constructor argument (`hooks` object) or by calling `.on()` — both funnel into the same event bus, so you can mix and match, and `.on()` supports multiple listeners per event:
-
-```ts
-const cacheiro = new Cacheiro(store, config, {
-  onCacheSet: ({ hash }) => metrics.increment('cache.set'),
-});
-
-cacheiro.on('cacheHit', ({ hash, expired }) => {
-  if (!expired) metrics.increment('cache.hit_total');
-});
-```
-
-| Hook            | Payload             | Fires when                                                                                                                                                                                                                                        |
-| --------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `onCacheHit`    | `{ hash, expired }` | A `GET` finds and returns an artifact. `expired: true` means the artifact was past its TTL but is served one last time before removal — see the [`cacheiro-store-fs`](https://www.npmjs.com/package/@renatorodrigues/cacheiro-store-fs) TTL docs. |
-| `onCacheMiss`   | `{ hash }`          | A `GET` finds no artifact for the hash.                                                                                                                                                                                                           |
-| `onCacheSet`    | `{ hash }`          | A `PUT` successfully stores a new artifact. Cacheiro is a fixed-purpose NX remote cache — keys are content-addressed, so a hash is never legitimately overwritten (a repeat `PUT` gets a `409` instead), hence there is no `onCacheUpdate`.       |
-| `onServerStart` | —                   | After `cacheiro.listen()` successfully binds.                                                                                                                                                                                                     |
-| `onServerStop`  | —                   | After `cacheiro.stop()` closes the server.                                                                                                                                                                                                        |
-| `onServerError` | `{ error }`         | A request handler throws an uncaught error (mirrors the 500 response).                                                                                                                                                                            |
-
 ### `CacheiroStore`
 
 Interface that all store implementations must satisfy. Import it to build a custom store:
@@ -105,7 +82,7 @@ TypeScript interface describing the server configuration shape. Import it to typ
 import type { CacheiroConfig } from '@renatorodrigues/cacheiro';
 ```
 
-### `configSchema`
+#### `configSchema`
 
 JSON Schema (draft-07) for `CacheiroConfig`. Exported for runners and custom integrations to validate config before constructing `Cacheiro`:
 
@@ -115,6 +92,48 @@ import { Ajv } from 'ajv';
 
 const ajv = new Ajv({ allErrors: true });
 const validate = ajv.compile(configSchema);
+```
+
+### Hooks
+
+`Cacheiro` exposes lifecycle events for metrics, logging, or custom side effects. Register them either via the third constructor argument (`hooks` object) or by calling `.on()` — both funnel into the same event bus, so you can mix and match, and `.on()` supports multiple listeners per event:
+
+```ts
+const cacheiro = new Cacheiro(store, config, {
+  onCacheSet: ({ hash }) => metrics.increment('cache.set'),
+});
+
+cacheiro.on('cacheHit', ({ hash, expired }) => {
+  if (!expired) metrics.increment('cache.hit_total');
+});
+```
+
+| Hook            | Payload             | Fires when                                                                                                                                                                                                                                        |
+| --------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `onCacheHit`    | `{ hash, expired }` | A `GET` finds and returns an artifact. `expired: true` means the artifact was past its TTL but is served one last time before removal — see the [`cacheiro-store-fs`](https://www.npmjs.com/package/@renatorodrigues/cacheiro-store-fs) TTL docs. |
+| `onCacheMiss`   | `{ hash }`          | A `GET` finds no artifact for the hash.                                                                                                                                                                                                           |
+| `onCacheSet`    | `{ hash }`          | A `PUT` successfully stores a new artifact. Cacheiro is a fixed-purpose NX remote cache — keys are content-addressed, so a hash is never legitimately overwritten (a repeat `PUT` gets a `409` instead), hence there is no `onCacheUpdate`.       |
+| `onServerStart` | —                   | After `cacheiro.listen()` successfully binds.                                                                                                                                                                                                     |
+| `onServerStop`  | —                   | After `cacheiro.stop()` closes the server.                                                                                                                                                                                                        |
+| `onServerError` | `{ error }`         | A request handler throws an uncaught error (mirrors the 500 response).                                                                                                                                                                            |
+
+Minimal skeleton wiring every hook, plus the `cacheiro-store-fs`-specific `expired`/`swept` events (registered directly on the store, not part of this hooks bus). Continuing the `store`/`config` from the example above:
+
+```ts
+const cacheiro = new Cacheiro(store, config, {
+  onCacheHit: ({ hash, expired }) => log.info('hit', { hash, expired }),
+  onCacheMiss: ({ hash }) => log.info('miss', { hash }),
+  onCacheSet: ({ hash }) => log.info('set', { hash }),
+  onServerStart: () => log.info('server started'),
+  onServerStop: () => log.info('server stopped'),
+  onServerError: ({ error }) => log.error('server error', error),
+});
+
+// same hooks are also registrable via .on() — useful for multiple listeners per
+// event, or wiring after construction: cacheiro.on('cacheHit', ({ hash }) => ...)
+
+store.on('expired', ({ hash }) => log.debug('evicted', { hash }));
+store.on('swept', ({ count }) => log.debug('sweep removed', { count }));
 ```
 
 ## HTTP API
