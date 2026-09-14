@@ -16,6 +16,20 @@ Each `write` lands in `<final>.tmp-<random>` (same shard), is `fsync`-ed, then a
 - **Background sweep**: when both `ttlDays > 0` and `sweepIntervalHours > 0`, a `setInterval` timer walks the two-level shard tree and deletes expired files. Timer is `unref()`-ed so it does not keep the process alive.
 - **Sweep errors** are logged via `console.warn` and do not crash the server.
 
+## Events
+
+`FileSystemStore` is an `EventEmitter` with two store-local events, separate from [`cacheiro`](https://www.npmjs.com/package/@renatorodrigues/cacheiro)'s `onCacheHit`/`onCacheMiss`/`onCacheSet` hooks — subscribe directly on the store instance:
+
+| Event     | Payload     | Fires when                                                                        |
+| --------- | ----------- | --------------------------------------------------------------------------------- |
+| `expired` | `{ hash }`  | Lazy expiry: a `read()` serves a stale artifact one last time before deleting it. |
+| `swept`   | `{ count }` | The background sweep pass finishes, `count` is the number of files removed.       |
+
+```ts
+store.on('expired', ({ hash }) => log.debug('evicted', hash));
+store.on('swept', ({ count }) => metrics.gauge('cache.swept', count));
+```
+
 ## Usage
 
 ```ts

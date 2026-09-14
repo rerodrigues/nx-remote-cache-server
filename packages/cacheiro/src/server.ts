@@ -12,6 +12,7 @@ import { createPutHandler } from './handlers/put.js';
 import { createGetHandler } from './handlers/get.js';
 import type { CacheiroStore } from '@renatorodrigues/cacheiro-types';
 import type { CacheiroConfig } from './config.js';
+import { CacheiroEmitter } from './hooks.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -54,12 +55,16 @@ function buildTlsOptions(tls: NonNullable<CacheiroConfig['server']['tls']>) {
   };
 }
 
-export async function createServer(store: CacheiroStore, config: CacheiroConfig) {
+export async function createServer(
+  store: CacheiroStore,
+  config: CacheiroConfig,
+  emitter: CacheiroEmitter = new CacheiroEmitter(),
+) {
   const api = new OpenAPIBackend({ definition: loadSpec() });
 
   api.register({
-    put: createPutHandler(store),
-    get: createGetHandler(store),
+    put: createPutHandler(store, emitter),
+    get: createGetHandler(store, emitter),
     unauthorizedHandler: async (_c: Context, _req: FastifyRequest, reply: FastifyReply) =>
       reply.status(401).type('text/plain').send('Unauthorized'),
     notFound: async (_c: Context, _req: FastifyRequest, reply: FastifyReply) =>
@@ -133,6 +138,7 @@ export async function createServer(store: CacheiroStore, config: CacheiroConfig)
     }
     const err = error instanceof Error ? error : new Error(String(error));
     request.log.error(err.message);
+    emitter.emit('serverError', { error: err });
     reply.status(500).send({ error: 'Internal Server Error' });
   });
 

@@ -9,7 +9,8 @@ export function isExpired(filePath: string, ttlMs: number): boolean {
   return Date.now() - stat.mtimeMs > ttlMs;
 }
 
-export async function sweepShards(dir: string, ttlMs: number): Promise<void> {
+export async function sweepShards(dir: string, ttlMs: number): Promise<number> {
+  let count = 0;
   const top = await readdir(dir).catch(() => []);
   for (const a of top) {
     const aDir = join(dir, a);
@@ -19,8 +20,12 @@ export async function sweepShards(dir: string, ttlMs: number): Promise<void> {
       const files = await readdir(bDir).catch(() => []);
       for (const file of files) {
         const filePath = join(bDir, file);
-        if (isExpired(filePath, ttlMs)) await unlink(filePath).catch(() => {});
+        if (isExpired(filePath, ttlMs)) {
+          await unlink(filePath).catch(() => {});
+          count++;
+        }
       }
     }
   }
+  return count;
 }
