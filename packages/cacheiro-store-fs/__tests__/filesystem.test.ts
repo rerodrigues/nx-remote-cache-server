@@ -224,6 +224,25 @@ describe('FileSystemStore TTL', () => {
     ttlStore.unmount();
   });
 
+  it("off() stops a listener from receiving further 'expired' events", async () => {
+    const ttlStore = new FileSystemStore({
+      cacheDirectory: dir,
+      ttlDays: 1,
+      sweepIntervalHours: 0,
+    });
+    await ttlStore.mount();
+    await writeAndBackdate(ttlStore, H1);
+    const expired: { hash: string }[] = [];
+    const listener = (e: { hash: string }) => expired.push(e);
+    ttlStore.on('expired', listener);
+    ttlStore.off('expired', listener);
+
+    ttlStore.read(H1);
+
+    expect(expired).toEqual([]);
+    ttlStore.unmount();
+  });
+
   it('sweep() deletes expired files and keeps fresh ones', async () => {
     const ttlStore = new FileSystemStore({
       cacheDirectory: dir,
