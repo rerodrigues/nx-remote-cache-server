@@ -122,6 +122,7 @@ npm run fmt:check      # oxfmt --check
 | `server.tls.keyFile`              | —             | Path to PEM private key file.                                                                              |
 | `server.tls.caFile`               | —             | Path to CA certificate file (optional).                                                                    |
 | `auth.token`                      | `"change-me"` | Bearer token required on all requests. Auth is disabled if empty.                                          |
+| `auth.readOnlyToken`              | —             | Optional bearer token granting read-only access (GET only, no PUT). Must differ from `auth.token`.         |
 | `storeOptions.cacheDirectory`     | `"./cache"`   | Directory where artifacts are stored.                                                                      |
 | `storeOptions.ttlDays`            | `7`           | Artifact TTL in days. `0` disables expiration.                                                             |
 | `storeOptions.sweepIntervalHours` | `24`          | How often to sweep for expired artifacts (hours). `0` disables the sweep.                                  |
@@ -131,6 +132,7 @@ npm run fmt:check      # oxfmt --check
 | Variable                              | Config key                        | Default       |
 | ------------------------------------- | --------------------------------- | ------------- |
 | `CACHEIRO_AUTH_TOKEN`                 | `auth.token`                      | `"change-me"` |
+| `CACHEIRO_AUTH_READ_ONLY_TOKEN`       | `auth.readOnlyToken`              | —             |
 | `CACHEIRO_PORT`                       | `server.port`                     | `3000`        |
 | `CACHEIRO_HOST`                       | `server.host`                     | `127.0.0.1`   |
 | `CACHEIRO_BODY_LIMIT_MB`              | `server.bodyLimitMb`              | `100`         |
