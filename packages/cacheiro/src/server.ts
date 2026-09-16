@@ -62,18 +62,38 @@ function safeEqual(a: string, b: string): boolean {
   return timingSafeEqual(bufA, bufB);
 }
 
+function validateAuthConfig(config: CacheiroConfig): {
+  authToken?: string;
+  readOnlyToken?: string;
+} {
+  const authToken = config.auth?.token;
+  const readOnlyToken = config.auth?.readOnlyToken;
+
+  if (readOnlyToken === '') {
+    throw new Error('auth.readOnlyToken must not be empty when set');
+  }
+  if (readOnlyToken !== undefined && !authToken) {
+    throw new Error('auth.readOnlyToken requires auth.token to be set');
+  }
+  if (readOnlyToken !== undefined && readOnlyToken === authToken) {
+    throw new Error('auth.readOnlyToken must differ from auth.token');
+  }
+  if (authToken === '') {
+    console.warn(
+      '[cacheiro] auth.token: "" is deprecated and will be rejected in the next major version. ' +
+        'Remove the auth.token field (or the whole auth object) instead of passing an empty string to disable auth.',
+    );
+  }
+
+  return { authToken, readOnlyToken };
+}
+
 export async function createServer(
   store: CacheiroStore,
   config: CacheiroConfig,
   emitter: CacheiroEmitter = new CacheiroEmitter(),
 ) {
-  const { token: authToken, readOnlyToken } = config.auth;
-  if (readOnlyToken === '') {
-    throw new Error('auth.readOnlyToken must not be empty when set');
-  }
-  if (readOnlyToken !== undefined && readOnlyToken === authToken) {
-    throw new Error('auth.readOnlyToken must differ from auth.token');
-  }
+  const { authToken, readOnlyToken } = validateAuthConfig(config);
 
   const api = new OpenAPIBackend({ definition: loadSpec() });
 

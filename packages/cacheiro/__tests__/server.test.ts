@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { PassThrough } from 'node:stream';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -379,6 +379,26 @@ describe('auth.readOnlyToken', () => {
     );
   });
 
+  it('throws when readOnlyToken is set without token', async () => {
+    const config: CacheiroConfig = {
+      ...testConfig,
+      auth: { readOnlyToken: 'ro-token' },
+    };
+    await expect(createServer(store, config)).rejects.toThrow(
+      'auth.readOnlyToken requires auth.token to be set',
+    );
+  });
+
+  it('throws when readOnlyToken is set with an empty token', async () => {
+    const config: CacheiroConfig = {
+      ...testConfig,
+      auth: { token: '', readOnlyToken: 'ro-token' },
+    };
+    await expect(createServer(store, config)).rejects.toThrow(
+      'auth.readOnlyToken requires auth.token to be set',
+    );
+  });
+
   it('allows GET with the read-only token', async () => {
     const app = await createServer(store, readOnlyConfig);
     await store.write('abc123', Buffer.from('hello'));
@@ -419,5 +439,71 @@ describe('auth.readOnlyToken', () => {
       payload: Buffer.from('hello'),
     });
     expect(res.statusCode).toBe(200);
+  });
+});
+
+describe('auth (optional)', () => {
+  let store: MemoryStore;
+
+  beforeEach(() => {
+    store = new MemoryStore();
+  });
+
+  it('allows GET and PUT without a token when auth is omitted', async () => {
+    const config: CacheiroConfig = {
+      server: testConfig.server,
+    };
+    const app = await createServer(store, config);
+
+    const put = await app.inject({
+      method: 'PUT',
+      url: '/v1/cache/abc123',
+      headers: { 'Content-Type': 'application/octet-stream', 'Content-Length': '5' },
+      payload: Buffer.from('hello'),
+    });
+    expect(put.statusCode).toBe(200);
+
+    const get = await app.inject({ method: 'GET', url: '/v1/cache/abc123' });
+    expect(get.statusCode).toBe(200);
+  });
+
+  it('allows GET and PUT without a token when auth is an empty object', async () => {
+    const config: CacheiroConfig = { ...testConfig, auth: {} };
+    const app = await createServer(store, config);
+
+    const put = await app.inject({
+      method: 'PUT',
+      url: '/v1/cache/abc123',
+      headers: { 'Content-Type': 'application/octet-stream', 'Content-Length': '5' },
+      payload: Buffer.from('hello'),
+    });
+    expect(put.statusCode).toBe(200);
+  });
+
+  it('still disables auth for an empty token, but logs a deprecation warning', async () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
+    const config: CacheiroConfig = { ...testConfig, auth: { token: '' } };
+    const app = await createServer(store, config);
+
+    const res = await app.inject({ method: 'GET', url: '/v1/cache/abc123' });
+    expect(res.statusCode).toBe(404);
+
+    expect(warn).toHaveBeenCalledTimes(1);
+    expect(warn.mock.calls[0]?.[0]).toContain('auth.token: "" is deprecated');
+    warn.mockRestore();
+  });
+
+  it('does not warn when token is a non-empty string', async () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
+    await createServer(store, testConfig);
+    expect(warn).not.toHaveBeenCalled();
+    warn.mockRestore();
+  });
+
+  it('does not warn when auth is omitted', async () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
+    await createServer(store, { server: testConfig.server });
+    expect(warn).not.toHaveBeenCalled();
+    warn.mockRestore();
   });
 });

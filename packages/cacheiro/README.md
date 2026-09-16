@@ -66,18 +66,18 @@ import type { CacheiroStore } from '@renatorodrigues/cacheiro';
 
 TypeScript interface describing the server configuration shape. Import it to type your own config loader:
 
-| Field                 | Type      | Required | Default | Description                                                                                |
-| --------------------- | --------- | -------- | ------- | ------------------------------------------------------------------------------------------ |
-| `server.port`         | `number`  | Yes      | —       | Port to listen on.                                                                         |
-| `server.host`         | `string`  | Yes      | —       | Host to bind to (e.g. `"127.0.0.1"` or `"0.0.0.0"`).                                       |
-| `server.bodyLimitMb`  | `number`  | No       | `100`   | Maximum request body size in megabytes.                                                    |
-| `server.banner`       | `boolean` | No       | `true`  | Show the large ASCII art banner on startup. Compact header if `false`.                     |
-| `server.infobox`      | `boolean` | No       | `true`  | Show the info box (version, URL, store details) on startup.                                |
-| `server.tls.certFile` | `string`  | No       | —       | Path to PEM certificate file. Enables HTTPS when set (with `keyFile`).                     |
-| `server.tls.keyFile`  | `string`  | No       | —       | Path to PEM private key file.                                                              |
-| `server.tls.caFile`   | `string`  | No       | —       | Path to CA certificate file (optional).                                                    |
-| `auth.token`          | `string`  | Yes      | —       | Bearer token required on all requests. Auth disabled if empty.                             |
-| `auth.readOnlyToken`  | `string`  | No       | —       | Optional bearer token granting read-only access (GET only). Must differ from `auth.token`. |
+| Field                 | Type      | Required | Default | Description                                                                                                                                                                           |
+| --------------------- | --------- | -------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `server.port`         | `number`  | Yes      | —       | Port to listen on.                                                                                                                                                                    |
+| `server.host`         | `string`  | Yes      | —       | Host to bind to (e.g. `"127.0.0.1"` or `"0.0.0.0"`).                                                                                                                                  |
+| `server.bodyLimitMb`  | `number`  | No       | `100`   | Maximum request body size in megabytes.                                                                                                                                               |
+| `server.banner`       | `boolean` | No       | `true`  | Show the large ASCII art banner on startup. Compact header if `false`.                                                                                                                |
+| `server.infobox`      | `boolean` | No       | `true`  | Show the info box (version, URL, store details) on startup.                                                                                                                           |
+| `server.tls.certFile` | `string`  | No       | —       | Path to PEM certificate file. Enables HTTPS when set (with `keyFile`).                                                                                                                |
+| `server.tls.keyFile`  | `string`  | No       | —       | Path to PEM private key file.                                                                                                                                                         |
+| `server.tls.caFile`   | `string`  | No       | —       | Path to CA certificate file (optional).                                                                                                                                               |
+| `auth.token`          | `string`  | No       | —       | Bearer token required on all requests. Omit `auth` (or `token`) entirely to disable auth — passing `''` still works but is deprecated and will be rejected in the next major version. |
+| `auth.readOnlyToken`  | `string`  | No       | —       | Optional bearer token granting read-only access (GET only). Requires `auth.token` to be set. Must differ from `auth.token`.                                                           |
 
 ```ts
 import type { CacheiroConfig } from '@renatorodrigues/cacheiro';
