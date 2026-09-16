@@ -3,16 +3,17 @@ import type { FastifyServerOptions } from 'fastify';
 import { OpenAPIBackend } from 'openapi-backend';
 import type { Context } from 'openapi-backend';
 import type { FastifyReply, FastifyRequest } from 'fastify';
-import { readFileSync, existsSync } from 'node:fs';
+import { readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { timingSafeEqual } from 'node:crypto';
 import prettyBytes from 'pretty-bytes';
 import { createPutHandler } from './handlers/put.js';
 import { createGetHandler } from './handlers/get.js';
 import type { CacheiroStore } from '@renatorodrigues/cacheiro-types';
 import type { CacheiroConfig } from './config.js';
 import { CacheiroEmitter } from './hooks.js';
+import { buildTlsOptions } from './tls.js';
+import { safeEqual, validateAuthConfig } from './auth.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -35,57 +36,6 @@ const loggerOptions: FastifyServerOptions['logger'] = isDev
 function loadSpec() {
   const raw = readFileSync(join(__dirname, '../swagger.json'), 'utf-8');
   return JSON.parse(raw.replace(/^\s*\/\/.*$/gm, ''));
-}
-
-function readTlsFile(label: string, filePath: string): Buffer {
-  if (!filePath) throw new Error(`TLS ${label} is required`);
-  if (!existsSync(filePath)) throw new Error(`TLS ${label} file not found: ${filePath}`);
-  const content = readFileSync(filePath);
-  if (content.length === 0) throw new Error(`TLS ${label} file is empty: ${filePath}`);
-  return content;
-}
-
-function buildTlsOptions(tls: NonNullable<CacheiroConfig['server']['tls']>) {
-  return {
-    https: {
-      cert: readTlsFile('certFile', tls.certFile),
-      key: readTlsFile('keyFile', tls.keyFile),
-      ca: tls.caFile ? readTlsFile('caFile', tls.caFile) : undefined,
-    },
-  };
-}
-
-function safeEqual(a: string, b: string): boolean {
-  const bufA = Buffer.from(a);
-  const bufB = Buffer.from(b);
-  if (bufA.length !== bufB.length) return false;
-  return timingSafeEqual(bufA, bufB);
-}
-
-function validateAuthConfig(config: CacheiroConfig): {
-  authToken?: string;
-  readOnlyToken?: string;
-} {
-  const authToken = config.auth?.token;
-  const readOnlyToken = config.auth?.readOnlyToken;
-
-  if (readOnlyToken === '') {
-    throw new Error('auth.readOnlyToken must not be empty when set');
-  }
-  if (readOnlyToken !== undefined && !authToken) {
-    throw new Error('auth.readOnlyToken requires auth.token to be set');
-  }
-  if (readOnlyToken !== undefined && readOnlyToken === authToken) {
-    throw new Error('auth.readOnlyToken must differ from auth.token');
-  }
-  if (authToken === '') {
-    console.warn(
-      '[cacheiro] auth.token: "" is deprecated and will be rejected in the next major version. ' +
-        'Remove the auth.token field (or the whole auth object) instead of passing an empty string to disable auth.',
-    );
-  }
-
-  return { authToken, readOnlyToken };
 }
 
 export async function createServer(

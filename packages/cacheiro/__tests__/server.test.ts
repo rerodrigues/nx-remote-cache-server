@@ -344,6 +344,36 @@ describe('TLS', () => {
       'TLS keyFile file not found: /nonexistent/key.pem',
     );
   });
+
+  it('throws a clear error when a TLS file is empty', async () => {
+    const tlsConfig: CacheiroConfig = {
+      ...testConfig,
+      server: {
+        ...testConfig.server,
+        tls: { certFile: join(FIXTURES, 'empty.pem'), keyFile: join(FIXTURES, 'key.pem') },
+      },
+    };
+    await expect(createServer(store, tlsConfig)).rejects.toThrow(
+      `TLS certFile file is empty: ${join(FIXTURES, 'empty.pem')}`,
+    );
+  });
+
+  it('reads caFile when present', async () => {
+    const { Server: TLSServer } = await import('node:tls');
+    const tlsConfig: CacheiroConfig = {
+      ...testConfig,
+      server: {
+        ...testConfig.server,
+        tls: {
+          certFile: join(FIXTURES, 'cert.pem'),
+          keyFile: join(FIXTURES, 'key.pem'),
+          caFile: join(FIXTURES, 'cert.pem'),
+        },
+      },
+    };
+    const app = await createServer(store, tlsConfig);
+    expect(app.server).toBeInstanceOf(TLSServer);
+  });
 });
 
 describe('auth.readOnlyToken', () => {
