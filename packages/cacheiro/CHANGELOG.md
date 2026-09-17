@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.0](https://github.com/rerodrigues/nx-remote-cache-server/compare/@renatorodrigues/cacheiro@1.2.0...@renatorodrigues/cacheiro@1.3.0) (2026-09-17)
+
+### Features
+
+- **cacheiro:** add read-only auth token ([5454561](https://github.com/rerodrigues/nx-remote-cache-server/commit/5454561dfb6a576022a13f8252b2d685f78a9457))
+- **cacheiro:** surface readOnlyToken in startup banner ([fb058f5](https://github.com/rerodrigues/nx-remote-cache-server/commit/fb058f5f0d2c2607db9bd3df5f1eed94b7701ba6))
+
+### Bug Fixes
+
+- **cacheiro:** reject empty readOnlyToken in schema too ([87afdef](https://github.com/rerodrigues/nx-remote-cache-server/commit/87afdef55ebba8eca43f296f6bb96dae1b27b4f7))
+
 ## [1.2.0](https://github.com/rerodrigues/nx-remote-cache-server/compare/@renatorodrigues/cacheiro@1.1.3...@renatorodrigues/cacheiro@1.2.0) (2026-09-14)
 
 ### Features
