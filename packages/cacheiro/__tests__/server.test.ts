@@ -345,3 +345,79 @@ describe('TLS', () => {
     );
   });
 });
+
+describe('auth.readOnlyToken', () => {
+  let store: MemoryStore;
+
+  beforeEach(() => {
+    store = new MemoryStore();
+  });
+
+  const readOnlyConfig: CacheiroConfig = {
+    ...testConfig,
+    auth: { token: 'test-token', readOnlyToken: 'ro-token' },
+  };
+  const READ_ONLY_AUTH = 'Bearer ro-token';
+
+  it('throws when readOnlyToken equals token', async () => {
+    const config: CacheiroConfig = {
+      ...testConfig,
+      auth: { token: 'same', readOnlyToken: 'same' },
+    };
+    await expect(createServer(store, config)).rejects.toThrow(
+      'auth.readOnlyToken must differ from auth.token',
+    );
+  });
+
+  it('throws when readOnlyToken is an empty string', async () => {
+    const config: CacheiroConfig = {
+      ...testConfig,
+      auth: { token: 'test-token', readOnlyToken: '' },
+    };
+    await expect(createServer(store, config)).rejects.toThrow(
+      'auth.readOnlyToken must not be empty when set',
+    );
+  });
+
+  it('allows GET with the read-only token', async () => {
+    const app = await createServer(store, readOnlyConfig);
+    await store.write('abc123', Buffer.from('hello'));
+    const res = await app.inject({
+      method: 'GET',
+      url: '/v1/cache/abc123',
+      headers: { Authorization: READ_ONLY_AUTH },
+    });
+    expect(res.statusCode).toBe(200);
+  });
+
+  it('returns 403 for PUT with the read-only token', async () => {
+    const app = await createServer(store, readOnlyConfig);
+    const res = await app.inject({
+      method: 'PUT',
+      url: '/v1/cache/abc123',
+      headers: {
+        Authorization: READ_ONLY_AUTH,
+        'Content-Type': 'application/octet-stream',
+        'Content-Length': '5',
+      },
+      payload: Buffer.from('hello'),
+    });
+    expect(res.statusCode).toBe(403);
+    expect(await store.exists('abc123')).toBe(false);
+  });
+
+  it('still allows PUT with the read-write token', async () => {
+    const app = await createServer(store, readOnlyConfig);
+    const res = await app.inject({
+      method: 'PUT',
+      url: '/v1/cache/abc123',
+      headers: {
+        Authorization: AUTH,
+        'Content-Type': 'application/octet-stream',
+        'Content-Length': '5',
+      },
+      payload: Buffer.from('hello'),
+    });
+    expect(res.statusCode).toBe(200);
+  });
+});

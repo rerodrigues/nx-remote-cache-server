@@ -18,7 +18,8 @@
     }
   },
   "auth": {
-    "token": "CACHEIRO_AUTH_TOKEN"
+    "token": "CACHEIRO_AUTH_TOKEN",
+    "readOnlyToken": "CACHEIRO_AUTH_READ_ONLY_TOKEN"
   },
   "storeOptions": {
     "cacheDirectory": "CACHEIRO_CACHE_DIRECTORY",

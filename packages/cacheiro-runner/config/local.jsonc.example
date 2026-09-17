@@ -29,6 +29,15 @@
 //   openssl req -x509 -newkey rsa:2048 -keyout key.pem -out cert.pem -days 365 -nodes -subj "/CN=localhost"
 
 
+// Read-only token example — hand this to untrusted CI (e.g. PR builds) so it
+// can GET but not PUT (CVE-2025-36852 / CREEP). Must differ from auth.token:
+// {
+//   "auth": {
+//     "readOnlyToken": "change-me-too"
+//   }
+// }
+
+
 // S3 example — also update src/index.ts to import and use S3Store:
 // {
 //   "storeOptions": {

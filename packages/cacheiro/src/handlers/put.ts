@@ -7,6 +7,11 @@ export function createPutHandler(store: CacheiroStore, emitter: CacheiroEmitter)
   return async (c: Context, req: FastifyRequest, reply: FastifyReply): Promise<void> => {
     const { hash } = c.request.params as { hash: string };
 
+    if (c.security.bearerToken?.readOnly) {
+      reply.status(403).type('text/plain').send('Forbidden');
+      return;
+    }
+
     if (!Buffer.isBuffer(req.body)) {
       reply.status(415).send({ error: 'Unsupported Media Type' });
       return;
