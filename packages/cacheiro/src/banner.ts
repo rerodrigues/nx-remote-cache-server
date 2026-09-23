@@ -67,8 +67,8 @@ export function printBanner(store: CacheiroStore, config: CacheiroConfig): void 
       ['url', `${server.tls ? 'https' : 'http'}://${server.host}:${server.port}`],
       ['store', store.constructor.name],
       ...storeRows,
-      ...(config.auth.token ? [['auth', 'enabled'] as [string, string]] : []),
-      ...(config.auth.readOnlyToken ? [['auth (read-only)', 'enabled'] as [string, string]] : []),
+      ...(config.auth?.token ? [['auth', 'enabled'] as [string, string]] : []),
+      ...(config.auth?.readOnlyToken ? [['auth (read-only)', 'enabled'] as [string, string]] : []),
     ];
     parts.push(buildBox(rows, server.banner ? LOGO_WIDTH : 0));
   }

@@ -15,8 +15,8 @@ export interface CacheiroConfig {
       caFile?: string;
     };
   };
-  auth: {
-    token: string;
+  auth?: {
+    token?: string;
     readOnlyToken?: string;
   };
 }

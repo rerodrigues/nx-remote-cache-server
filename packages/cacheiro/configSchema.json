@@ -59,12 +59,12 @@
       "properties": {
         "token": {
           "type": "string",
-          "description": "Bearer token required on all requests. Auth is disabled if empty."
+          "description": "Bearer token required on all requests. Omit `auth` or `token` to disable auth. Passing '' to disable auth is deprecated and will be rejected in the next major version."
         },
         "readOnlyToken": {
           "type": "string",
           "minLength": 1,
-          "description": "Optional bearer token granting read-only access (GET only, no PUT). Give this to untrusted CI (e.g. PR builds) so it can use the cache without being able to poison it (CVE-2025-36852 / CREEP). Must differ from `token`."
+          "description": "Optional bearer token granting read-only access (GET only, no PUT). Requires `token` to be set. Give this to untrusted CI (e.g. PR builds) so it can use the cache without being able to poison it (CVE-2025-36852 / CREEP). Must differ from `token`."
         }
       }
     },

@@ -3,16 +3,17 @@ import type { FastifyServerOptions } from 'fastify';
 import { OpenAPIBackend } from 'openapi-backend';
 import type { Context } from 'openapi-backend';
 import type { FastifyReply, FastifyRequest } from 'fastify';
-import { readFileSync, existsSync } from 'node:fs';
+import { readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { timingSafeEqual } from 'node:crypto';
 import prettyBytes from 'pretty-bytes';
 import { createPutHandler } from './handlers/put.js';
 import { createGetHandler } from './handlers/get.js';
 import type { CacheiroStore } from '@renatorodrigues/cacheiro-types';
 import type { CacheiroConfig } from './config.js';
 import { CacheiroEmitter } from './hooks.js';
+import { buildTlsOptions } from './tls.js';
+import { safeEqual, validateAuthConfig } from './auth.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -37,43 +38,12 @@ function loadSpec() {
   return JSON.parse(raw.replace(/^\s*\/\/.*$/gm, ''));
 }
 
-function readTlsFile(label: string, filePath: string): Buffer {
-  if (!filePath) throw new Error(`TLS ${label} is required`);
-  if (!existsSync(filePath)) throw new Error(`TLS ${label} file not found: ${filePath}`);
-  const content = readFileSync(filePath);
-  if (content.length === 0) throw new Error(`TLS ${label} file is empty: ${filePath}`);
-  return content;
-}
-
-function buildTlsOptions(tls: NonNullable<CacheiroConfig['server']['tls']>) {
-  return {
-    https: {
-      cert: readTlsFile('certFile', tls.certFile),
-      key: readTlsFile('keyFile', tls.keyFile),
-      ca: tls.caFile ? readTlsFile('caFile', tls.caFile) : undefined,
-    },
-  };
-}
-
-function safeEqual(a: string, b: string): boolean {
-  const bufA = Buffer.from(a);
-  const bufB = Buffer.from(b);
-  if (bufA.length !== bufB.length) return false;
-  return timingSafeEqual(bufA, bufB);
-}
-
 export async function createServer(
   store: CacheiroStore,
   config: CacheiroConfig,
   emitter: CacheiroEmitter = new CacheiroEmitter(),
 ) {
-  const { token: authToken, readOnlyToken } = config.auth;
-  if (readOnlyToken === '') {
-    throw new Error('auth.readOnlyToken must not be empty when set');
-  }
-  if (readOnlyToken !== undefined && readOnlyToken === authToken) {
-    throw new Error('auth.readOnlyToken must differ from auth.token');
-  }
+  const { authToken, readOnlyToken } = validateAuthConfig(config);
 
   const api = new OpenAPIBackend({ definition: loadSpec() });
 
