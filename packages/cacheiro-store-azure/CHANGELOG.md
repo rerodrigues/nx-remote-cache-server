@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.6](https://github.com/rerodrigues/nx-remote-cache-server/compare/@renatorodrigues/cacheiro-store-azure@1.0.5...@renatorodrigues/cacheiro-store-azure@1.0.6) (2026-09-23)
+
+### Bug Fixes
+
+- **cacheiro,cacheiro-store-\*:** build workspace deps in prepublishOnly ([3be97eb](https://github.com/rerodrigues/nx-remote-cache-server/commit/3be97ebe4ac73ac2199ad4c39b22beb81b124393))
+
 ## [1.0.5](https://github.com/rerodrigues/nx-remote-cache-server/compare/@renatorodrigues/cacheiro-store-azure@1.0.4...@renatorodrigues/cacheiro-store-azure@1.0.5) (2026-09-14)
 
 **Note:** Version bump only for package @renatorodrigues/cacheiro-store-azure

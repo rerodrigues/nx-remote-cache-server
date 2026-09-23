@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.1](https://github.com/rerodrigues/nx-remote-cache-server/compare/@renatorodrigues/cacheiro-store-fs@1.1.0...@renatorodrigues/cacheiro-store-fs@1.1.1) (2026-09-23)
+
+### Bug Fixes
+
+- **cacheiro,cacheiro-store-\*:** build workspace deps in prepublishOnly ([3be97eb](https://github.com/rerodrigues/nx-remote-cache-server/commit/3be97ebe4ac73ac2199ad4c39b22beb81b124393))
+
 ## [1.1.0](https://github.com/rerodrigues/nx-remote-cache-server/compare/@renatorodrigues/cacheiro-store-fs@1.0.4...@renatorodrigues/cacheiro-store-fs@1.1.0) (2026-09-14)
 
 ### Features
