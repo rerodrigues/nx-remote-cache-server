@@ -39,7 +39,7 @@
   },
   "scripts": {
     "build": "tsc",
-    "prepublishOnly": "npm run build",
+    "prepublishOnly": "lerna run build --scope=$npm_package_name --include-dependencies",
     "watch": "tsc --watch",
     "test": "vitest run",
     "test:watch": "vitest",
