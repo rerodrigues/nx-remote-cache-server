@@ -4,7 +4,10 @@
   "analytics": false,
   "namedInputs": {
     "source": ["{projectRoot}/src/**", "{projectRoot}/tsconfig.json"],
-    "packageFiles": ["{projectRoot}/package.json", "{workspaceRoot}/package-lock.json"]
+    "packageFiles": ["{projectRoot}/package.json", "{workspaceRoot}/package-lock.json"],
+    "lintConfig": ["{projectRoot}/oxlint.config.ts"],
+    "fmtConfig": ["{projectRoot}/oxfmt.config.ts"],
+    "testConfig": ["{projectRoot}/vitest.config.ts"]
   },
   "targetDefaults": {
     "build": {
@@ -15,15 +18,15 @@
     },
     "test": {
       "dependsOn": ["^build"],
-      "inputs": ["source", "packageFiles", "{projectRoot}/__tests__/**"],
+      "inputs": ["source", "packageFiles", "testConfig", "{projectRoot}/__tests__/**"],
       "cache": true
     },
     "lint": {
-      "inputs": ["source"],
+      "inputs": ["source", "lintConfig"],
       "cache": true
     },
     "lint:fix": {
-      "inputs": ["source"],
+      "inputs": ["source", "lintConfig"],
       "cache": false
     },
     "fmt:check": {
@@ -31,7 +34,8 @@
         "{projectRoot}/src/**",
         "{projectRoot}/__tests__/**",
         "{projectRoot}/*.json",
-        "{projectRoot}/*.md"
+        "{projectRoot}/*.md",
+        "fmtConfig"
       ],
       "cache": true
     },
