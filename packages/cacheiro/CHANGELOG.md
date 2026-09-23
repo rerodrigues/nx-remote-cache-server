@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.4.0](https://github.com/rerodrigues/nx-remote-cache-server/compare/@renatorodrigues/cacheiro@1.3.1...@renatorodrigues/cacheiro@1.4.0) (2026-09-23)
+
+### Features
+
+- **cacheiro:** make auth config optional ([af818e1](https://github.com/rerodrigues/nx-remote-cache-server/commit/af818e14f86bcfa881eb51823b04441fcdf98294))
+
 ## [1.3.1](https://github.com/rerodrigues/nx-remote-cache-server/compare/@renatorodrigues/cacheiro@1.3.0...@renatorodrigues/cacheiro@1.3.1) (2026-09-23)
 
 ### Bug Fixes
