@@ -35,6 +35,7 @@ Huge thanks to the brilliant folks at [NRWL](https://nrwl.io) for creating *Nx* 
 | ------------------------------------------------------------------------------ | -------------------------------------------------------- |
 | [`@renatorodrigues/cacheiro`](./packages/cacheiro)                             | Core cache server library          |
 | [`@renatorodrigues/cacheiro-runner`](./packages/cacheiro-runner)               | Reference runner — loads config and starts the server    |
+| [`@renatorodrigues/cacheiro-instants`](./packages/cacheiro-instants)           | Store-agnostic runtime behind the ready-to-use Docker images |
 | [`@renatorodrigues/cacheiro-store-fs`](./packages/cacheiro-store-fs)           | Filesystem store — sharded layout, atomic writes         |
 | [`@renatorodrigues/cacheiro-store-s3`](./packages/cacheiro-store-s3)           | S3 store implementation                                  |
 | [`@renatorodrigues/cacheiro-store-gcs`](./packages/cacheiro-store-gcs)         | GCS store implementation                                 |
@@ -60,6 +61,22 @@ npm run dev
 
 See [`packages/cacheiro-runner`](./packages/cacheiro-runner) for full configuration and deployment docs.
 See [`packages/cacheiro`](./packages/cacheiro) for the server core library API.
+
+## Docker images — Cacheiro Instants
+
+Ready-to-use Docker images, one per store flavor, published to GHCR:
+
+```sh
+docker run -p 3000:3000 -e CACHEIRO_AUTH_TOKEN=my-secret-token -v $(pwd)/cache:/cache \
+  ghcr.io/rerodrigues/cacheiro-instants-fs
+```
+
+- `ghcr.io/rerodrigues/cacheiro-instants-fs`
+- `ghcr.io/rerodrigues/cacheiro-instants-s3`
+- `ghcr.io/rerodrigues/cacheiro-instants-gcs`
+- `ghcr.io/rerodrigues/cacheiro-instants-azure`
+
+See [`packages/cacheiro-instants`](./packages/cacheiro-instants) for env vars, TLS setup, and per-flavor examples.
 
 ## Local emulators
 
