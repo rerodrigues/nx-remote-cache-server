@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://rerodrigues.github.io/nx-remote-cache-server/sitemap.xml
