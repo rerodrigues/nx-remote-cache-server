@@ -1,0 +1,22 @@
+/* Show the footer on pages with a sidebar too, aligned with the content area. */
+.VPFooter.has-sidebar {
+  display: block !important;
+  border-top: none !important;
+}
+
+@media (min-width: 960px) {
+  .VPFooter.has-sidebar {
+    padding-left: calc(var(--vp-sidebar-width) + 32px);
+  }
+}
+
+@media (min-width: 1440px) {
+  .VPFooter.has-sidebar {
+    padding-right: calc((100vw - var(--vp-layout-max-width)) / 2 + 32px);
+    padding-left: calc((100vw - var(--vp-layout-max-width)) / 2 + var(--vp-sidebar-width) + 32px);
+  }
+}
+
+.VPFooter.has-sidebar .copyright {
+  display: none;
+}

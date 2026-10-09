@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+<g transform="scale(.5)">
+<path d="M3 88C2 82 6 78 12 79C22 80 30 84 36 85H92C98 84 106 80 116 79C122 78 126 82 125 88C123 100 105 116 64 116C23 116 5 100 3 88Z" fill="#ff8d47"/>
+<path d="M3 88C2 82 6 78 12 79C22 80 30 84 36 85H92C98 84 106 80 116 79C122 78 126 82 125 88C123 100 105 116 64 116C23 116 5 100 3 88Z" fill="#fe640b" transform="translate(64 82) scale(.95 .8) translate(-64 -82)"/>
+<clipPath id="brim-body"><path d="M3 88C2 82 6 78 12 79C22 80 30 84 36 85H92C98 84 106 80 116 79C122 78 126 82 125 88C123 100 105 116 64 116C23 116 5 100 3 88Z" transform="translate(64 82) scale(.95 .8) translate(-64 -82)"/></clipPath>
+<path d="M0 96C40 112 104 108 130 80V130H0Z" fill="#d9540a" clip-path="url(#brim-body)"/>
+<path d="M30 26C28 24 29 21 33 20C40 18 52 16 64 16C76 16 90 18 95 20C99 21 100 24 99 27C97 40 94 54 94 66C94 76 95 86 97 94H31C33 86 34 76 34 66C34 54 31 40 30 26Z" fill="#fe640b"/>
+<path d="M62 33Q56 33 56 39L55 94H96C94 82 94 70 95 60C96 48 97 41 97 37Q97 33 92 33Z" fill="#d9540a"/>
+<path d="M39 37Q39 32 44 32H48Q51 32 51 36L50 73H41Z" fill="#ff8d47"/>
+<ellipse cx="64" cy="22" rx="34" ry="5" fill="#ff8d47"/>
+<path d="M30 78C50 81 78 81 98 78L97 96C78 99 50 99 31 96Z" fill="#8839ef"/>
+<rect x="38" y="80" width="14" height="15" rx="2" fill="#a96bf5"/>
+</g>
+</svg>

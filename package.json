@@ -1,0 +1,19 @@
+{
+  "name": "cacheiro-docs",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Cacheiro documentation site (VitePress)",
+  "type": "module",
+  "scripts": {
+    "dev": "vitepress dev",
+    "build": "vitepress build",
+    "preview": "vitepress preview"
+  },
+  "devDependencies": {
+    "@catppuccin/vitepress": "^0.1.4",
+    "vitepress": "^1.6.4"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}
