@@ -41,12 +41,12 @@
   "devDependencies": {
     "@types/config": "^4.4.0",
     "@types/node": "^22",
-    "concurrently": "^10.0.5",
-    "lint-staged": "^17.4.1",
+    "concurrently": "^10.0.6",
+    "lint-staged": "^17.6.0",
     "oxfmt": "^0.72.0",
-    "oxlint": "^1.81.0",
+    "oxlint": "^1.87.0",
     "pm2": "^7.0.4",
-    "tsx": "^4.23.13",
+    "tsx": "^4.23.15",
     "typescript": "^7.0.2"
   },
   "engines": {

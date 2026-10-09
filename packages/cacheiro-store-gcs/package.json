@@ -48,14 +48,14 @@
     "fmt:check": "oxfmt --check"
   },
   "dependencies": {
-    "@google-cloud/storage": "^8.0.1"
+    "@google-cloud/storage": "^8.4.0"
   },
   "devDependencies": {
     "@renatorodrigues/cacheiro-types": "1.2.0",
     "@types/node": "^22",
-    "lint-staged": "^17.4.1",
+    "lint-staged": "^17.6.0",
     "oxfmt": "^0.72.0",
-    "oxlint": "^1.81.0",
+    "oxlint": "^1.87.0",
     "typescript": "^7.0.2",
     "vitest": "^5.0.3"
   },
