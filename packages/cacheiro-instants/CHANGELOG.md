@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.2](https://github.com/rerodrigues/nx-remote-cache-server/compare/@renatorodrigues/cacheiro-instants@0.2.1...@renatorodrigues/cacheiro-instants@0.2.2) (2026-10-09)
+
+### Bug Fixes
+
+* **cacheiro-instants:** ship only the selected flavor&#x27;s store and SDK in images ([871754d](https://github.com/rerodrigues/nx-remote-cache-server/commit/871754d34e40b0c78e236fe5405911c93f383e8f))
+
+
 ## [0.2.1](https://github.com/rerodrigues/nx-remote-cache-server/compare/@renatorodrigues/cacheiro-instants@0.2.0...@renatorodrigues/cacheiro-instants@0.2.1) (2026-10-09)
 
 ### Bug Fixes

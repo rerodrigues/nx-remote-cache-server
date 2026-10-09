@@ -1,6 +1,6 @@
 {
   "name": "@renatorodrigues/cacheiro-instants",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "private": true,
   "description": "Cacheiro Instants — ready-to-use Cacheiro Docker images for fs/s3/gcs/azure store types",
   "homepage": "https://github.com/rerodrigues/nx-remote-cache-server/tree/main/packages/cacheiro-instants#readme",
