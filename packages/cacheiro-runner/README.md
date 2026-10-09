@@ -105,6 +105,8 @@ npm run dev            # watch + watch:others (full hot reload — server and de
 npm run watch          # tsx watch src/index.ts — server only
 npm run watch:others   # rebuilds dep packages on change (silent unless error)
 npm run build          # compile TypeScript
+npm test               # vitest run
+npm run test:watch     # watch mode
 npm run lint           # oxlint
 npm run lint:fix       # oxlint --fix
 npm run fmt            # oxfmt
