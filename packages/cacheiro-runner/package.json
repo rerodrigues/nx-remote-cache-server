@@ -39,7 +39,6 @@
     "config": "^5.0.1"
   },
   "devDependencies": {
-    "@types/config": "^4.4.0",
     "@types/node": "^22",
     "concurrently": "^10.0.6",
     "lint-staged": "^17.6.0",
