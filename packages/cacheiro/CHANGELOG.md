@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.0](https://github.com/rerodrigues/nx-remote-cache-server/compare/@renatorodrigues/cacheiro@1.4.0...@renatorodrigues/cacheiro@1.5.0) (2026-10-09)
+
+### Features
+
+* **cacheiro:** add logFormat option and bundle pino-pretty ([4d92755](https://github.com/rerodrigues/nx-remote-cache-server/commit/4d92755d464b190a0005738f4b643cd32ed6e2a4))
+
+
 ## [1.4.0](https://github.com/rerodrigues/nx-remote-cache-server/compare/@renatorodrigues/cacheiro@1.3.1...@renatorodrigues/cacheiro@1.4.0) (2026-09-23)
 
 ### Features

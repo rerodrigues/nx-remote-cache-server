@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.0](https://github.com/rerodrigues/nx-remote-cache-server/compare/@renatorodrigues/cacheiro-instants@0.2.2...@renatorodrigues/cacheiro-instants@0.3.0) (2026-10-09)
+
+### Features
+
+* **cacheiro-instants:** add CACHEIRO_LOG_FORMAT env var ([aa1f41e](https://github.com/rerodrigues/nx-remote-cache-server/commit/aa1f41e1fd1339c2eebc7a839a6f4ac42030587d))
+
+
 ## [0.2.2](https://github.com/rerodrigues/nx-remote-cache-server/compare/@renatorodrigues/cacheiro-instants@0.2.1...@renatorodrigues/cacheiro-instants@0.2.2) (2026-10-09)
 
 ### Bug Fixes

@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.7](https://github.com/rerodrigues/nx-remote-cache-server/compare/@renatorodrigues/cacheiro-store-azure@1.0.6...@renatorodrigues/cacheiro-store-azure@1.0.7) (2026-10-09)
+
+**Note:** Version bump only for package @renatorodrigues/cacheiro-store-azure
+
+
+
+
+
 ## [1.0.6](https://github.com/rerodrigues/nx-remote-cache-server/compare/@renatorodrigues/cacheiro-store-azure@1.0.5...@renatorodrigues/cacheiro-store-azure@1.0.6) (2026-09-23)
 
 ### Bug Fixes

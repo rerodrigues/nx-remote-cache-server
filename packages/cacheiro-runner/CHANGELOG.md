@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.0](https://github.com/rerodrigues/nx-remote-cache-server/compare/@renatorodrigues/cacheiro-runner@1.4.0...@renatorodrigues/cacheiro-runner@1.5.0) (2026-10-09)
+
+### Features
+
+* **cacheiro-runner:** map CACHEIRO_LOG_FORMAT to server.logFormat ([72d0bd6](https://github.com/rerodrigues/nx-remote-cache-server/commit/72d0bd681092efc6f8bde26dcadf5ec718154e6f))
+
+
 ## [1.4.0](https://github.com/rerodrigues/nx-remote-cache-server/compare/@renatorodrigues/cacheiro-runner@1.3.1...@renatorodrigues/cacheiro-runner@1.4.0) (2026-09-23)
 
 ### Features
