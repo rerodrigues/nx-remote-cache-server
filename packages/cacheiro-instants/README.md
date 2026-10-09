@@ -67,7 +67,7 @@ docker run -p 3000:3000 \
 
 ## Building locally
 
-Build from the repo root (the Dockerfile needs access to the full monorepo). `STORE_TYPE` picks which store package gets bundled — `fs` (default), `s3`, `gcs`, or `azure`:
+Build from the repo root (the Dockerfile needs access to the full monorepo). `STORE_TYPE` picks which store the image runs — `fs` (default), `s3`, `gcs`, or `azure`:
 
 ```sh
 docker build -f packages/cacheiro-instants/Dockerfile --build-arg STORE_TYPE=s3 -t cacheiro-instants-s3 .
