@@ -9,6 +9,7 @@ export interface CacheiroConfig {
     bodyLimitMb?: number;
     banner?: boolean;
     infobox?: boolean;
+    logFormat?: 'pretty' | 'json';
     tls?: {
       certFile: string;
       keyFile: string;

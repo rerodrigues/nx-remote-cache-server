@@ -120,6 +120,7 @@ npm run fmt:check      # oxfmt --check
 | `server.bodyLimitMb`              | `100`         | Max request body size in MB                                                                                                                                                           |
 | `server.banner`                   | `true`        | Show ASCII art startup banner. When `false`, prints a compact single-line header instead.                                                                                             |
 | `server.infobox`                  | `true`        | Show the info box with version, URL, and store details. When `false`, the version is shown inline instead.                                                                            |
+| `server.logFormat`                | unset         | `pretty` or `json`. Unset means `pretty` outside `NODE_ENV=production` and `json` in production.                                                                                      |
 | `server.tls.certFile`             | —             | Path to PEM certificate file. When set (with `keyFile`), enables HTTPS.                                                                                                               |
 | `server.tls.keyFile`              | —             | Path to PEM private key file.                                                                                                                                                         |
 | `server.tls.caFile`               | —             | Path to CA certificate file (optional).                                                                                                                                               |
@@ -140,6 +141,7 @@ npm run fmt:check      # oxfmt --check
 | `CACHEIRO_BODY_LIMIT_MB`              | `server.bodyLimitMb`              | `100`         |
 | `CACHEIRO_BANNER`                     | `server.banner`                   | `true`        |
 | `CACHEIRO_INFOBOX`                    | `server.infobox`                  | `true`        |
+| `CACHEIRO_LOG_FORMAT`                 | `server.logFormat`                | —             |
 | `CACHEIRO_TLS_CERT_FILE`              | `server.tls.certFile`             | —             |
 | `CACHEIRO_TLS_KEY_FILE`               | `server.tls.keyFile`              | —             |
 | `CACHEIRO_TLS_CA_FILE`                | `server.tls.caFile`               | —             |

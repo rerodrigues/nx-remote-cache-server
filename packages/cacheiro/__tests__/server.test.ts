@@ -70,6 +70,17 @@ describe('GET /health', () => {
   });
 });
 
+describe('server.logFormat', () => {
+  it("serves requests with logFormat 'json'", async () => {
+    const app = await createServer(new MemoryStore(), {
+      ...testConfig,
+      server: { ...testConfig.server, logFormat: 'json' },
+    });
+    const res = await app.inject({ method: 'GET', url: '/health' });
+    expect(res.statusCode).toBe(200);
+  });
+});
+
 describe('PUT /v1/cache/:hash', () => {
   let store: MemoryStore;
 

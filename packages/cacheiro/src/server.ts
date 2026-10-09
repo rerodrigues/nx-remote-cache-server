@@ -1,5 +1,4 @@
 import Fastify, { errorCodes, LogController } from 'fastify';
-import type { FastifyServerOptions } from 'fastify';
 import { OpenAPIBackend } from 'openapi-backend';
 import type { Context } from 'openapi-backend';
 import type { FastifyReply, FastifyRequest } from 'fastify';
@@ -13,25 +12,12 @@ import type { CacheiroStore } from '@renatorodrigues/cacheiro-types';
 import type { CacheiroConfig } from './config.js';
 import { CacheiroEmitter } from './hooks.js';
 import { buildTlsOptions } from './tls.js';
+import { buildLogger } from './logger.js';
 import { safeEqual, validateAuthConfig } from './auth.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const DEFAULT_BODY_LIMIT_MB = 100;
-
-const isDev = process.env.NODE_ENV !== 'production';
-
-const loggerOptions: FastifyServerOptions['logger'] = isDev
-  ? {
-      transport: {
-        target: 'pino-pretty',
-        options: {
-          translateTime: 'HH:MM:ss',
-          ignore: 'pid,hostname,reqId,req,res,responseTime',
-        },
-      },
-    }
-  : true;
 
 function loadSpec() {
   const raw = readFileSync(join(__dirname, '../swagger.json'), 'utf-8');
@@ -78,7 +64,7 @@ export async function createServer(
   const bodyLimitMb = config.server.bodyLimitMb ?? DEFAULT_BODY_LIMIT_MB;
   const tlsOptions = config.server.tls ? buildTlsOptions(config.server.tls) : {};
   const fastify = Fastify({
-    logger: loggerOptions,
+    logger: buildLogger(config.server.logFormat),
     bodyLimit: bodyLimitMb * 1024 * 1024,
     logController: new LogController({ disableRequestLogging: true }),
     ...tlsOptions,

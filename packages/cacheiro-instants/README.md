@@ -93,6 +93,7 @@ Plain environment variables only — no config files. Environment variables shar
 | `CACHEIRO_BODY_LIMIT_MB`        | `100`         | Max request body size in MB                                                                                                         |
 | `CACHEIRO_BANNER`               | `true`        | Show ASCII art startup banner                                                                                                       |
 | `CACHEIRO_INFOBOX`              | `true`        | Show the info box with version, URL, and store details                                                                              |
+| `CACHEIRO_LOG_FORMAT`           | `json`        | `json` (structured pino lines, default in the images) or `pretty` (human-readable)                                                  |
 | `CACHEIRO_TLS_CERT_FILE`        | —             | Path to PEM certificate file. Enables HTTPS when set with `KEY_FILE`                                                                |
 | `CACHEIRO_TLS_KEY_FILE`         | —             | Path to PEM private key file                                                                                                        |
 | `CACHEIRO_TLS_CA_FILE`          | —             | Path to CA certificate file (optional)                                                                                              |

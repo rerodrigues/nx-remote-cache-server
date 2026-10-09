@@ -56,6 +56,29 @@ describe('readCoreConfig', () => {
     expect(config.server.infobox).toBe(false);
   });
 
+  it('leaves server.logFormat unset by default', () => {
+    process.env.CACHEIRO_PORT = '3000';
+    process.env.CACHEIRO_HOST = '0.0.0.0';
+
+    expect(readCoreConfig().server).not.toHaveProperty('logFormat');
+  });
+
+  it('reads CACHEIRO_LOG_FORMAT into server.logFormat', () => {
+    process.env.CACHEIRO_PORT = '3000';
+    process.env.CACHEIRO_HOST = '0.0.0.0';
+    process.env.CACHEIRO_LOG_FORMAT = 'pretty';
+
+    expect(readCoreConfig().server.logFormat).toBe('pretty');
+  });
+
+  it('fails fast when CACHEIRO_LOG_FORMAT is not pretty or json', () => {
+    process.env.CACHEIRO_PORT = '3000';
+    process.env.CACHEIRO_HOST = '0.0.0.0';
+    process.env.CACHEIRO_LOG_FORMAT = 'xml';
+
+    expect(() => readCoreConfig()).toThrow();
+  });
+
   it('builds server.tls when both cert and key files are set', () => {
     process.env.CACHEIRO_PORT = '3000';
     process.env.CACHEIRO_HOST = '0.0.0.0';
