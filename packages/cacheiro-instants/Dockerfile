@@ -1,0 +1,62 @@
+ARG STORE_TYPE=fs
+
+FROM --platform=$BUILDPLATFORM node:22-alpine AS builder
+ARG STORE_TYPE
+WORKDIR /app
+
+COPY package.json package-lock.json ./
+COPY packages/cacheiro-types/package.json ./packages/cacheiro-types/
+COPY packages/cacheiro-store-${STORE_TYPE}/package.json ./packages/cacheiro-store-${STORE_TYPE}/
+COPY packages/cacheiro/package.json ./packages/cacheiro/
+COPY packages/cacheiro-instants/package.json ./packages/cacheiro-instants/
+RUN npm ci
+
+COPY packages/cacheiro-types/ ./packages/cacheiro-types/
+COPY packages/cacheiro-store-${STORE_TYPE}/ ./packages/cacheiro-store-${STORE_TYPE}/
+COPY packages/cacheiro/ ./packages/cacheiro/
+COPY packages/cacheiro-instants/ ./packages/cacheiro-instants/
+RUN npm run build -w packages/cacheiro-types
+RUN npm run build -w packages/cacheiro-store-${STORE_TYPE}
+RUN npm run build -w packages/cacheiro
+RUN npm run build -w packages/cacheiro-instants
+
+# Prune devDependencies in place (native exec, still $BUILDPLATFORM) so the final stage
+# only needs to COPY — no npm ci under target-arch emulation, no QEMU needed.
+RUN npm prune --omit=dev
+
+
+FROM node:22-alpine
+ARG STORE_TYPE
+WORKDIR /app
+
+ENV NODE_ENV=production
+ENV CACHEIRO_PORT=3000
+ENV CACHEIRO_HOST=0.0.0.0
+ENV CACHEIRO_STORE_TYPE=${STORE_TYPE}
+ENV CACHEIRO_CACHE_DIRECTORY=/cache
+
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/package.json /app/package-lock.json ./
+
+COPY --from=builder /app/packages/cacheiro-types/package.json ./packages/cacheiro-types/package.json
+COPY --from=builder /app/packages/cacheiro-types/dist ./packages/cacheiro-types/dist
+
+COPY --from=builder /app/packages/cacheiro-store-${STORE_TYPE}/package.json ./packages/cacheiro-store-${STORE_TYPE}/package.json
+COPY --from=builder /app/packages/cacheiro-store-${STORE_TYPE}/dist ./packages/cacheiro-store-${STORE_TYPE}/dist
+COPY --from=builder /app/packages/cacheiro-store-${STORE_TYPE}/configSchema.json ./packages/cacheiro-store-${STORE_TYPE}/configSchema.json
+
+COPY --from=builder /app/packages/cacheiro/package.json ./packages/cacheiro/package.json
+COPY --from=builder /app/packages/cacheiro/dist ./packages/cacheiro/dist
+COPY --from=builder /app/packages/cacheiro/configSchema.json ./packages/cacheiro/configSchema.json
+COPY --from=builder /app/packages/cacheiro/swagger.json ./packages/cacheiro/swagger.json
+
+COPY --from=builder /app/packages/cacheiro-instants/package.json ./packages/cacheiro-instants/package.json
+COPY --from=builder /app/packages/cacheiro-instants/dist ./packages/cacheiro-instants/dist
+
+WORKDIR /app/packages/cacheiro-instants
+
+EXPOSE $CACHEIRO_PORT
+# only used by the fs flavor — harmless no-op mount point on s3/gcs/azure images
+VOLUME $CACHEIRO_CACHE_DIRECTORY
+
+CMD ["node", "dist/index.js"]

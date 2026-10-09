@@ -71,3 +71,71 @@ jobs:
               gh release create "$tag" --title "$tag" --generate-notes --target main --latest=false
             fi
           done
+
+  docker:
+    needs: publish
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    strategy:
+      matrix:
+        include:
+          - flavor: fs
+            store_package: cacheiro-store-fs
+          - flavor: s3
+            store_package: cacheiro-store-s3
+          - flavor: gcs
+            store_package: cacheiro-store-gcs
+          - flavor: azure
+            store_package: cacheiro-store-azure
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Check for changes
+        id: check
+        run: |
+          TAGS=$(git tag --points-at HEAD)
+          BUILD=false
+          for pkg in "@renatorodrigues/${{ matrix.store_package }}" "@renatorodrigues/cacheiro" "@renatorodrigues/cacheiro-types" "@renatorodrigues/cacheiro-instants"; do
+            if echo "$TAGS" | grep -qF "$pkg@"; then
+              BUILD=true
+            fi
+          done
+          echo "build=$BUILD" >> "$GITHUB_OUTPUT"
+          STORE_VERSION=$(node -p "require('./packages/${{ matrix.store_package }}/package.json').version")
+          echo "store_version=$STORE_VERSION" >> "$GITHUB_OUTPUT"
+          INSTANTS_VERSION=$(node -p "require('./packages/cacheiro-instants/package.json').version")
+          echo "instants_version=$INSTANTS_VERSION" >> "$GITHUB_OUTPUT"
+
+      - name: Set up Docker Buildx
+        if: steps.check.outputs.build == 'true'
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to GHCR
+        if: steps.check.outputs.build == 'true'
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push
+        if: steps.check.outputs.build == 'true'
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: packages/cacheiro-instants/Dockerfile
+          build-args: |
+            STORE_TYPE=${{ matrix.flavor }}
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: |
+            ghcr.io/${{ github.repository_owner }}/cacheiro-instants-${{ matrix.flavor }}:${{ steps.check.outputs.instants_version }}
+            ghcr.io/${{ github.repository_owner }}/cacheiro-instants-${{ matrix.flavor }}:latest
+          labels: |
+            org.opencontainers.image.version=${{ steps.check.outputs.instants_version }}
+            io.renatorodrigues.store-version=${{ steps.check.outputs.store_version }}

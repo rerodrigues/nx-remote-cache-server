@@ -1,0 +1,59 @@
+{
+  "name": "@renatorodrigues/cacheiro-instants",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Cacheiro Instants — ready-to-use Cacheiro Docker images for fs/s3/gcs/azure store types",
+  "homepage": "https://github.com/rerodrigues/nx-remote-cache-server/tree/main/packages/cacheiro-instants#readme",
+  "bugs": {
+    "url": "https://github.com/rerodrigues/nx-remote-cache-server/issues"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Renato Rodrigues",
+    "email": "renato@renatorodrigues.com",
+    "url": "http://renatorodrigues.com/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:rerodrigues/nx-remote-cache-server.git"
+  },
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsx watch src/index.ts",
+    "watch:others": "lerna watch --ignore=@renatorodrigues/cacheiro-instants --loglevel=silent -- lerna run build --scope=$LERNA_PACKAGE_NAME >/dev/null 2>&1",
+    "predev": "lerna run build --ignore=@renatorodrigues/cacheiro-instants >/dev/null",
+    "dev": "concurrently --raw --handle-input \"npm run --silent watch\" \"npm run --silent watch:others\"",
+    "start": "node dist/index.js",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "oxlint",
+    "lint:fix": "oxlint --fix",
+    "fmt": "oxfmt",
+    "fmt:check": "oxfmt --check"
+  },
+  "dependencies": {
+    "@renatorodrigues/cacheiro": "1.4.0",
+    "@renatorodrigues/cacheiro-store-azure": "1.0.6",
+    "@renatorodrigues/cacheiro-store-fs": "1.1.1",
+    "@renatorodrigues/cacheiro-store-gcs": "1.0.6",
+    "@renatorodrigues/cacheiro-store-s3": "1.0.6",
+    "ajv": "^8.20.0",
+    "envalid": "^8.2.0"
+  },
+  "devDependencies": {
+    "@renatorodrigues/cacheiro-types": "1.2.0",
+    "@types/node": "^22",
+    "concurrently": "^10.0.5",
+    "lint-staged": "^17.4.1",
+    "oxfmt": "^0.66.0",
+    "oxlint": "^1.81.0",
+    "tsx": "^4.23.13",
+    "typescript": "^7.0.2",
+    "vitest": "^4.1.11"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}
