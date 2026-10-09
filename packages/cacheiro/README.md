@@ -2,7 +2,10 @@
 
 Core library for the NX remote cache server. Implements the [NX 20.8+ custom remote cache](https://nx.dev/recipes/running-tasks/self-hosted-caching) specification.
 
-This package provides the server logic and the public API. It is not a runnable application — use [`@renatorodrigues/cacheiro-runner`](https://github.com/rerodrigues/nx-remote-cache-server/tree/main/packages/cacheiro-runner) to run it, or build your own runner on top of the exported API.
+This package provides the server logic and the public API. It is not a runnable application on its own. To run it, pick one of:
+
+- [Cacheiro Instants](https://github.com/rerodrigues/nx-remote-cache-server/tree/main/packages/cacheiro-instants): prebuilt Docker images for the filesystem, S3, GCS and Azure stores, published to GHCR.
+- [Cacheiro Runner](https://github.com/rerodrigues/nx-remote-cache-server/tree/main/packages/cacheiro-runner): a reference runner you can run as-is, fork, or use as a foundation for implementing your own runner, built on the exported API.
 
 ## Requirements
 

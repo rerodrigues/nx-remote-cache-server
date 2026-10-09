@@ -2,6 +2,8 @@
 
 Google Cloud Storage store for [`@renatorodrigues/cacheiro`](https://www.npmjs.com/package/@renatorodrigues/cacheiro). Stores NX task artifacts in a GCS bucket.
 
+Also available as a prebuilt Docker image: `cacheiro-instants-gcs`, part of [Cacheiro Instants](https://github.com/rerodrigues/nx-remote-cache-server/tree/main/packages/cacheiro-instants).
+
 ## Usage
 
 ```ts

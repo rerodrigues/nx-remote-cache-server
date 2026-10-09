@@ -4,6 +4,8 @@ Reference runner for [`@renatorodrigues/cacheiro`](https://github.com/rerodrigue
 
 This is a runnable application, not a library. It is not published to npm (`private: true`). Use it as-is, fork it, or write your own runner on top of `cacheiro`'s exported API.
 
+> **Looking for a ready-to-run Docker image?** Prebuilt images for the filesystem, S3, GCS and Azure stores are published to GHCR as [Cacheiro Instants](https://github.com/rerodrigues/nx-remote-cache-server/tree/main/packages/cacheiro-instants).
+
 ## Requirements
 
 - Node.js 22+
