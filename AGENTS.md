@@ -27,6 +27,16 @@
 - Always update the README files, including the one in the root of the monorepo to reflect any changes to the packages or their usage.
 - Each package must have its own README.md file with usage instructions, API documentation, and examples.
 
+## Documentation site
+
+- The docs site lives in `docs/` (VitePress, deployed to GitHub Pages by `.github/workflows/docs.yml`). It is a standalone project, not an npm workspace.
+- Package pages under `docs/packages/` include the package `README.md` verbatim. Never copy README content into them. Edit the README instead.
+- The hand-written pages (`docs/index.md` and `docs/guide/*`) repeat facts from the packages: env var names, Docker image names, auth and token behavior, and the package list. When a change touches any of these, update those pages in the same commit.
+- When adding or removing a package, update `docs/.vitepress/config.mts` (sidebar), add or remove its page under `docs/packages/`, and update `docs/guide/architecture.md`.
+- Do not hard-code versions or tags in the docs pages. Link to the changelog or the registry instead.
+- `npm run build` in `docs/` must pass before changes are considered complete. It fails on dead links.
+- Remove or rewrite stale content instead of leaving it in place.
+
 ## Testing
 
 - All packages must pass their test suite before changes are considered complete.

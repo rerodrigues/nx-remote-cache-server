@@ -2,6 +2,8 @@
 
 > Your own *Nx* and *Lerna* remote cache. Self-hosted, open-source, no strings attached.
 
+📖 **Documentation:** <https://rerodrigues.github.io/nx-remote-cache-server/>
+
 ## Why Cacheiro exists
 
 In May 2026, *Nx* deprecated all their official self-hosted cache packages due to [CVE-2025-36852](https://www.cve.org/CVERecord?id=CVE-2025-36852) — a critical cache poisoning vulnerability. *Nx*'s official recommendation? Migrate to Nx Cloud *(paid)* or build your own cache server from scratch.
@@ -108,6 +110,22 @@ docker compose up local-azure local-azure-init
 ```
 
 Then configure `packages/cacheiro-runner/config/local.json` using the emulator snippets in `local.json.example`.
+
+## Documentation site
+
+The docs live in [`docs/`](./docs), built with [VitePress](https://vitepress.dev) and published to GitHub Pages at <https://rerodrigues.github.io/nx-remote-cache-server/>. `docs/` is a standalone project (not an npm workspace), so Lerna and the root `build`, `lint`, and `test` scripts ignore it.
+
+The package pages include each package's `README.md` verbatim, so edit the README, not the docs page. The Home, Getting started, Architecture, and Security pages are hand-written under `docs/`.
+
+```sh
+cd docs
+npm ci
+npm run dev       # local server with hot reload and search
+npm run build     # production build, fails on dead links
+npm run preview   # serve the production build
+```
+
+The `Docs` workflow builds the site on pull requests that touch docs or READMEs, and deploys it on pushes to `main` and after each successful `Release`. One-time setup: in the repository settings, set Pages source to "GitHub Actions".
 
 ## Roadmap
 

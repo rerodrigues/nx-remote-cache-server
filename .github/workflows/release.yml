@@ -72,6 +72,14 @@ jobs:
             fi
           done
 
+  docs:
+    needs: publish
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    uses: ./.github/workflows/docs.yml
+
   docker:
     needs: publish
     runs-on: ubuntu-24.04
