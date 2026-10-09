@@ -11,10 +11,15 @@
 
 ### Before You Commit
 
-1. Separate auto-generated files (dist, build output, lock file regeneration) into their own commit or exclude them.
-2. Bundle README/doc updates with the related code change in the same commit. A `docs:` commit is only for standalone documentation fixes (typos, wording) with no related code change.
-3. Add `BREAKING CHANGE:` footer in the commit body if applicable.
-4. Scope the message to the affected package(s) (e.g. `fix(cacheiro): ...`).
+1. Separate auto-generated files (dist, build output) into their own commit or exclude them.
+2. Commit `package-lock.json` changes together with the `package.json` change that caused them. When `package.json` changes are split across several commits, include in each commit only the lock file changes related to it, whenever possible.
+3. Bundle README/doc updates with the related code change in the same commit. A `docs:` commit is only for standalone documentation fixes (typos, wording) with no related code change.
+4. Add `BREAKING CHANGE:` footer in the commit body if applicable.
+5. Scope the message to the affected package(s) (e.g. `fix(cacheiro): ...`).
+
+## Pull Requests
+
+- Write PR titles as short, human-readable sentences (e.g. `Add config validation tests to the runner`). Do not use the Conventional Commits format (`type(scope): ...`) in PR titles; it applies to commit messages only.
 
 ## Packages
 
