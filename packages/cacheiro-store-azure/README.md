@@ -2,6 +2,8 @@
 
 Azure Blob Storage store for [`@renatorodrigues/cacheiro`](https://www.npmjs.com/package/@renatorodrigues/cacheiro). Stores Nx cache artifacts in an Azure Blob Storage container.
 
+Also available as a prebuilt Docker image: `cacheiro-instants-azure`, part of [Cacheiro Instants](https://github.com/rerodrigues/nx-remote-cache-server/tree/main/packages/cacheiro-instants).
+
 ## Usage
 
 ```ts

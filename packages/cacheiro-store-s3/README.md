@@ -2,6 +2,8 @@
 
 S3 store for [`@renatorodrigues/cacheiro`](https://www.npmjs.com/package/@renatorodrigues/cacheiro). Stores Nx cache artifacts in an AWS S3 bucket (or any S3-compatible storage: MinIO, LocalStack, DigitalOcean Spaces, Cloudflare R2).
 
+Also available as a prebuilt Docker image: `cacheiro-instants-s3`, part of [Cacheiro Instants](https://github.com/rerodrigues/nx-remote-cache-server/tree/main/packages/cacheiro-instants).
+
 ## Usage
 
 ```ts

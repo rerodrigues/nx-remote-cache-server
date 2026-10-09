@@ -2,6 +2,8 @@
 
 Filesystem store for [`@renatorodrigues/cacheiro`](https://www.npmjs.com/package/@renatorodrigues/cacheiro). Stores artifacts in a sharded directory layout with atomic temp+rename writes, `fsync` for durability, and optional TTL with background sweep.
 
+Also available as a prebuilt Docker image: `cacheiro-instants-fs`, part of [Cacheiro Instants](https://github.com/rerodrigues/nx-remote-cache-server/tree/main/packages/cacheiro-instants).
+
 ## On-disk layout
 
 Artifacts are stored at `<cacheDirectory>/<hash[0:2]>/<hash[2:4]>/<hash>`. The two-level shard prefix (256 × 256 = 65 536 buckets) keeps any single directory small even at millions of entries, avoiding filesystem slowdowns from oversized `readdir` results.
