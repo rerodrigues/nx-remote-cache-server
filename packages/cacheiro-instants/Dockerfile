@@ -1,24 +1,35 @@
 ARG STORE_TYPE=fs
 
+# Full build: cacheiro-instants type-checks imports of all 4 store packages, so every
+# store must be installed and built here, whatever the flavor.
 FROM --platform=$BUILDPLATFORM node:22-alpine AS builder
-ARG STORE_TYPE
 WORKDIR /app
 
 COPY package.json package-lock.json ./
 COPY packages/cacheiro-types/package.json ./packages/cacheiro-types/
-COPY packages/cacheiro-store-${STORE_TYPE}/package.json ./packages/cacheiro-store-${STORE_TYPE}/
+COPY packages/cacheiro-store-fs/package.json ./packages/cacheiro-store-fs/
+COPY packages/cacheiro-store-s3/package.json ./packages/cacheiro-store-s3/
+COPY packages/cacheiro-store-gcs/package.json ./packages/cacheiro-store-gcs/
+COPY packages/cacheiro-store-azure/package.json ./packages/cacheiro-store-azure/
 COPY packages/cacheiro/package.json ./packages/cacheiro/
 COPY packages/cacheiro-instants/package.json ./packages/cacheiro-instants/
 RUN npm ci
 
 COPY packages/cacheiro-types/ ./packages/cacheiro-types/
-COPY packages/cacheiro-store-${STORE_TYPE}/ ./packages/cacheiro-store-${STORE_TYPE}/
+COPY packages/cacheiro-store-fs/ ./packages/cacheiro-store-fs/
+COPY packages/cacheiro-store-s3/ ./packages/cacheiro-store-s3/
+COPY packages/cacheiro-store-gcs/ ./packages/cacheiro-store-gcs/
+COPY packages/cacheiro-store-azure/ ./packages/cacheiro-store-azure/
 COPY packages/cacheiro/ ./packages/cacheiro/
 COPY packages/cacheiro-instants/ ./packages/cacheiro-instants/
 RUN npm run build -w packages/cacheiro-types
-RUN npm run build -w packages/cacheiro-store-${STORE_TYPE}
+RUN npm run build -w packages/cacheiro-store-fs
+RUN npm run build -w packages/cacheiro-store-s3
+RUN npm run build -w packages/cacheiro-store-gcs
+RUN npm run build -w packages/cacheiro-store-azure
 RUN npm run build -w packages/cacheiro
 RUN npm run build -w packages/cacheiro-instants
+
 
 # Prune devDependencies in place (native exec, still $BUILDPLATFORM) so the final stage
 # only needs to COPY — no npm ci under target-arch emulation, no QEMU needed.
