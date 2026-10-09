@@ -1,7 +1,9 @@
 ARG STORE_TYPE=fs
 
 # Full build: cacheiro-instants type-checks imports of all 4 store packages, so every
-# store must be installed and built here, whatever the flavor.
+# store must be installed and built here, whatever the flavor. Production dependencies are
+# then reinstalled for the selected flavor only, so the final image carries just that
+# store's cloud SDK.
 FROM --platform=$BUILDPLATFORM node:22-alpine AS builder
 WORKDIR /app
 
@@ -31,9 +33,16 @@ RUN npm run build -w packages/cacheiro
 RUN npm run build -w packages/cacheiro-instants
 
 
-# Prune devDependencies in place (native exec, still $BUILDPLATFORM) so the final stage
-# only needs to COPY — no npm ci under target-arch emulation, no QEMU needed.
-RUN npm prune --omit=dev
+ARG STORE_TYPE
+# Reinstall production deps for the selected flavor only. npm ci installs every workspace in
+# the lockfile (even with -w), so narrow the root workspaces list first; the stores are
+# optional peers of instants, so only the chosen store's cloud SDK ends up in node_modules.
+# Runs natively on $BUILDPLATFORM (no QEMU); --ignore-scripts skips the root husky "prepare".
+RUN node -e "const fs = require('fs'); const p = require('./package.json'); \
+    p.workspaces = ['cacheiro-types', 'cacheiro', 'cacheiro-instants', 'cacheiro-store-${STORE_TYPE}'].map((n) => 'packages/' + n); \
+    fs.writeFileSync('package.json', JSON.stringify(p, null, 2));" \
+    && rm -rf node_modules \
+    && npm ci --omit=dev --ignore-scripts
 
 
 FROM node:22-alpine

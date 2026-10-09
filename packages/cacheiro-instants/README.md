@@ -73,6 +73,8 @@ Build from the repo root (the Dockerfile needs access to the full monorepo). `ST
 docker build -f packages/cacheiro-instants/Dockerfile --build-arg STORE_TYPE=s3 -t cacheiro-instants-s3 .
 ```
 
+Each image ships only its own flavor's store package and cloud SDK (the stores are optional peer dependencies of this package), so the `fs` image doesn't carry the AWS, GCS or Azure SDKs.
+
 Multi-arch (`linux/amd64` + `linux/arm64`), no QEMU needed — none of the 4 store SDKs use native addons, so cross-arch builds are plain JS file copies:
 
 ```sh

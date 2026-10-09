@@ -35,14 +35,14 @@
   },
   "dependencies": {
     "@renatorodrigues/cacheiro": "1.4.0",
-    "@renatorodrigues/cacheiro-store-azure": "1.0.6",
-    "@renatorodrigues/cacheiro-store-fs": "1.1.1",
-    "@renatorodrigues/cacheiro-store-gcs": "1.0.6",
-    "@renatorodrigues/cacheiro-store-s3": "1.0.6",
     "ajv": "^8.20.0",
     "envalid": "^8.2.0"
   },
   "devDependencies": {
+    "@renatorodrigues/cacheiro-store-azure": "1.0.6",
+    "@renatorodrigues/cacheiro-store-fs": "1.1.1",
+    "@renatorodrigues/cacheiro-store-gcs": "1.0.6",
+    "@renatorodrigues/cacheiro-store-s3": "1.0.6",
     "@renatorodrigues/cacheiro-types": "1.2.0",
     "@types/node": "^22",
     "concurrently": "^10.0.5",
@@ -52,6 +52,26 @@
     "tsx": "^4.23.13",
     "typescript": "^7.0.2",
     "vitest": "^4.1.11"
+  },
+  "peerDependencies": {
+    "@renatorodrigues/cacheiro-store-azure": "1.0.6",
+    "@renatorodrigues/cacheiro-store-fs": "1.1.1",
+    "@renatorodrigues/cacheiro-store-gcs": "1.0.6",
+    "@renatorodrigues/cacheiro-store-s3": "1.0.6"
+  },
+  "peerDependenciesMeta": {
+    "@renatorodrigues/cacheiro-store-azure": {
+      "optional": true
+    },
+    "@renatorodrigues/cacheiro-store-fs": {
+      "optional": true
+    },
+    "@renatorodrigues/cacheiro-store-gcs": {
+      "optional": true
+    },
+    "@renatorodrigues/cacheiro-store-s3": {
+      "optional": true
+    }
   },
   "engines": {
     "node": ">=22"
