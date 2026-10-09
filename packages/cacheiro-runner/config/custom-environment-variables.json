@@ -11,6 +11,7 @@
       "__name": "CACHEIRO_INFOBOX",
       "__format": "boolean"
     },
+    "logFormat": "CACHEIRO_LOG_FORMAT",
     "tls": {
       "certFile": "CACHEIRO_TLS_CERT_FILE",
       "keyFile": "CACHEIRO_TLS_KEY_FILE",
