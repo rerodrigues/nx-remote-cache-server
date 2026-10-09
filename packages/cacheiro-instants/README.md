@@ -146,6 +146,8 @@ CACHEIRO_STORE_TYPE=fs CACHEIRO_CACHE_DIRECTORY=./cache CACHEIRO_AUTH_TOKEN=dev-
 
 Each flavor's image tag tracks `@renatorodrigues/cacheiro-instants`'s own version (e.g. `cacheiro-instants-s3:1.4.0`) — one tag, one immutable build. `latest` always points at the most recent build per flavor. Rebuilds trigger on changes to the store package, `cacheiro`, `cacheiro-types`, or this package itself. The store package version used in a given build is recorded as an image label (`io.renatorodrigues.store-version`), visible via `docker inspect`.
 
+Each flavor builds and publishes independently — if only one store package bumps, only that flavor's `latest` moves forward; the others keep their last build until their own trigger fires. A failed or rerun build is safe to retry: pushing the same tag again is idempotent, and a failed multi-arch build never pushes a partial manifest.
+
 ---
 
 <br/>
