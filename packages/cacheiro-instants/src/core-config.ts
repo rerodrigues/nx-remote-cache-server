@@ -8,6 +8,7 @@ export function readCoreConfig(): CacheiroConfig {
     CACHEIRO_BODY_LIMIT_MB: num({ default: 100 }),
     CACHEIRO_BANNER: bool({ default: true }),
     CACHEIRO_INFOBOX: bool({ default: true }),
+    CACHEIRO_LOG_FORMAT: str({ choices: ['pretty', 'json'], default: undefined }),
     CACHEIRO_TLS_CERT_FILE: str({ default: undefined }),
     CACHEIRO_TLS_KEY_FILE: str({ default: undefined }),
     CACHEIRO_TLS_CA_FILE: str({ default: undefined }),
@@ -22,6 +23,10 @@ export function readCoreConfig(): CacheiroConfig {
     banner: env.CACHEIRO_BANNER,
     infobox: env.CACHEIRO_INFOBOX,
   };
+
+  if (env.CACHEIRO_LOG_FORMAT !== undefined) {
+    server.logFormat = env.CACHEIRO_LOG_FORMAT;
+  }
 
   if (env.CACHEIRO_TLS_CERT_FILE !== undefined && env.CACHEIRO_TLS_KEY_FILE !== undefined) {
     server.tls = {
