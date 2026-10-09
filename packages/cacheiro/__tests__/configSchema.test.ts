@@ -24,6 +24,7 @@ describe('configSchema', () => {
           bodyLimitMb: 100,
           banner: true,
           infobox: true,
+          logFormat: 'pretty',
           tls: { certFile: '/cert.pem', keyFile: '/key.pem', caFile: '/ca.pem' },
         },
         auth: { token: 'secret', readOnlyToken: 'ro-secret' },
@@ -50,6 +51,7 @@ describe('configSchema', () => {
     [{ bodyLimitMb: 0 }, '/server/bodyLimitMb'],
     [{ banner: 'yes' }, '/server/banner'],
     [{ infobox: 'yes' }, '/server/infobox'],
+    [{ logFormat: 'xml' }, '/server/logFormat'],
   ])('rejects invalid server.%o', (server, expectedPath) => {
     expect(validate({ server })).toBe(false);
     expect(errorPaths()).toContain(expectedPath);
