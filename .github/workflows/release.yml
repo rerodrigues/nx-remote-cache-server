@@ -137,5 +137,6 @@ jobs:
             ghcr.io/${{ github.repository_owner }}/cacheiro-instants-${{ matrix.flavor }}:${{ steps.check.outputs.instants_version }}
             ghcr.io/${{ github.repository_owner }}/cacheiro-instants-${{ matrix.flavor }}:latest
           labels: |
+            org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
             org.opencontainers.image.version=${{ steps.check.outputs.instants_version }}
             io.renatorodrigues.store-version=${{ steps.check.outputs.store_version }}
