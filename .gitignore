@@ -5,3 +5,4 @@ dist/
 !**/config/local.jsonc.example
 **/cache/
 **/cache-test/
+.vitest/

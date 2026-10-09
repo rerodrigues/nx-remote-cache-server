@@ -51,7 +51,7 @@
     "oxlint": "^1.81.0",
     "tsx": "^4.23.13",
     "typescript": "^7.0.2",
-    "vitest": "^4.1.11"
+    "vitest": "^5.0.3"
   },
   "peerDependencies": {
     "@renatorodrigues/cacheiro-store-azure": "1.0.6",
