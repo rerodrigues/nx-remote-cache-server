@@ -14,7 +14,7 @@ tags:
 
 Remote caching speeds up monorepo builds, but sharing a single read/write token across all environments introduces security risks. Following build cache vulnerabilities like [CVE-2025-36852 (CREEP)](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2025-36852), an untrusted pull request with write access could potentially poison the cache and affect downstream builds.
 
-To prevent cache poisoning while keeping local workflows friction-free, **Cacheiro** now supports read-only tokens and optional authentication.
+To prevent cache poisoning while keeping local workflows friction-free, [Cacheiro](/), the self-hosted remote cache server for Nx and Lerna, now supports read-only tokens and optional authentication.
 
 ## 1. Read-Only Tokens for CI Pipelines
 
