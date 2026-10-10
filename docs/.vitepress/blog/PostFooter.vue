@@ -14,7 +14,7 @@ const repo = computed(() => theme.value.socialLinks?.find((link: { icon: unknown
     <h2>About Cacheiro</h2>
     <p>
       Cacheiro is a self-hosted remote cache server for Nx and Lerna with a pluggable store, supporting filesystem, S3,
-      GCS and Azure, with no vendor lock-in.
+      GCS and Azure, with no vendor lock-in. <br/>Created by <a :href="theme.author.url">{{ theme.author.name }}</a>.
     </p>
     <p class="post-footer-links">
       <a :href="withBase('/')">Home</a>
