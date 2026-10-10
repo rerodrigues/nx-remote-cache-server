@@ -185,7 +185,7 @@ export default defineConfig({
 
     footer: {
       message: 'Crafted with 🤍 by a 🇧🇷 human in 🇩🇪, for the humans of the 🌐',
-      copyright: 'Released under the MIT License. Copyright © Renato Rodrigues',
+      copyright: `Released under the MIT License. Copyright © <a href="${author.url}">${author.name}</a>`,
     },
   },
 });

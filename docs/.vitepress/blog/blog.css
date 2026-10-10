@@ -151,3 +151,7 @@
 .post-footer a:hover {
   text-decoration: underline;
 }
+
+.Layout:has(.post-header) .VPFooter .copyright {
+  display: none;
+}
