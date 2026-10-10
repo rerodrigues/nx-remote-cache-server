@@ -4,6 +4,7 @@ import { createBlog } from './blog';
 import { fullTitle } from './blog/format';
 
 const repo = 'https://github.com/rerodrigues/nx-remote-cache-server';
+const author = { name: 'Renato Rodrigues', url: 'http://renatorodrigues.com/' };
 const base = '/nx-remote-cache-server/';
 const siteUrl = `https://rerodrigues.github.io${base}`;
 const siteTitle = 'Cacheiro - Self-hosted Nx remote cache server';
@@ -112,6 +113,7 @@ export default defineConfig({
 
   themeConfig: {
     siteTitle: 'Cacheiro',
+    author,
     logo: { light: '/logo-light.svg', dark: '/logo-dark.svg' },
 
     nav: [

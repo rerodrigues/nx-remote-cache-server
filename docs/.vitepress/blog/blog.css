@@ -41,6 +41,16 @@
   color: var(--vp-c-text-2);
 }
 
+.post-meta a.post-author {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.post-meta a.post-author:hover {
+  color: var(--vp-c-brand-1);
+}
+
 .post-tags {
   display: flex;
   flex-wrap: wrap;
