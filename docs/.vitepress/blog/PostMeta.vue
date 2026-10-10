@@ -3,7 +3,7 @@ import { computed } from 'vue';
 import { useData, withBase } from 'vitepress';
 import { formatPostDate, isPostPath, tagUrl } from './format';
 
-const { frontmatter, page } = useData();
+const { frontmatter, page, theme } = useData();
 
 const isPost = computed(() => isPostPath(page.value.relativePath));
 const date = computed(() => {
@@ -27,7 +27,10 @@ const tags = computed<string[]>(() => frontmatter.value.tags ?? []);
     <div class="post-meta">
       <time v-if="date" :datetime="date.iso">{{ date.label }}</time>
       <span v-if="date && frontmatter.author" aria-hidden="true">&middot;</span>
-      <span v-if="frontmatter.author">{{ frontmatter.author }}</span>
+      <a v-if="frontmatter.author && theme.author.url" class="post-author" :href="theme.author.url">{{
+        frontmatter.author
+      }}</a>
+      <span v-else-if="frontmatter.author">{{ frontmatter.author }}</span>
       <ul v-if="tags.length" class="post-tags">
         <li v-for="tag in tags" :key="tag">
           <a :href="withBase(tagUrl(tag))">{{ tag }}</a>
