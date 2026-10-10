@@ -11,6 +11,8 @@
   },
   "devDependencies": {
     "@catppuccin/vitepress": "^0.1.4",
+    "feed": "^6.0.0",
+    "gray-matter": "^4.0.3",
     "vitepress": "^1.6.4"
   },
   "engines": {

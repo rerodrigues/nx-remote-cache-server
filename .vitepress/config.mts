@@ -1,4 +1,7 @@
+import { fileURLToPath } from 'node:url';
 import { defineConfig } from 'vitepress';
+import { createBlog } from './blog';
+import { fullTitle } from './blog/format';
 
 const repo = 'https://github.com/rerodrigues/nx-remote-cache-server';
 const base = '/nx-remote-cache-server/';
@@ -21,18 +24,26 @@ function toSitePath(href: string): string | undefined {
   return `/packages/${page}${hash}`;
 }
 
+const blog = createBlog({
+  blogDir: fileURLToPath(new URL('../blog', import.meta.url)),
+  docsDir: fileURLToPath(new URL('..', import.meta.url)),
+  siteUrl,
+  siteDescription,
+});
+
 export default defineConfig({
   title: siteTitle,
   description: siteDescription,
   base,
   cleanUrls: true,
   sitemap: { hostname: siteUrl },
+  srcExclude: blog.srcExclude,
 
   head: [
     ['link', { rel: 'icon', type: 'image/svg+xml', href: `${base}favicon.svg` }],
     ['link', { rel: 'icon', href: `${base}favicon.ico`, sizes: '48x48' }],
     ['link', { rel: 'apple-touch-icon', href: `${base}apple-touch-icon.png` }],
-    ['meta', { property: 'og:type', content: 'website' }],
+    ['link', { rel: 'alternate', type: 'application/atom+xml', title: 'Cacheiro Blog', href: `${base}feed.xml` }],
     ['meta', { property: 'og:site_name', content: siteTitle }],
     ['meta', { property: 'og:locale', content: 'en_US' }],
     ['meta', { property: 'og:image', content: `${siteUrl}og-image.png` }],
@@ -43,16 +54,19 @@ export default defineConfig({
   ],
 
   transformPageData(pageData) {
+    blog.transformPageData(pageData);
     const path = pageData.relativePath
       .replace(/(^|\/)index\.md$/, '$1')
       .replace(/\.md$/, '');
     const url = `${siteUrl}${path}`;
     const title = pageData.frontmatter.title ?? pageData.title ?? siteTitle;
     const description = pageData.frontmatter.description ?? siteDescription;
-    const ogTitle = pageData.relativePath === 'index.md' ? siteTitle : title;
+    const ogTitle =
+      pageData.relativePath === 'index.md' ? siteTitle : fullTitle(title, pageData.frontmatter.subtitle);
 
     pageData.frontmatter.head ??= [];
     pageData.frontmatter.head.push(
+      ...blog.pageHead(pageData.relativePath, pageData.frontmatter),
       ['link', { rel: 'canonical', href: url }],
       ['meta', { property: 'og:url', content: url }],
       ['meta', { property: 'og:title', content: ogTitle }],
@@ -60,6 +74,10 @@ export default defineConfig({
       ['meta', { name: 'twitter:title', content: ogTitle }],
       ['meta', { name: 'twitter:description', content: description }],
     );
+  },
+
+  buildEnd({ outDir }) {
+    blog.writeFeed(outDir);
   },
 
   markdown: {
@@ -100,45 +118,55 @@ export default defineConfig({
       { text: 'Guide', link: '/guide/getting-started', activeMatch: '/guide/' },
       { text: 'Packages', link: '/packages/core', activeMatch: '/packages/' },
       {
-        text: 'Article',
-        link: 'https://dev.to/rerodrigues/creating-your-own-remote-cache-server-for-nx-and-lerna-with-cacheiro-2dcg',
+        text: 'Blog',
+        activeMatch: '/blog/',
+        items: [
+          ...blog.navItems,
+          {
+            text: 'Launch Article (Dev.to)',
+            link: 'https://dev.to/rerodrigues/creating-your-own-remote-cache-server-for-nx-and-lerna-with-cacheiro-2dcg',
+          },
+        ],
       },
       { text: 'GitHub', link: repo },
     ],
 
-    sidebar: [
-      {
-        text: 'Guide',
-        items: [
-          { text: 'Getting started', link: '/guide/getting-started' },
-          { text: 'Architecture', link: '/guide/architecture' },
-          { text: 'Security', link: '/guide/security' },
-        ],
-      },
-      {
-        text: 'Run it',
-        items: [
-          { text: 'Instants (Docker images)', link: '/packages/instants' },
-          { text: 'Runner', link: '/packages/runner' },
-        ],
-      },
-      {
-        text: 'Build on it',
-        items: [
-          { text: 'Core', link: '/packages/core' },
-          { text: 'Types and custom stores', link: '/packages/types' },
-        ],
-      },
-      {
-        text: 'Stores',
-        items: [
-          { text: 'Filesystem', link: '/packages/store-fs' },
-          { text: 'S3', link: '/packages/store-s3' },
-          { text: 'GCS', link: '/packages/store-gcs' },
-          { text: 'Azure Blob', link: '/packages/store-azure' },
-        ],
-      },
-    ],
+    sidebar: {
+      '/blog/': blog.sidebar,
+      '/': [
+        {
+          text: 'Guide',
+          items: [
+            { text: 'Getting started', link: '/guide/getting-started' },
+            { text: 'Architecture', link: '/guide/architecture' },
+            { text: 'Security', link: '/guide/security' },
+          ],
+        },
+        {
+          text: 'Run it',
+          items: [
+            { text: 'Instants (Docker images)', link: '/packages/instants' },
+            { text: 'Runner', link: '/packages/runner' },
+          ],
+        },
+        {
+          text: 'Build on it',
+          items: [
+            { text: 'Core', link: '/packages/core' },
+            { text: 'Types and custom stores', link: '/packages/types' },
+          ],
+        },
+        {
+          text: 'Stores',
+          items: [
+            { text: 'Filesystem', link: '/packages/store-fs' },
+            { text: 'S3', link: '/packages/store-s3' },
+            { text: 'GCS', link: '/packages/store-gcs' },
+            { text: 'Azure Blob', link: '/packages/store-azure' },
+          ],
+        },
+      ],
+    },
 
     socialLinks: [
       { icon: 'github', link: repo },
