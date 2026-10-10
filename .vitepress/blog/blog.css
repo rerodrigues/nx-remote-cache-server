@@ -104,3 +104,40 @@
   font-size: 0.9rem;
   color: var(--vp-c-text-2);
 }
+
+.post-footer {
+  margin-top: 3rem;
+  padding: 1.25rem;
+  border-radius: 8px;
+  border: 1px solid var(--vp-c-divider);
+  background-color: var(--vp-c-bg-soft);
+}
+
+.post-footer h2 {
+  margin: 0 0 0.5rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.post-footer p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--vp-c-text-2);
+}
+
+.post-footer .post-footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.25rem;
+  margin-top: 0.75rem;
+}
+
+.post-footer a {
+  font-weight: 500;
+  color: var(--vp-c-brand-1);
+  text-decoration: none;
+}
+
+.post-footer a:hover {
+  text-decoration: underline;
+}
