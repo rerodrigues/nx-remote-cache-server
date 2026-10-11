@@ -38,7 +38,7 @@ export default defineConfig({
   base,
   cleanUrls: true,
   sitemap: { hostname: siteUrl },
-  srcExclude: blog.srcExclude,
+  srcExclude: [...blog.srcExclude, 'README.md', 'AGENTS.md'],
 
   head: [
     ['link', { rel: 'icon', type: 'image/svg+xml', href: `${base}favicon.svg` }],
