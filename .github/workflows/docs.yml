@@ -4,13 +4,11 @@ on:
   push:
     branches: [main]
     paths:
-      - docs/**
       - packages/*/README.md
       - .github/workflows/docs.yml
   pull_request:
     branches: [main]
     paths:
-      - docs/**
       - packages/*/README.md
       - .github/workflows/docs.yml
   workflow_dispatch:
@@ -30,6 +28,10 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v7
+      - uses: actions/checkout@v7
+        with:
+          ref: site
+          path: docs
       - uses: actions/setup-node@v7
         with:
           node-version-file: .nvmrc
