@@ -29,10 +29,10 @@
 
 ## Documentation site
 
-- The docs site lives in `docs/` (VitePress, deployed to GitHub Pages by `.github/workflows/docs.yml`). It is a standalone project, not an npm workspace.
+- The docs site lives on the `site` branch (VitePress, deployed to GitHub Pages by `.github/workflows/docs.yml` on `main`). It is checked out at `docs/` through a git worktree (`git worktree add docs site`); `docs/` is git-ignored on `main`. It is a standalone project, not an npm workspace. The branch has its own `AGENTS.md` with the site rules.
 - Package pages under `docs/packages/` include the package `README.md` verbatim. Never copy README content into them. Edit the README instead.
-- The hand-written pages (`docs/index.md` and `docs/guide/*`) repeat facts from the packages: env var names, Docker image names, auth and token behavior, and the package list. When a change touches any of these, update those pages in the same commit.
-- When adding or removing a package, update `docs/.vitepress/config.mts` (sidebar), add or remove its page under `docs/packages/`, and update `docs/guide/architecture.md`.
+- The hand-written pages (`docs/index.md` and `docs/guide/*`) repeat facts from the packages: env var names, Docker image names, auth and token behavior, and the package list. When a change on `main` touches any of these, make a companion commit on the `site` branch. Commit it inside the `docs/` worktree and leave pushing to the user.
+- When adding or removing a package, update `docs/.vitepress/config.mts` (sidebar), add or remove its page under `docs/packages/`, and update `docs/guide/architecture.md`, all on the `site` branch.
 - Do not hard-code versions or tags in the docs pages. Link to the changelog or the registry instead.
 - `npm run build` in `docs/` must pass before changes are considered complete. It fails on dead links.
 - Remove or rewrite stale content instead of leaving it in place.

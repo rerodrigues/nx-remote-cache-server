@@ -6,3 +6,4 @@ dist/
 **/cache/
 **/cache-test/
 .vitest/
+docs/

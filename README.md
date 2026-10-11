@@ -113,11 +113,14 @@ Then configure `packages/cacheiro-runner/config/local.json` using the emulator s
 
 ## Documentation site
 
-The docs live in [`docs/`](./docs), built with [VitePress](https://vitepress.dev) and published to GitHub Pages at <https://rerodrigues.github.io/nx-remote-cache-server/>. `docs/` is a standalone project (not an npm workspace), so Lerna and the root `build`, `lint`, and `test` scripts ignore it.
+The docs site and blog are built with [VitePress](https://vitepress.dev) and published to GitHub Pages at <https://rerodrigues.github.io/nx-remote-cache-server/>. Their source lives on the `site` branch of this repository, not on `main`, so site changes never touch the Cacheiro code. The `site` branch is a standalone project (not an npm workspace) and shares no history with `main`.
 
-The package pages include each package's `README.md` verbatim, so edit the README, not the docs page. The Home, Getting started, Architecture, and Security pages are hand-written under `docs/`.
+The package pages include each package's `README.md` verbatim, so edit the README on `main`, not the docs page. The Home, Getting started, Architecture, and Security pages are hand-written on the `site` branch.
+
+To work on the site, check the `site` branch out into `docs/` (git-ignored on `main`) with a worktree:
 
 ```sh
+git worktree add docs site
 cd docs
 npm ci
 npm run dev       # local server with hot reload and search
@@ -125,7 +128,7 @@ npm run build     # production build, fails on dead links
 npm run preview   # serve the production build
 ```
 
-The `Docs` workflow builds the site on pull requests that touch docs or READMEs, and deploys it on pushes to `main` and after each successful `Release`. One-time setup: in the repository settings, set Pages source to "GitHub Actions".
+The `Docs` workflow lives on `main`. It checks out `main` and the `site` branch together, builds the site, and deploys it. It builds on pull requests that touch package READMEs, and deploys on pushes to `main` that change a README, on every push to `site` (through the `Dispatch docs deploy` workflow on that branch), and after each successful `Release`. One-time setup: in the repository settings, set Pages source to "GitHub Actions".
 
 ## Roadmap
 
