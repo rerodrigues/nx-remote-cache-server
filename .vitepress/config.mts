@@ -157,6 +157,7 @@ export default defineConfig({
           items: [
             { text: 'Core', link: '/packages/core' },
             { text: 'Types and custom stores', link: '/packages/types' },
+            { text: 'Encryption', link: '/packages/encryption' },
           ],
         },
         {

@@ -28,6 +28,16 @@ export NX_SELF_HOSTED_REMOTE_CACHE_ACCESS_TOKEN="$CACHEIRO_AUTH_READ_ONLY_TOKEN"
 
 Cache keys are content-addressed, so an existing hash is never legitimately overwritten. A repeat `PUT` for the same hash gets a `409`. The S3, GCS, and Azure stores also write create-only, so if two `PUT`s for the same hash race past that check, the first stored object is kept and the second request still gets `200`. The filesystem store replaces the file atomically, so the last of two racing writes wins; both carry the same hash.
 
+## Integrity
+
+Nx keys each artifact by a hash of the task inputs, not the artifact itself, and the Nx client cannot verify downloads. Cacheiro adds no content digest either. Bearer tokens only control who can write, so nothing detects tampering or corruption in the storage backend.
+
+Protect the storage backend itself: restrict write access to the bucket, container, or cache directory to the Cacheiro service, and serve Cacheiro over HTTPS.
+
+For the S3, GCS, and Azure stores, setting `encryptionKey` (`S3_ENCRYPTION_KEY`, `GCS_ENCRYPTION_KEY`, `AZURE_ENCRYPTION_KEY`) encrypts artifacts at rest. This protects confidentiality only: AES-256-CBC is not authenticated, so a modified artifact may not be rejected on read.
+
+The filesystem store has no encryption or tamper detection. Anyone who can write to the cache directory can plant artifacts your builds will trust, so only the Cacheiro service user should have write access, and the directory should not live on a shared or network volume.
+
 ## HTTPS
 
 Set `server.tls.certFile` and `server.tls.keyFile` (`CACHEIRO_TLS_CERT_FILE` and `CACHEIRO_TLS_KEY_FILE`) to serve HTTPS natively. `server.tls.caFile` is optional.

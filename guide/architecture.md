@@ -14,6 +14,7 @@ Cacheiro is split into focused packages so you only take what you need. The core
 | [`@renatorodrigues/cacheiro-store-gcs`](/packages/store-gcs) | Google Cloud Storage store |
 | [`@renatorodrigues/cacheiro-store-azure`](/packages/store-azure) | Azure Blob Storage store |
 | [`@renatorodrigues/cacheiro-types`](/packages/types) | Shared TypeScript types |
+| [`@renatorodrigues/cacheiro-encryption`](/packages/encryption) | Client-side encryption used by the cloud stores |
 
 Filesystem, S3, Azure Blob, and GCS stores are production-ready.
 
