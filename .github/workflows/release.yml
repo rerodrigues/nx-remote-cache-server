@@ -110,7 +110,7 @@ jobs:
         run: |
           TAGS=$(git tag --points-at HEAD)
           BUILD=false
-          for pkg in "@renatorodrigues/${{ matrix.store_package }}" "@renatorodrigues/cacheiro" "@renatorodrigues/cacheiro-types" "@renatorodrigues/cacheiro-instants"; do
+          for pkg in "@renatorodrigues/${{ matrix.store_package }}" "@renatorodrigues/cacheiro" "@renatorodrigues/cacheiro-types" "@renatorodrigues/cacheiro-encryption" "@renatorodrigues/cacheiro-instants"; do
             if echo "$TAGS" | grep -qF "$pkg@"; then
               BUILD=true
             fi
