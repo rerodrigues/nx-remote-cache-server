@@ -43,6 +43,7 @@ Huge thanks to the brilliant folks at [NRWL](https://nrwl.io) for creating *Nx* 
 | [`@renatorodrigues/cacheiro-store-gcs`](./packages/cacheiro-store-gcs)         | GCS store implementation                                 |
 | [`@renatorodrigues/cacheiro-store-azure`](./packages/cacheiro-store-azure)     | Azure Blob Storage store implementation                  |
 | [`@renatorodrigues/cacheiro-types`](./packages/cacheiro-types)                 | Shared TypeScript types                             |
+| [`@renatorodrigues/cacheiro-encryption`](./packages/cacheiro-encryption)       | Client-side encryption used by the cloud stores |
 
 > **Status:** Filesystem, S3, Azure Blob, and GCS stores are production-ready.
 
