@@ -155,6 +155,26 @@ describe('GET /v1/cache/:hash', () => {
     expect(res.statusCode).toBe(404);
   });
 
+  it('returns 404 without sending data when the store stream fails (e.g. tampered artifact)', async () => {
+    class TamperedStore extends MemoryStore {
+      override read(): PassThrough {
+        const stream = new PassThrough();
+        queueMicrotask(() => stream.destroy(new Error('failed to decrypt — tampered')));
+        return stream;
+      }
+    }
+    const tampered = new TamperedStore();
+    await tampered.write('abc123', Buffer.from('hello'));
+    const app = await createServer(tampered, testConfig);
+    const res = await app.inject({
+      method: 'GET',
+      url: '/v1/cache/abc123',
+      headers: { Authorization: AUTH },
+    });
+    expect(res.statusCode).toBe(404);
+    expect(res.body).toBe('');
+  });
+
   it('returns 200 with artifact content', async () => {
     const app = await createServer(store, testConfig);
     await store.write('abc123', Buffer.from('hello'));
