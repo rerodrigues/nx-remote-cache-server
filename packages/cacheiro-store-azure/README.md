@@ -84,7 +84,7 @@ Azure encrypts every blob at rest by default with Microsoft-managed keys — thi
 
 `encryptionScope` is write-time only — Azure tracks which scope each blob was written with and decrypts transparently on read. Use scopes when one storage account holds artifacts under multiple keys (per tenant, per environment). For a single account-wide key, configure CMK on the storage account in the Azure portal and leave `encryptionScope` unset.
 
-Client-side keys are stretched with `scrypt` (fixed salt, default cost) to a 32-byte AES key. The IV is randomly generated per write and prepended to the ciphertext: `[16-byte IV][ciphertext]`. This KDF differs from the deprecated official Nx Azure plugin (which used a different scheme), so containers encrypted with the upstream plugin are not interoperable.
+Client-side encryption (key derivation, IV and blob format) is documented in [`@renatorodrigues/cacheiro-encryption`](https://github.com/rerodrigues/nx-remote-cache-server/tree/main/packages/cacheiro-encryption). This KDF differs from the deprecated official Nx Azure plugin, so containers encrypted with the upstream plugin are not interoperable.
 
 ## Environment variables reference
 
