@@ -31,11 +31,13 @@ export async function createServer(
 ) {
   const { authToken, readOnlyToken } = validateAuthConfig(config);
 
+  const handlerOptions = { failOpen: config.server.failOpen ?? false };
+
   const api = new OpenAPIBackend({ definition: loadSpec() });
 
   api.register({
-    put: createPutHandler(store, emitter),
-    get: createGetHandler(store, emitter),
+    put: createPutHandler(store, emitter, handlerOptions),
+    get: createGetHandler(store, emitter, handlerOptions),
     unauthorizedHandler: async (_c: Context, _req: FastifyRequest, reply: FastifyReply) =>
       reply.status(401).type('text/plain').send('Unauthorized'),
     notFound: async (_c: Context, _req: FastifyRequest, reply: FastifyReply) =>

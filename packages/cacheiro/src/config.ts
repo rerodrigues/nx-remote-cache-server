@@ -10,6 +10,7 @@ export interface CacheiroConfig {
     banner?: boolean;
     infobox?: boolean;
     logFormat?: 'pretty' | 'json';
+    failOpen?: boolean;
     tls?: {
       certFile: string;
       keyFile: string;
