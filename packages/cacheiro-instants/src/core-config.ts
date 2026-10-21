@@ -9,6 +9,7 @@ export function readCoreConfig(): CacheiroConfig {
     CACHEIRO_BANNER: bool({ default: true }),
     CACHEIRO_INFOBOX: bool({ default: true }),
     CACHEIRO_LOG_FORMAT: str({ choices: ['pretty', 'json'], default: undefined }),
+    CACHEIRO_FAIL_OPEN: bool({ default: false }),
     CACHEIRO_TLS_CERT_FILE: str({ default: undefined }),
     CACHEIRO_TLS_KEY_FILE: str({ default: undefined }),
     CACHEIRO_TLS_CA_FILE: str({ default: undefined }),
@@ -22,6 +23,7 @@ export function readCoreConfig(): CacheiroConfig {
     bodyLimitMb: env.CACHEIRO_BODY_LIMIT_MB,
     banner: env.CACHEIRO_BANNER,
     infobox: env.CACHEIRO_INFOBOX,
+    failOpen: env.CACHEIRO_FAIL_OPEN,
   };
 
   if (env.CACHEIRO_LOG_FORMAT !== undefined) {

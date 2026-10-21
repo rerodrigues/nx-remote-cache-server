@@ -94,6 +94,7 @@ Plain environment variables only — no config files. Environment variables shar
 | `CACHEIRO_BANNER`               | `true`        | Show ASCII art startup banner                                                                                                       |
 | `CACHEIRO_INFOBOX`              | `true`        | Show the info box with version, URL, and store details                                                                              |
 | `CACHEIRO_LOG_FORMAT`           | `json`        | `json` (structured pino lines, default in the images) or `pretty` (human-readable)                                                  |
+| `CACHEIRO_FAIL_OPEN`            | `false`       | `true` answers store errors as a cache miss on GET (`404`) and `403` on PUT, so Nx keeps building instead of failing                |
 | `CACHEIRO_TLS_CERT_FILE`        | —             | Path to PEM certificate file. Enables HTTPS when set with `KEY_FILE`                                                                |
 | `CACHEIRO_TLS_KEY_FILE`         | —             | Path to PEM private key file                                                                                                        |
 | `CACHEIRO_TLS_CA_FILE`          | —             | Path to CA certificate file (optional)                                                                                              |

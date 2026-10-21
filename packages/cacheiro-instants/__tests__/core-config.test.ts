@@ -38,7 +38,14 @@ describe('readCoreConfig', () => {
     const config = readCoreConfig();
 
     expect(config).toEqual({
-      server: { port: 3000, host: '0.0.0.0', bodyLimitMb: 100, banner: true, infobox: true },
+      server: {
+        port: 3000,
+        host: '0.0.0.0',
+        bodyLimitMb: 100,
+        banner: true,
+        infobox: true,
+        failOpen: false,
+      },
     });
   });
 
@@ -54,6 +61,17 @@ describe('readCoreConfig', () => {
     expect(config.server.bodyLimitMb).toBe(50);
     expect(config.server.banner).toBe(false);
     expect(config.server.infobox).toBe(false);
+  });
+
+  it('defaults server.failOpen to false and reads CACHEIRO_FAIL_OPEN', () => {
+    process.env.CACHEIRO_PORT = '3000';
+    process.env.CACHEIRO_HOST = '0.0.0.0';
+
+    expect(readCoreConfig().server.failOpen).toBe(false);
+
+    process.env.CACHEIRO_FAIL_OPEN = 'true';
+
+    expect(readCoreConfig().server.failOpen).toBe(true);
   });
 
   it('leaves server.logFormat unset by default', () => {
