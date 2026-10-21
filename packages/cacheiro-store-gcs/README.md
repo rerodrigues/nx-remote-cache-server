@@ -53,6 +53,10 @@ npm run fmt
 
 See [Environment variables reference](#environment-variables-reference) for conventional env var names.
 
+## Write semantics
+
+Writes are create-only: each upload is sent with `ifGenerationMatch: 0`, so GCS rejects it if an object with the same key already exists. If two PUTs of the same hash race past the server's existence check, the first one to finish is kept and the second is dropped without error. A stored entry is never overwritten.
+
 ## Encryption
 
 GCS encrypts every object at rest by default with Google-managed keys — no configuration needed. For additional client-side encryption, set `encryptionKey`:

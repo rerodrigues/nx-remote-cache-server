@@ -109,7 +109,21 @@ describe('GcsStore write()', () => {
     await store.mount();
     const payload = Buffer.from('hello world');
     await store.write('abc', payload);
-    expect(mockSave).toHaveBeenCalledWith(payload);
+    expect(mockSave).toHaveBeenCalledWith(payload, {
+      preconditionOpts: { ifGenerationMatch: 0 },
+    });
+    store.unmount();
+  });
+
+  it('keeps the existing object when a concurrent write wins (412)', async () => {
+    mockSave.mockRejectedValue(
+      Object.assign(new Error('At least one of the pre-conditions you specified did not hold.'), {
+        code: 412,
+      }),
+    );
+    const store = new GcsStore(baseConfig);
+    await store.mount();
+    await expect(store.write('abc', Buffer.from('d'))).resolves.toBeUndefined();
     store.unmount();
   });
 
