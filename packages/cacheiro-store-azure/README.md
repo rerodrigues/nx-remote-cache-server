@@ -67,6 +67,10 @@ Two mutually exclusive modes are supported:
 
 When both are set, `connectionString` wins.
 
+## Write semantics
+
+Writes are create-only: each upload is sent with `ifNoneMatch: '*'`, so Azure rejects it if a blob with the same key already exists. If two PUTs of the same hash race past the server's existence check, the first one to finish is kept and the second is dropped without error (Azure answers `409 BlobAlreadyExists` or `412 ConditionNotMet`, both treated as success). A stored entry is never overwritten.
+
 ## Encryption
 
 Azure encrypts every blob at rest by default with Microsoft-managed keys — this baseline cannot be turned off. Two optional layers stack on top:

@@ -22,6 +22,12 @@ export function isNotFound(err: unknown): boolean {
   return e.code === 'BlobNotFound';
 }
 
+export function isPreconditionFailed(err: unknown): boolean {
+  const e = asAzureError(err);
+  if (!e) return false;
+  return e.statusCode === 412 || e.code === 'BlobAlreadyExists' || e.code === 'ConditionNotMet';
+}
+
 export function classifyError(
   err: unknown,
   op: 'read' | 'write' | 'head',

@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from '@azure/identity';
 import type { CacheiroStore, Describable } from '@renatorodrigues/cacheiro-types';
 import configSchema from '../configSchema.json' with { type: 'json' };
 import { DecryptTransform, deriveKey, encryptBuffer } from './encryption.js';
-import { classifyError, isNotFound } from './errors.js';
+import { classifyError, isNotFound, isPreconditionFailed } from './errors.js';
 
 export { configSchema };
 
@@ -90,11 +90,12 @@ export class AzureStore implements CacheiroStore, Describable {
     const body = this.encryptionKey ? encryptBuffer(data, this.encryptionKey) : data;
     const blockBlobClient: BlockBlobClient = container.getBlockBlobClient(this.buildKey(hash));
     try {
-      await blockBlobClient.uploadData(
-        body,
-        this.config.encryptionScope ? { encryptionScope: this.config.encryptionScope } : undefined,
-      );
+      await blockBlobClient.uploadData(body, {
+        conditions: { ifNoneMatch: '*' },
+        ...(this.config.encryptionScope ? { encryptionScope: this.config.encryptionScope } : {}),
+      });
     } catch (err) {
+      if (isPreconditionFailed(err)) return;
       throw classifyError(err, 'write', this.config.container);
     }
   }

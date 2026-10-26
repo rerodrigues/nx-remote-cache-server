@@ -477,6 +477,39 @@ describe('AzureStore describe()', () => {
   });
 });
 
+describe('AzureStore write() concurrent writers', () => {
+  it.each([
+    ['409 BlobAlreadyExists', { statusCode: 409, code: 'BlobAlreadyExists' }],
+    ['412 ConditionNotMet', { statusCode: 412, code: 'ConditionNotMet' }],
+  ])('keeps the existing blob when a concurrent write wins (%s)', async (_label, init) => {
+    const store = new AzureStore(baseConfig);
+    await store.mount();
+    containerClient.getBlockBlobClient.mockImplementationOnce((key: string) => {
+      const m = { uploadData: vi.fn().mockRejectedValue(new FakeRestError(init)) };
+      blockBlobs.set(key, m);
+      return m;
+    });
+    await expect(store.write('abc', Buffer.from('d'))).resolves.toBeUndefined();
+    store.unmount();
+  });
+
+  it('still throws on other 409 errors', async () => {
+    const store = new AzureStore(baseConfig);
+    await store.mount();
+    containerClient.getBlockBlobClient.mockImplementationOnce((key: string) => {
+      const m = {
+        uploadData: vi
+          .fn()
+          .mockRejectedValue(new FakeRestError({ statusCode: 409, code: 'LeaseIdMissing' })),
+      };
+      blockBlobs.set(key, m);
+      return m;
+    });
+    await expect(store.write('abc', Buffer.from('d'))).rejects.toThrow();
+    store.unmount();
+  });
+});
+
 describe('AzureStore write() with encryptionScope', () => {
   it('passes encryptionScope to uploadData when set', async () => {
     const calls: Array<unknown> = [];
@@ -492,11 +525,14 @@ describe('AzureStore write() with encryptionScope', () => {
       return m;
     });
     await store.write('abc', Buffer.from('data'));
-    expect(calls[0]).toEqual({ encryptionScope: 'scope-a' });
+    expect(calls[0]).toEqual({
+      conditions: { ifNoneMatch: '*' },
+      encryptionScope: 'scope-a',
+    });
     store.unmount();
   });
 
-  it('omits options when encryptionScope is unset', async () => {
+  it('sends only the create-only condition when encryptionScope is unset', async () => {
     const calls: Array<unknown> = [];
     const store = new AzureStore(baseConfig);
     await store.mount();
@@ -510,7 +546,7 @@ describe('AzureStore write() with encryptionScope', () => {
       return m;
     });
     await store.write('abc', Buffer.from('data'));
-    expect(calls[0]).toBeUndefined();
+    expect(calls[0]).toEqual({ conditions: { ifNoneMatch: '*' } });
     store.unmount();
   });
 });
