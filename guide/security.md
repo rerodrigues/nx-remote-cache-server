@@ -26,7 +26,7 @@ export NX_SELF_HOSTED_REMOTE_CACHE_ACCESS_TOKEN="$CACHEIRO_AUTH_READ_ONLY_TOKEN"
 
 ## No overwrites
 
-Cache keys are content-addressed, so an existing hash is never legitimately overwritten. A repeat `PUT` for the same hash gets a `409`.
+Cache keys are content-addressed, so an existing hash is never legitimately overwritten. A repeat `PUT` for the same hash gets a `409`. The S3, GCS, and Azure stores also write create-only, so if two `PUT`s for the same hash race past that check, the first stored object is kept and the second request still gets `200`. The filesystem store replaces the file atomically, so the last of two racing writes wins; both carry the same hash.
 
 ## HTTPS
 
