@@ -24,6 +24,11 @@ export function isNotFound(err: unknown): boolean {
   return e?.code === 404;
 }
 
+export function isPreconditionFailed(err: unknown): boolean {
+  const e = asGcsError(err);
+  return e?.code === 412;
+}
+
 export function classifyError(err: unknown, op: 'read' | 'write' | 'head', bucket: string): Error {
   const e = asGcsError(err);
   if (!e) return err instanceof Error ? err : new Error(String(err));

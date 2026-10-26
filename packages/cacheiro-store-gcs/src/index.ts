@@ -4,7 +4,7 @@ import { Storage, type StorageOptions } from '@google-cloud/storage';
 import type { CacheiroStore, Describable } from '@renatorodrigues/cacheiro-types';
 import configSchema from '../configSchema.json' with { type: 'json' };
 import { DecryptTransform, deriveKey, encryptBuffer } from './encryption.js';
-import { classifyError, isNotFound } from './errors.js';
+import { classifyError, isNotFound, isPreconditionFailed } from './errors.js';
 
 export { configSchema };
 
@@ -60,8 +60,10 @@ export class GcsStore implements CacheiroStore, Describable {
     const body = this.encryptionKey ? encryptBuffer(data, this.encryptionKey) : data;
     const file = this.requireStorage().bucket(this.config.bucket).file(this.buildKey(hash));
     try {
-      await file.save(body);
+      await file.save(body, { preconditionOpts: { ifGenerationMatch: 0 } });
     } catch (err) {
+      // A concurrent PUT of the same hash got there first. Entries are immutable, so keep theirs.
+      if (isPreconditionFailed(err)) return;
       throw classifyError(err, 'write', this.config.bucket);
     }
   }
