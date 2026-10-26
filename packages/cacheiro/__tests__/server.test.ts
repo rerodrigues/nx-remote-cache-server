@@ -52,6 +52,12 @@ class FailingStore implements CacheiroStore {
   }
 }
 
+class FailingWriteStore extends MemoryStore {
+  override async write(): Promise<void> {
+    throw new Error('write failed');
+  }
+}
+
 const testConfig: CacheiroConfig = {
   server: { port: 3000, host: 'localhost', bodyLimitMb: 10, banner: false, infobox: false },
   auth: { token: 'test-token' },
@@ -298,6 +304,72 @@ describe('hooks', () => {
     });
 
     expect(misses).toEqual([]);
+  });
+});
+
+describe('server.failOpen', () => {
+  const failOpenConfig: CacheiroConfig = {
+    ...testConfig,
+    server: { ...testConfig.server, failOpen: true },
+  };
+
+  function put(app: Awaited<ReturnType<typeof createServer>>) {
+    return app.inject({
+      method: 'PUT',
+      url: '/v1/cache/abc123',
+      headers: {
+        Authorization: AUTH,
+        'Content-Type': 'application/octet-stream',
+        'Content-Length': '5',
+      },
+      payload: Buffer.from('hello'),
+    });
+  }
+
+  it('returns 404 and emits serverError when the store fails on GET', async () => {
+    const emitter = new CacheiroEmitter();
+    const errors: { error: Error }[] = [];
+    emitter.on('serverError', (e) => errors.push(e));
+    const app = await createServer(new FailingStore(), failOpenConfig, emitter);
+
+    const res = await app.inject({
+      method: 'GET',
+      url: '/v1/cache/abc123',
+      headers: { Authorization: AUTH },
+    });
+
+    expect(res.statusCode).toBe(404);
+    expect(errors.map((e) => e.error.message)).toEqual(['store unavailable']);
+  });
+
+  it('returns 403 and emits serverError when the existence check fails on PUT', async () => {
+    const emitter = new CacheiroEmitter();
+    const errors: { error: Error }[] = [];
+    emitter.on('serverError', (e) => errors.push(e));
+    const app = await createServer(new FailingStore(), failOpenConfig, emitter);
+
+    const res = await put(app);
+
+    expect(res.statusCode).toBe(403);
+    expect(errors.map((e) => e.error.message)).toEqual(['store unavailable']);
+  });
+
+  it('returns 403 without emitting cacheSet when the write fails on PUT', async () => {
+    const emitter = new CacheiroEmitter();
+    const sets: { hash: string }[] = [];
+    emitter.on('cacheSet', (e) => sets.push(e));
+    const app = await createServer(new FailingWriteStore(), failOpenConfig, emitter);
+
+    const res = await put(app);
+
+    expect(res.statusCode).toBe(403);
+    expect(sets).toEqual([]);
+  });
+
+  it('returns 500 on a failed PUT when failOpen is not set', async () => {
+    const app = await createServer(new FailingWriteStore(), testConfig);
+    const res = await put(app);
+    expect(res.statusCode).toBe(500);
   });
 });
 

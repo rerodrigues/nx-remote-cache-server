@@ -2,8 +2,13 @@ import type { Context } from 'openapi-backend';
 import type { FastifyReply, FastifyRequest } from 'fastify';
 import type { CacheiroStore } from '@renatorodrigues/cacheiro-types';
 import type { CacheiroEmitter } from '../hooks.js';
+import { reportStoreError, type HandlerOptions } from './store-error.js';
 
-export function createPutHandler(store: CacheiroStore, emitter: CacheiroEmitter) {
+export function createPutHandler(
+  store: CacheiroStore,
+  emitter: CacheiroEmitter,
+  options: HandlerOptions = {},
+) {
   return async (c: Context, req: FastifyRequest, reply: FastifyReply): Promise<void> => {
     const { hash } = c.request.params as { hash: string };
 
@@ -17,12 +22,20 @@ export function createPutHandler(store: CacheiroStore, emitter: CacheiroEmitter)
       return;
     }
 
-    if (await store.exists(hash)) {
-      reply.status(409).send();
+    try {
+      if (await store.exists(hash)) {
+        reply.status(409).send();
+        return;
+      }
+      await store.write(hash, req.body);
+    } catch (err) {
+      if (!options.failOpen) throw err;
+      // Nx retries a 5xx PUT and then fails the build, but skips the upload on a 403.
+      reportStoreError(err, req, emitter);
+      reply.status(403).type('text/plain').send('Forbidden');
       return;
     }
 
-    await store.write(hash, req.body);
     emitter.emit('cacheSet', { hash });
     reply.status(200).send();
   };

@@ -36,6 +36,10 @@
           "enum": ["pretty", "json"],
           "description": "Log output format. `json` prints structured pino JSON lines. `pretty` prints human-readable lines. Defaults to `pretty` unless NODE_ENV is `production`."
         },
+        "failOpen": {
+          "type": "boolean",
+          "description": "When true, a store error on GET is answered as a cache miss (404) and on PUT as 403, so Nx runs the task instead of failing the build. Defaults to false (500)."
+        },
         "tls": {
           "type": "object",
           "additionalProperties": false,

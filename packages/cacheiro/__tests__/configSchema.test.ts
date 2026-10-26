@@ -25,6 +25,7 @@ describe('configSchema', () => {
           banner: true,
           infobox: true,
           logFormat: 'pretty',
+          failOpen: true,
           tls: { certFile: '/cert.pem', keyFile: '/key.pem', caFile: '/ca.pem' },
         },
         auth: { token: 'secret', readOnlyToken: 'ro-secret' },
@@ -52,6 +53,7 @@ describe('configSchema', () => {
     [{ banner: 'yes' }, '/server/banner'],
     [{ infobox: 'yes' }, '/server/infobox'],
     [{ logFormat: 'xml' }, '/server/logFormat'],
+    [{ failOpen: 'yes' }, '/server/failOpen'],
   ])('rejects invalid server.%o', (server, expectedPath) => {
     expect(validate({ server })).toBe(false);
     expect(errorPaths()).toContain(expectedPath);

@@ -115,22 +115,23 @@ npm run fmt:check      # oxfmt --check
 
 ## Config values reference
 
-| Key                               | Default       | Description                                                                                                                                                                           |
-| --------------------------------- | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `server.port`                     | `3000`        | Port to listen on                                                                                                                                                                     |
-| `server.host`                     | `127.0.0.1`   | Host to bind to. Use `0.0.0.0` to expose on all interfaces.                                                                                                                           |
-| `server.bodyLimitMb`              | `100`         | Max request body size in MB                                                                                                                                                           |
-| `server.banner`                   | `true`        | Show ASCII art startup banner. When `false`, prints a compact single-line header instead.                                                                                             |
-| `server.infobox`                  | `true`        | Show the info box with version, URL, and store details. When `false`, the version is shown inline instead.                                                                            |
-| `server.logFormat`                | unset         | `pretty` or `json`. Unset means `pretty` outside `NODE_ENV=production` and `json` in production.                                                                                      |
-| `server.tls.certFile`             | —             | Path to PEM certificate file. When set (with `keyFile`), enables HTTPS.                                                                                                               |
-| `server.tls.keyFile`              | —             | Path to PEM private key file.                                                                                                                                                         |
-| `server.tls.caFile`               | —             | Path to CA certificate file (optional).                                                                                                                                               |
-| `auth.token`                      | `"change-me"` | Bearer token required on all requests. Omit `auth` (or `token`) entirely to disable auth — passing `""` still works but is deprecated and will be rejected in the next major version. |
-| `auth.readOnlyToken`              | —             | Optional bearer token granting read-only access (GET only, no PUT). Requires `auth.token` to be set. Must differ from `auth.token`.                                                   |
-| `storeOptions.cacheDirectory`     | `"./cache"`   | Directory where artifacts are stored.                                                                                                                                                 |
-| `storeOptions.ttlDays`            | `7`           | Artifact TTL in days. `0` disables expiration.                                                                                                                                        |
-| `storeOptions.sweepIntervalHours` | `24`          | How often to sweep for expired artifacts (hours). `0` disables the sweep.                                                                                                             |
+| Key                               | Default       | Description                                                                                                                                                                                          |
+| --------------------------------- | ------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `server.port`                     | `3000`        | Port to listen on                                                                                                                                                                                    |
+| `server.host`                     | `127.0.0.1`   | Host to bind to. Use `0.0.0.0` to expose on all interfaces.                                                                                                                                          |
+| `server.bodyLimitMb`              | `100`         | Max request body size in MB                                                                                                                                                                          |
+| `server.banner`                   | `true`        | Show ASCII art startup banner. When `false`, prints a compact single-line header instead.                                                                                                            |
+| `server.infobox`                  | `true`        | Show the info box with version, URL, and store details. When `false`, the version is shown inline instead.                                                                                           |
+| `server.logFormat`                | unset         | `pretty` or `json`. Unset means `pretty` outside `NODE_ENV=production` and `json` in production.                                                                                                     |
+| `server.failOpen`                 | `false`       | When `true`, a store error on GET is answered as a cache miss (`404`) and on PUT as `403`, so Nx runs the task instead of failing the build. The error is still logged and emitted as `serverError`. |
+| `server.tls.certFile`             | —             | Path to PEM certificate file. When set (with `keyFile`), enables HTTPS.                                                                                                                              |
+| `server.tls.keyFile`              | —             | Path to PEM private key file.                                                                                                                                                                        |
+| `server.tls.caFile`               | —             | Path to CA certificate file (optional).                                                                                                                                                              |
+| `auth.token`                      | `"change-me"` | Bearer token required on all requests. Omit `auth` (or `token`) entirely to disable auth — passing `""` still works but is deprecated and will be rejected in the next major version.                |
+| `auth.readOnlyToken`              | —             | Optional bearer token granting read-only access (GET only, no PUT). Requires `auth.token` to be set. Must differ from `auth.token`.                                                                  |
+| `storeOptions.cacheDirectory`     | `"./cache"`   | Directory where artifacts are stored.                                                                                                                                                                |
+| `storeOptions.ttlDays`            | `7`           | Artifact TTL in days. `0` disables expiration.                                                                                                                                                       |
+| `storeOptions.sweepIntervalHours` | `24`          | How often to sweep for expired artifacts (hours). `0` disables the sweep.                                                                                                                            |
 
 ## Environment variables reference
 
@@ -144,6 +145,7 @@ npm run fmt:check      # oxfmt --check
 | `CACHEIRO_BANNER`                     | `server.banner`                   | `true`        |
 | `CACHEIRO_INFOBOX`                    | `server.infobox`                  | `true`        |
 | `CACHEIRO_LOG_FORMAT`                 | `server.logFormat`                | —             |
+| `CACHEIRO_FAIL_OPEN`                  | `server.failOpen`                 | `false`       |
 | `CACHEIRO_TLS_CERT_FILE`              | `server.tls.certFile`             | —             |
 | `CACHEIRO_TLS_KEY_FILE`               | `server.tls.keyFile`              | —             |
 | `CACHEIRO_TLS_CA_FILE`                | `server.tls.caFile`               | —             |

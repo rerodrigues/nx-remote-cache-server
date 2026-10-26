@@ -12,6 +12,10 @@
       "__format": "boolean"
     },
     "logFormat": "CACHEIRO_LOG_FORMAT",
+    "failOpen": {
+      "__name": "CACHEIRO_FAIL_OPEN",
+      "__format": "boolean"
+    },
     "tls": {
       "certFile": "CACHEIRO_TLS_CERT_FILE",
       "keyFile": "CACHEIRO_TLS_KEY_FILE",
