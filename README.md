@@ -109,6 +109,8 @@ Azure requires an extra init step to create the blob container — without it th
 docker compose up local-azure local-azure-init
 ```
 
+`local-s3` uses the `localstack/localstack:community-archive` image. The current `localstack/localstack:latest` image refuses to start without a `LOCALSTACK_AUTH_TOKEN`, while the community archive runs with no account or token.
+
 Then configure `packages/cacheiro-runner/config/local.json` using the emulator snippets in `local.json.example`.
 
 ## Documentation site
