@@ -62,7 +62,6 @@ export class GcsStore implements CacheiroStore, Describable {
     try {
       await file.save(body, { preconditionOpts: { ifGenerationMatch: 0 } });
     } catch (err) {
-      // A concurrent PUT of the same hash got there first. Entries are immutable, so keep theirs.
       if (isPreconditionFailed(err)) return;
       throw classifyError(err, 'write', this.config.bucket);
     }

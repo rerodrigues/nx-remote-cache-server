@@ -61,6 +61,10 @@ npm run fmt
 
 See [Environment variables reference](#environment-variables-reference) for conventional env var names.
 
+## Write semantics
+
+Writes are create-only: each upload is sent with `IfNoneMatch: '*'`, so S3 rejects it if an object with the same key already exists. If two PUTs of the same hash race past the server's existence check, the first one to finish is kept and the second is dropped without error (S3 answers `412 PreconditionFailed` or `409 ConditionalRequestConflict`, both treated as success). A stored entry is never overwritten. The protection depends on the endpoint supporting conditional writes; S3-compatible services that do not support `IfNoneMatch` may not enforce it.
+
 ## Encryption
 
 Two mutually exclusive modes are supported:

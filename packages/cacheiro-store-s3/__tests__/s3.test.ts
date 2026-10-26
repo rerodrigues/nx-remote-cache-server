@@ -252,6 +252,45 @@ describe('S3Store read() error paths', () => {
 });
 
 describe('S3Store write() error paths', () => {
+  it('sends IfNoneMatch so existing objects are never overwritten', async () => {
+    s3Mock.on(PutObjectCommand).resolves({});
+    const store = new S3Store(baseConfig);
+    await store.mount();
+    await store.write('abc', Buffer.from('d'));
+    expect(s3Mock.commandCalls(PutObjectCommand)[0]?.args[0].input.IfNoneMatch).toBe('*');
+    store.unmount();
+  });
+
+  it('keeps the existing object when a concurrent write wins (412)', async () => {
+    s3Mock.on(PutObjectCommand).rejects(
+      new S3ServiceException({
+        name: 'PreconditionFailed',
+        $fault: 'client',
+        $metadata: { httpStatusCode: 412 },
+        message: 'At least one of the pre-conditions you specified did not hold',
+      }),
+    );
+    const store = new S3Store(baseConfig);
+    await store.mount();
+    await expect(store.write('abc', Buffer.from('d'))).resolves.toBeUndefined();
+    store.unmount();
+  });
+
+  it('keeps the existing object when a concurrent write is in flight (409)', async () => {
+    s3Mock.on(PutObjectCommand).rejects(
+      new S3ServiceException({
+        name: 'ConditionalRequestConflict',
+        $fault: 'client',
+        $metadata: { httpStatusCode: 409 },
+        message: 'A conflicting operation occurred',
+      }),
+    );
+    const store = new S3Store(baseConfig);
+    await store.mount();
+    await expect(store.write('abc', Buffer.from('d'))).resolves.toBeUndefined();
+    store.unmount();
+  });
+
   it('throws on NoSuchBucket', async () => {
     s3Mock
       .on(PutObjectCommand)

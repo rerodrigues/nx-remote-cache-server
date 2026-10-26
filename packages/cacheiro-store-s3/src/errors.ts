@@ -4,6 +4,16 @@ export function isNotFound(err: unknown): boolean {
   return e.name === 'NotFound' || e.name === 'NoSuchKey' || e.$metadata?.httpStatusCode === 404;
 }
 
+export function isPreconditionFailed(err: unknown): boolean {
+  if (!err || typeof err !== 'object') return false;
+  const e = err as { name?: string; $metadata?: { httpStatusCode?: number } };
+  return (
+    e.name === 'PreconditionFailed' ||
+    e.name === 'ConditionalRequestConflict' ||
+    e.$metadata?.httpStatusCode === 412
+  );
+}
+
 export function classifyError(err: unknown, op: 'read' | 'write' | 'head', bucket: string): Error {
   if (!err || typeof err !== 'object') {
     return err instanceof Error ? err : new Error(String(err));
