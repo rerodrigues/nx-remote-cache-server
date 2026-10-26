@@ -44,12 +44,12 @@
     "@types/node": "^22",
     "concurrently": "^10.0.6",
     "lint-staged": "^17.6.0",
-    "oxfmt": "^0.72.0",
-    "oxlint": "^1.87.0",
-    "pm2": "^7.0.4",
+    "oxfmt": "^0.74.0",
+    "oxlint": "^1.89.0",
+    "pm2": "^7.1.1",
     "tsx": "^4.23.15",
     "typescript": "^7.0.2",
-    "vitest": "^5.0.3"
+    "vitest": "^5.0.5"
   },
   "engines": {
     "node": ">=22"
