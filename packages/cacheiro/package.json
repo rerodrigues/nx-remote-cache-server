@@ -45,9 +45,9 @@
   },
   "dependencies": {
     "@renatorodrigues/cacheiro-types": "1.2.1",
-    "fastify": "^5.12.5",
+    "fastify": "^5.12.7",
     "figlet": "^1.12.0",
-    "openapi-backend": "^5.21.3",
+    "openapi-backend": "^5.22.0",
     "pino-pretty": "^13.2.0",
     "pretty-bytes": "^7.2.0"
   },
