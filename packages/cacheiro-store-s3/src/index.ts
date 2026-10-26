@@ -10,7 +10,7 @@ import {
 import type { CacheiroStore, Describable } from '@renatorodrigues/cacheiro-types';
 import configSchema from '../configSchema.json' with { type: 'json' };
 import { DecryptTransform, deriveKey, encryptBuffer } from './encryption.js';
-import { classifyError, isNotFound } from './errors.js';
+import { classifyError, isNotFound, isPreconditionFailed } from './errors.js';
 import { buildCredentials } from './credentials.js';
 
 export { configSchema };
@@ -104,11 +104,13 @@ export class S3Store implements CacheiroStore, Describable {
       Bucket: this.config.bucket,
       Key: this.buildKey(hash),
       Body: body,
+      IfNoneMatch: '*',
     };
     if (this.useSse) params.ServerSideEncryption = 'AES256';
     try {
       await client.send(new PutObjectCommand(params));
     } catch (err) {
+      if (isPreconditionFailed(err)) return;
       throw classifyError(err, 'write', this.config.bucket);
     }
   }
