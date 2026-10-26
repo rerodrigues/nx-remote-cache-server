@@ -84,7 +84,7 @@ docker buildx build -f packages/cacheiro-instants/Dockerfile --build-arg STORE_T
 
 ## Configuration
 
-Plain environment variables only — no config files. Environment variables shared by all flavors (server + auth):
+Plain environment variables only — no config files. An empty or whitespace-only value counts as unset: required variables fail validation and optional ones fall back to their default. Environment variables shared by all flavors (server + auth):
 
 | Variable                        | Default       | Description                                                                                                                         |
 | ------------------------------- | ------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
