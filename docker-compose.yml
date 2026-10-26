@@ -1,6 +1,6 @@
 services:
   local-s3:
-    image: localstack/localstack
+    image: localstack/localstack:community-archive
     ports:
       - "4566:4566"
     environment:
