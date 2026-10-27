@@ -38,7 +38,7 @@
     "fmt:check": "oxfmt --check"
   },
   "devDependencies": {
-    "@types/node": "^22",
+    "@types/node": "^26",
     "lint-staged": "^17.6.0",
     "oxfmt": "^0.74.0",
     "typescript": "^7.0.2"
