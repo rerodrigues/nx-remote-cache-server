@@ -44,7 +44,7 @@
     "@renatorodrigues/cacheiro-store-gcs": "1.0.7",
     "@renatorodrigues/cacheiro-store-s3": "1.0.7",
     "@renatorodrigues/cacheiro-types": "1.2.1",
-    "@types/node": "^22",
+    "@types/node": "^26",
     "concurrently": "^10.0.6",
     "lint-staged": "^17.6.0",
     "oxfmt": "^0.74.0",
