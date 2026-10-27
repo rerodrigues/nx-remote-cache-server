@@ -54,7 +54,7 @@
   },
   "devDependencies": {
     "@renatorodrigues/cacheiro-types": "1.2.1",
-    "@types/node": "^22",
+    "@types/node": "^26",
     "aws-sdk-client-mock": "^4.1.0",
     "lint-staged": "^17.6.0",
     "oxfmt": "^0.74.0",
