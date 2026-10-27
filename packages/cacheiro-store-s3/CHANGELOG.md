@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.8](https://github.com/rerodrigues/nx-remote-cache-server/compare/@renatorodrigues/cacheiro-store-s3@1.0.7...@renatorodrigues/cacheiro-store-s3@1.0.8) (2026-10-27)
+
+### Bug Fixes
+
+* **cacheiro-store-s3:** make writes create-only with IfNoneMatch ([99824ee](https://github.com/rerodrigues/nx-remote-cache-server/commit/99824eefca2c75448c6dc5013232b8f62aa8d544))
+
+
 ## [1.0.7](https://github.com/rerodrigues/nx-remote-cache-server/compare/@renatorodrigues/cacheiro-store-s3@1.0.6...@renatorodrigues/cacheiro-store-s3@1.0.7) (2026-10-09)
 
 **Note:** Version bump only for package @renatorodrigues/cacheiro-store-s3

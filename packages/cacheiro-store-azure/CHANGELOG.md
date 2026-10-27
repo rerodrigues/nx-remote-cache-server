@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.8](https://github.com/rerodrigues/nx-remote-cache-server/compare/@renatorodrigues/cacheiro-store-azure@1.0.7...@renatorodrigues/cacheiro-store-azure@1.0.8) (2026-10-27)
+
+### Bug Fixes
+
+* **cacheiro-store-azure:** make writes create-only with ifNoneMatch ([3280f7d](https://github.com/rerodrigues/nx-remote-cache-server/commit/3280f7d697c17913cde9ae94461949f6d7bd03c8))
+
+
 ## [1.0.7](https://github.com/rerodrigues/nx-remote-cache-server/compare/@renatorodrigues/cacheiro-store-azure@1.0.6...@renatorodrigues/cacheiro-store-azure@1.0.7) (2026-10-09)
 
 **Note:** Version bump only for package @renatorodrigues/cacheiro-store-azure

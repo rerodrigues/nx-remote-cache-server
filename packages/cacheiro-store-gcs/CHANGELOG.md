@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.8](https://github.com/rerodrigues/nx-remote-cache-server/compare/@renatorodrigues/cacheiro-store-gcs@1.0.7...@renatorodrigues/cacheiro-store-gcs@1.0.8) (2026-10-27)
+
+### Bug Fixes
+
+* **cacheiro-store-gcs:** make writes create-only with ifGenerationMatch ([ed28edd](https://github.com/rerodrigues/nx-remote-cache-server/commit/ed28edd50bf2fba8169c81ffa551ac944a3877ec))
+
+
 ## [1.0.7](https://github.com/rerodrigues/nx-remote-cache-server/compare/@renatorodrigues/cacheiro-store-gcs@1.0.6...@renatorodrigues/cacheiro-store-gcs@1.0.7) (2026-10-09)
 
 **Note:** Version bump only for package @renatorodrigues/cacheiro-store-gcs

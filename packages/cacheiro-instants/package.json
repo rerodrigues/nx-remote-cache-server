@@ -1,6 +1,6 @@
 {
   "name": "@renatorodrigues/cacheiro-instants",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "private": true,
   "description": "Cacheiro Instants — ready-to-use Cacheiro Docker images for fs/s3/gcs/azure store types",
   "homepage": "https://github.com/rerodrigues/nx-remote-cache-server/tree/main/packages/cacheiro-instants#readme",
@@ -34,16 +34,16 @@
     "fmt:check": "oxfmt --check"
   },
   "dependencies": {
-    "@renatorodrigues/cacheiro": "1.5.0",
+    "@renatorodrigues/cacheiro": "1.5.1",
     "ajv": "^8.20.0",
     "envalid": "^9.0.0"
   },
   "devDependencies": {
-    "@renatorodrigues/cacheiro-store-azure": "1.0.7",
-    "@renatorodrigues/cacheiro-store-fs": "1.1.2",
-    "@renatorodrigues/cacheiro-store-gcs": "1.0.7",
-    "@renatorodrigues/cacheiro-store-s3": "1.0.7",
-    "@renatorodrigues/cacheiro-types": "1.2.1",
+    "@renatorodrigues/cacheiro-store-azure": "1.0.8",
+    "@renatorodrigues/cacheiro-store-fs": "1.1.3",
+    "@renatorodrigues/cacheiro-store-gcs": "1.0.8",
+    "@renatorodrigues/cacheiro-store-s3": "1.0.8",
+    "@renatorodrigues/cacheiro-types": "1.2.2",
     "@types/node": "^22",
     "concurrently": "^10.0.6",
     "lint-staged": "^17.6.0",
