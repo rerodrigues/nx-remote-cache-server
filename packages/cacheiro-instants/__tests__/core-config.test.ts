@@ -134,4 +134,27 @@ describe('readCoreConfig', () => {
 
     expect(readCoreConfig().auth).toEqual({ token: 'secret', readOnlyToken: 'ro-secret' });
   });
+
+  it('treats an empty CACHEIRO_PORT as missing', () => {
+    process.env.CACHEIRO_PORT = '';
+    process.env.CACHEIRO_HOST = '0.0.0.0';
+
+    expect(() => readCoreConfig()).toThrow();
+  });
+
+  it('falls back to the default when an optional variable is empty', () => {
+    process.env.CACHEIRO_PORT = '3000';
+    process.env.CACHEIRO_HOST = '0.0.0.0';
+    process.env.CACHEIRO_BODY_LIMIT_MB = '';
+
+    expect(readCoreConfig().server?.bodyLimitMb).toBe(100);
+  });
+
+  it('treats an empty CACHEIRO_AUTH_TOKEN as unset', () => {
+    process.env.CACHEIRO_PORT = '3000';
+    process.env.CACHEIRO_HOST = '0.0.0.0';
+    process.env.CACHEIRO_AUTH_TOKEN = '';
+
+    expect(readCoreConfig().auth).toBeUndefined();
+  });
 });

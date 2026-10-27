@@ -36,7 +36,7 @@
   "dependencies": {
     "@renatorodrigues/cacheiro": "1.5.0",
     "ajv": "^8.20.0",
-    "envalid": "^8.2.0"
+    "envalid": "^9.0.0"
   },
   "devDependencies": {
     "@renatorodrigues/cacheiro-store-azure": "1.0.7",
@@ -47,11 +47,11 @@
     "@types/node": "^22",
     "concurrently": "^10.0.6",
     "lint-staged": "^17.6.0",
-    "oxfmt": "^0.72.0",
-    "oxlint": "^1.87.0",
+    "oxfmt": "^0.74.0",
+    "oxlint": "^1.89.0",
     "tsx": "^4.23.15",
     "typescript": "^7.0.2",
-    "vitest": "^5.0.3"
+    "vitest": "^5.0.5"
   },
   "peerDependencies": {
     "@renatorodrigues/cacheiro-store-azure": "1.0.6",

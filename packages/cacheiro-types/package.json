@@ -40,7 +40,7 @@
   "devDependencies": {
     "@types/node": "^22",
     "lint-staged": "^17.6.0",
-    "oxfmt": "^0.72.0",
+    "oxfmt": "^0.74.0",
     "typescript": "^7.0.2"
   },
   "engines": {
