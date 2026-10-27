@@ -41,7 +41,7 @@
     "config": "^5.0.1"
   },
   "devDependencies": {
-    "@types/node": "^22",
+    "@types/node": "^26",
     "concurrently": "^10.0.6",
     "lint-staged": "^17.6.0",
     "oxfmt": "^0.74.0",
