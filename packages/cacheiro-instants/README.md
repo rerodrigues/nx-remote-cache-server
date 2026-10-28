@@ -65,6 +65,34 @@ docker run -p 3000:3000 \
   ghcr.io/rerodrigues/cacheiro-instants-fs
 ```
 
+## Health check
+
+The images define a Docker `HEALTHCHECK` that calls `GET /health` (unauthenticated, returns `200 OK`) every 30 seconds from inside the container, with a 5 second timeout, a 10 second start period and 3 retries before the container is marked `unhealthy`. The check reads `CACHEIRO_PORT` and switches to HTTPS (certificate verification skipped, since it targets `127.0.0.1`) when `CACHEIRO_TLS_CERT_FILE` is set, so it keeps working if you change the port or enable TLS. It uses the Node.js runtime already in the image, so nothing extra is installed.
+
+The check only confirms the HTTP server is answering: `/health` does not touch the store, so an unreachable bucket or invalid cloud credentials still report `healthy`.
+
+```sh
+docker ps                                          # STATUS shows (healthy) or (unhealthy)
+docker inspect --format '{{.State.Health.Status}}' <container>
+```
+
+The timing values are not configurable through environment variables, but any of them can be overridden at run time without rebuilding the image:
+
+```sh
+docker run -p 3000:3000 \
+  --health-interval=10s --health-timeout=2s \
+  --health-start-period=30s --health-retries=5 \
+  ghcr.io/rerodrigues/cacheiro-instants-fs
+```
+
+To disable it entirely, for example when your orchestrator has its own probe:
+
+```sh
+docker run --no-healthcheck -p 3000:3000 ghcr.io/rerodrigues/cacheiro-instants-fs
+```
+
+Kubernetes ignores the Dockerfile `HEALTHCHECK`. Configure probes instead, for example `livenessProbe` and `readinessProbe` of type `httpGet` on path `/health`, port `3000` (scheme `HTTPS` when TLS is enabled).
+
 ## Building locally
 
 Build from the repo root (the Dockerfile needs access to the full monorepo). `STORE_TYPE` picks which store the image runs — `fs` (default), `s3`, `gcs`, or `azure`:
