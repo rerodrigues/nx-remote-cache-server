@@ -26,12 +26,13 @@ COPY packages/cacheiro-types/package.json ./packages/cacheiro-types/
 COPY packages/cacheiro-store-fs/package.json ./packages/cacheiro-store-fs/
 COPY packages/cacheiro/package.json ./packages/cacheiro/
 COPY packages/cacheiro-runner/package.json ./packages/cacheiro-runner/
-RUN npm ci --omit=dev
+RUN npm ci --omit=dev --ignore-scripts
 
 COPY --from=builder /app/packages/cacheiro-types/dist ./packages/cacheiro-types/dist
 COPY --from=builder /app/packages/cacheiro-store-fs/dist ./packages/cacheiro-store-fs/dist
 COPY --from=builder /app/packages/cacheiro/dist ./packages/cacheiro/dist
 COPY packages/cacheiro/configSchema.json ./packages/cacheiro/configSchema.json
+COPY packages/cacheiro-store-fs/configSchema.json ./packages/cacheiro-store-fs/configSchema.json
 COPY packages/cacheiro/swagger.json ./packages/cacheiro/swagger.json
 COPY --from=builder /app/packages/cacheiro-runner/dist ./packages/cacheiro-runner/dist
 COPY packages/cacheiro-runner/config ./packages/cacheiro-runner/config
