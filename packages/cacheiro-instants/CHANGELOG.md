@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.4.0](https://github.com/rerodrigues/nx-remote-cache-server/compare/@renatorodrigues/cacheiro-instants@0.3.1...@renatorodrigues/cacheiro-instants@0.4.0) (2026-10-28)
+
+### Features
+
+* **cacheiro-instants:** add Docker HEALTHCHECK ([4f4d03d](https://github.com/rerodrigues/nx-remote-cache-server/commit/4f4d03d437497e8030d2fa8eaf0a92627334fc78))
+
+
 ## [0.3.1](https://github.com/rerodrigues/nx-remote-cache-server/compare/@renatorodrigues/cacheiro-instants@0.3.0...@renatorodrigues/cacheiro-instants@0.3.1) (2026-10-27)
 
 **Note:** Version bump only for package @renatorodrigues/cacheiro-instants

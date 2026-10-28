@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.6.0](https://github.com/rerodrigues/nx-remote-cache-server/compare/@renatorodrigues/cacheiro-runner@1.5.1...@renatorodrigues/cacheiro-runner@1.6.0) (2026-10-28)
+
+### Features
+
+* **cacheiro-runner:** add Docker HEALTHCHECK ([5df81cd](https://github.com/rerodrigues/nx-remote-cache-server/commit/5df81cdfc9fce968a5feedaf12b9641ef2a89f12))
+
+### Bug Fixes
+
+* **cacheiro-runner:** bind to 0.0.0.0 in the Docker image ([87e9be5](https://github.com/rerodrigues/nx-remote-cache-server/commit/87e9be571e7bc3b51f1d1362d426b96eb80706ac))
+* **cacheiro-runner:** exclude local config from the Docker image ([4fabcbb](https://github.com/rerodrigues/nx-remote-cache-server/commit/4fabcbb571c4d13d3c96ff07edcd9d7ec2303d54))
+* **cacheiro-runner:** make the Docker image build and start ([be57bf3](https://github.com/rerodrigues/nx-remote-cache-server/commit/be57bf3cf7a8ed267394a068e950d04a532f565e))
+* **cacheiro-runner:** parse numeric env vars as numbers ([973d1aa](https://github.com/rerodrigues/nx-remote-cache-server/commit/973d1aa6e81368222189734342fd1bd3bb416af5))
+
+
 ## [1.5.1](https://github.com/rerodrigues/nx-remote-cache-server/compare/@renatorodrigues/cacheiro-runner@1.5.0...@renatorodrigues/cacheiro-runner@1.5.1) (2026-10-27)
 
 **Note:** Version bump only for package @renatorodrigues/cacheiro-runner
