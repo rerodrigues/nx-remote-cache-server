@@ -21,7 +21,7 @@ Check that it is up:
 curl -i http://localhost:3000/health
 ```
 
-`/health` needs no auth and returns `200 OK`.
+`/health` needs no auth and returns `200 OK`. The Docker images already run this check on their own, so `docker ps` shows `(healthy)` once the server is up. See [Instants: health check](/packages/instants#health-check) for the details and for Kubernetes probes.
 
 For S3, GCS, and Azure examples, TLS, and the full list of environment variables, see [Instants](/packages/instants). Cloud store options are documented on each store page: [S3](/packages/store-s3), [GCS](/packages/store-gcs), [Azure](/packages/store-azure).
 
