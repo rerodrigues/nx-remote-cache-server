@@ -118,6 +118,9 @@ jobs:
           echo "store_version=$STORE_VERSION" >> "$GITHUB_OUTPUT"
           INSTANTS_VERSION=$(node -p "require('./packages/cacheiro-instants/package.json').version")
           echo "instants_version=$INSTANTS_VERSION" >> "$GITHUB_OUTPUT"
+          REPO_URL="${{ github.server_url }}/${{ github.repository }}"
+          DOCS_URL="$REPO_URL/tree/main/packages/cacheiro-instants#readme"
+          echo "description=Cacheiro Instants (${{ matrix.flavor }}): ready-to-run Nx remote cache server using the ${{ matrix.flavor }} store. Store version: $STORE_VERSION (check the repository releases for store release notes). Docs: $DOCS_URL" >> "$GITHUB_OUTPUT"
 
       - name: Set up Docker Buildx
         if: steps.check.outputs.build == 'true'
@@ -146,5 +149,8 @@ jobs:
             ghcr.io/${{ github.repository_owner }}/cacheiro-instants-${{ matrix.flavor }}:latest
           labels: |
             org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
+            org.opencontainers.image.description=${{ steps.check.outputs.description }}
             org.opencontainers.image.version=${{ steps.check.outputs.instants_version }}
             io.renatorodrigues.store-version=${{ steps.check.outputs.store_version }}
+          annotations: |
+            index:org.opencontainers.image.description=${{ steps.check.outputs.description }}
