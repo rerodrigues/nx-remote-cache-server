@@ -100,6 +100,21 @@ To use a cloud store (S3, GCS, Azure), use this runner as a starting point: upda
 
 > **Note:** The `Dockerfile` is wired for `FileSystemStore` only. If you swap the store, update the `Dockerfile` accordingly — add the store package's `package.json` copy, build step, and `dist` copy to both stages, and copy its `configSchema.json` into the final stage.
 
+#### Health check
+
+The image defines a Docker `HEALTHCHECK` that calls `GET /health` (unauthenticated, returns `200 OK`) every 30 seconds from inside the container, with a 5 second timeout, a 10 second start period and 3 retries before the container is marked `unhealthy`. It reads the port from `CACHEIRO_PORT` (falling back to `3000`) and switches to HTTPS when `CACHEIRO_TLS_CERT_FILE` is set. If you set the port or TLS through a mounted config file instead of these environment variables, override the check with `--health-cmd` or disable it with `--no-healthcheck`.
+
+The check only confirms the HTTP server is answering: `/health` does not touch the store, which matters if you swap in a cloud store, since an unreachable bucket or invalid credentials still report `healthy`. Kubernetes ignores the Dockerfile `HEALTHCHECK`, so configure `httpGet` probes on `/health` there.
+
+The timing values are not configurable through environment variables, but any of them can be overridden at run time without rebuilding the image:
+
+```sh
+docker run -p 3000:3000 \
+  --health-interval=10s --health-timeout=2s \
+  --health-start-period=30s --health-retries=5 \
+  cacheiro-runner
+```
+
 ## Development
 
 ```sh

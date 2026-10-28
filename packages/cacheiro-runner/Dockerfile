@@ -45,4 +45,7 @@ VOLUME /cache
 
 EXPOSE 3000
 
+HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
+  CMD ["node", "-e", "const e=process.env;require(e.CACHEIRO_TLS_CERT_FILE?'https':'http').get({host:'127.0.0.1',port:e.CACHEIRO_PORT||3000,path:'/health',rejectUnauthorized:false},r=>process.exit(r.statusCode===200?0:1)).on('error',()=>process.exit(1))"]
+
 CMD ["npm", "start"]
