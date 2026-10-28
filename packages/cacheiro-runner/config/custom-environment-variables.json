@@ -1,8 +1,14 @@
 {
   "server": {
-    "port": "CACHEIRO_PORT",
+    "port": {
+      "__name": "CACHEIRO_PORT",
+      "__format": "number"
+    },
     "host": "CACHEIRO_HOST",
-    "bodyLimitMb": "CACHEIRO_BODY_LIMIT_MB",
+    "bodyLimitMb": {
+      "__name": "CACHEIRO_BODY_LIMIT_MB",
+      "__format": "number"
+    },
     "banner": {
       "__name": "CACHEIRO_BANNER",
       "__format": "boolean"
@@ -24,7 +30,13 @@
   },
   "storeOptions": {
     "cacheDirectory": "CACHEIRO_CACHE_DIRECTORY",
-    "ttlDays": "CACHEIRO_CACHE_TTL_DAYS",
-    "sweepIntervalHours": "CACHEIRO_CACHE_SWEEP_INTERVAL_HOURS"
+    "ttlDays": {
+      "__name": "CACHEIRO_CACHE_TTL_DAYS",
+      "__format": "number"
+    },
+    "sweepIntervalHours": {
+      "__name": "CACHEIRO_CACHE_SWEEP_INTERVAL_HOURS",
+      "__format": "number"
+    }
   }
 }
