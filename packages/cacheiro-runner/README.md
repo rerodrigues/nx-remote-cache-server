@@ -94,7 +94,7 @@ docker run -p 3000:3000 \
   cacheiro-runner
 ```
 
-The image sets `CACHEIRO_HOST=0.0.0.0` so the published port is reachable.
+The image sets `CACHEIRO_HOST=0.0.0.0` so the published port is reachable. `config/local.jsonc` is excluded from the image through `.dockerignore`, so configure the container with environment variables, or mount your own file at `/app/packages/cacheiro-runner/config/local.jsonc`.
 
 To use a cloud store (S3, GCS, Azure), use this runner as a starting point: update `src/index.ts` to import and instantiate the appropriate store package, and update the config files to match. See each store package's README for config fields and conventional env var names. `config/local.jsonc.example` includes working `storeOptions` examples for all supported stores.
 
