@@ -74,6 +74,29 @@ describe('Cacheiro', () => {
     expect(misses).toEqual([{ hash: 'missing' }]);
   });
 
+  it('emits cacheMiss when the artifact disappears between exists() and read()', async () => {
+    const misses: { hash: string }[] = [];
+    const vanishingStore = new MemoryStore();
+    vanishingStore.exists = async () => true;
+    vanishingStore.read = () => {
+      const stream = new PassThrough();
+      stream.destroy(Object.assign(new Error('gone'), { code: 'ENOENT' }));
+      return stream;
+    };
+    const cacheiro = new Cacheiro(vanishingStore, testConfig);
+    cacheiro.on('cacheMiss', (e) => misses.push(e));
+    const app = await cacheiro.start();
+
+    const res = await app.inject({
+      method: 'GET',
+      url: '/v1/cache/vanished',
+      headers: { Authorization: AUTH },
+    });
+
+    expect(res.statusCode).toBe(404);
+    expect(misses).toEqual([{ hash: 'vanished' }]);
+  });
+
   it('listen() binds the server and emits serverStart', async () => {
     const cacheiro = new Cacheiro(store, testConfig);
     const starts: undefined[] = [];
