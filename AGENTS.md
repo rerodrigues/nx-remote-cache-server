@@ -10,7 +10,9 @@ This is the `site` branch of the `nx-remote-cache-server` repository: the VitePr
 ## Content
 
 - Package pages under `packages/` include the package `README.md` verbatim from the checked-out `main` (`<!--@include: ../../packages/<pkg>/README.md-->`). Never copy README content into them. Edit the README on `main` instead.
-- The hand-written pages (`index.md` and `guide/*`) repeat facts from the packages: env var names, Docker image names, auth and token behavior, and the package list. When `main` changes any of these, update those pages here.
+- The hand-written pages (`index.md` and `guide/*`) repeat facts from the packages: env var names, Docker image names, auth and token behavior, the package list, and public API (methods, events, hooks, config options) together with the behavior and limitations the guide pages describe for them. When `main` changes any of these, update those pages here.
+- Before concluding that a change on `main` needs no site update, grep `guide/` and `index.md` for the changed names and for the old behavior. A package page including the README does not cover the guide pages. When a change removes a limitation, also grep for wording such as "only", "no way", "unlike" and "not supported" near the feature.
+- Blog posts under `blog/` are dated announcements: never update them for later changes.
 - When a package is added or removed on `main`, update `.vitepress/config.mts` (sidebar), add or remove its page under `packages/`, and update `guide/architecture.md`.
 - Do not hard-code versions or tags in the pages. Link to the changelog or the registry instead.
 - Remove or rewrite stale content instead of leaving it in place.
