@@ -97,6 +97,83 @@ describe('Cacheiro', () => {
     expect(misses).toEqual([{ hash: 'vanished' }]);
   });
 
+  it('forwards a rejected async listener to serverError instead of crashing', async () => {
+    const errors: Error[] = [];
+    const unhandled: unknown[] = [];
+    const onUnhandled = (reason: unknown) => unhandled.push(reason);
+    process.on('unhandledRejection', onUnhandled);
+    const cacheiro = new Cacheiro(store, testConfig);
+    cacheiro.on('cacheMiss', async () => {
+      throw new Error('async boom');
+    });
+    cacheiro.on('serverError', ({ error }) => errors.push(error));
+    const app = await cacheiro.start();
+
+    const res = await app.inject({
+      method: 'GET',
+      url: '/v1/cache/missing',
+      headers: { Authorization: AUTH },
+    });
+    await new Promise((resolve) => setTimeout(resolve, 20));
+    process.off('unhandledRejection', onUnhandled);
+
+    expect(res.statusCode).toBe(404);
+    expect(errors.map((e) => e.message)).toEqual(['async boom']);
+    expect(unhandled).toEqual([]);
+  });
+
+  it('does not loop or crash when a serverError listener itself rejects', async () => {
+    const calls: number[] = [];
+    const unhandled: unknown[] = [];
+    const onUnhandled = (reason: unknown) => unhandled.push(reason);
+    process.on('unhandledRejection', onUnhandled);
+    const cacheiro = new Cacheiro(store, testConfig);
+    cacheiro.on('cacheMiss', async () => {
+      throw new Error('async boom');
+    });
+    cacheiro.on('serverError', async () => {
+      calls.push(1);
+      throw new Error('handler boom');
+    });
+    const app = await cacheiro.start();
+
+    await app.inject({
+      method: 'GET',
+      url: '/v1/cache/missing',
+      headers: { Authorization: AUTH },
+    });
+    await new Promise((resolve) => setTimeout(resolve, 20));
+    process.off('unhandledRejection', onUnhandled);
+
+    expect(calls).toEqual([1]);
+    expect(unhandled).toEqual([]);
+  });
+
+  it('does not crash when an async rejection reaches a serverError listener that throws', async () => {
+    const uncaught: unknown[] = [];
+    const onUncaught = (error: unknown) => uncaught.push(error);
+    process.on('uncaughtException', onUncaught);
+    const cacheiro = new Cacheiro(store, testConfig);
+    cacheiro.on('cacheMiss', async () => {
+      throw new Error('async boom');
+    });
+    cacheiro.on('serverError', () => {
+      throw new Error('listener boom');
+    });
+    const app = await cacheiro.start();
+
+    const res = await app.inject({
+      method: 'GET',
+      url: '/v1/cache/missing',
+      headers: { Authorization: AUTH },
+    });
+    await new Promise((resolve) => setTimeout(resolve, 20));
+    process.off('uncaughtException', onUncaught);
+
+    expect(res.statusCode).toBe(404);
+    expect(uncaught).toEqual([]);
+  });
+
   it('listen() binds the server and emits serverStart', async () => {
     const cacheiro = new Cacheiro(store, testConfig);
     const starts: undefined[] = [];

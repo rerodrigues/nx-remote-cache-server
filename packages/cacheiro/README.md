@@ -120,7 +120,7 @@ cacheiro.on('cacheHit', ({ hash, expired }) => {
 | `onCacheSet`    | `{ hash }`          | A `PUT` successfully stores a new artifact. Cacheiro is a fixed-purpose NX remote cache — keys are content-addressed, so a hash is never legitimately overwritten (a repeat `PUT` gets a `409` instead), hence there is no `onCacheUpdate`.       |
 | `onServerStart` | —                   | After `cacheiro.listen()` successfully binds.                                                                                                                                                                                                     |
 | `onServerStop`  | —                   | After `cacheiro.stop()` closes the server.                                                                                                                                                                                                        |
-| `onServerError` | `{ error }`         | A request handler throws an uncaught error (mirrors the 500 response).                                                                                                                                                                            |
+| `onServerError` | `{ error }`         | A request handler throws an uncaught error (mirrors the 500 response), or an async listener rejects.                                                                                                                                              |
 
 Minimal skeleton wiring every hook, plus the `cacheiro-store-fs`-specific `expired`/`swept` events (registered directly on the store, not part of this hooks bus). Continuing the `store`/`config` from the example above:
 
