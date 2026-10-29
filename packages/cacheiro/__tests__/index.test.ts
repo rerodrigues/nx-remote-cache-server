@@ -122,6 +122,26 @@ describe('Cacheiro', () => {
     expect(unhandled).toEqual([]);
   });
 
+  it('answers with the standard 500 when a serverError listener throws synchronously', async () => {
+    const cacheiro = new Cacheiro(store, testConfig);
+    cacheiro.on('cacheMiss', () => {
+      throw new Error('miss boom');
+    });
+    cacheiro.on('serverError', () => {
+      throw new Error('listener boom');
+    });
+    const app = await cacheiro.start();
+
+    const res = await app.inject({
+      method: 'GET',
+      url: '/v1/cache/missing',
+      headers: { Authorization: AUTH },
+    });
+
+    expect(res.statusCode).toBe(500);
+    expect(res.json()).toEqual({ error: 'Internal Server Error' });
+  });
+
   it('does not loop or crash when a serverError listener itself rejects', async () => {
     const calls: number[] = [];
     const unhandled: unknown[] = [];
