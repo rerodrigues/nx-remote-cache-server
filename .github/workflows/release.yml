@@ -121,6 +121,7 @@ jobs:
           REPO_URL="${{ github.server_url }}/${{ github.repository }}"
           DOCS_URL="$REPO_URL/tree/main/packages/cacheiro-instants#readme"
           echo "description=Cacheiro Instants (${{ matrix.flavor }}): ready-to-run Nx remote cache server using the ${{ matrix.flavor }} store. Store version: $STORE_VERSION (check the repository releases for store release notes). Docs: $DOCS_URL" >> "$GITHUB_OUTPUT"
+          echo "package_description=Cacheiro Instants (${{ matrix.flavor }}): ready-to-run Nx remote cache server using the ${{ matrix.flavor }} store. Store version: $STORE_VERSION" >> "$GITHUB_OUTPUT"
 
       - name: Set up Docker Buildx
         if: steps.check.outputs.build == 'true'
@@ -153,4 +154,4 @@ jobs:
             org.opencontainers.image.version=${{ steps.check.outputs.instants_version }}
             io.renatorodrigues.store-version=${{ steps.check.outputs.store_version }}
           annotations: |
-            index:org.opencontainers.image.description=${{ steps.check.outputs.description }}
+            index:org.opencontainers.image.description=${{ steps.check.outputs.package_description }}

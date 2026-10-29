@@ -110,7 +110,13 @@ export async function createServer(
     }
     const err = error instanceof Error ? error : new Error(String(error));
     request.log.error(err.message);
-    emitter.emit('serverError', { error: err });
+    try {
+      emitter.emit('serverError', { error: err });
+    } catch (listenerError) {
+      request.log.error(
+        listenerError instanceof Error ? listenerError.message : String(listenerError),
+      );
+    }
     reply.status(500).send({ error: 'Internal Server Error' });
   });
 

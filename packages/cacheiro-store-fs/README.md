@@ -32,6 +32,14 @@ store.on('expired', ({ hash }) => log.debug('evicted', hash));
 store.on('swept', ({ count }) => metrics.gauge('cache.swept', count));
 ```
 
+Remove a listener with `store.off(event, listener)`, passing the same function reference you registered:
+
+```ts
+const onSwept = ({ count }) => metrics.gauge('cache.swept', count);
+store.on('swept', onSwept);
+store.off('swept', onSwept);
+```
+
 ## Usage
 
 ```ts

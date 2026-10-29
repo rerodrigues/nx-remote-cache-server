@@ -28,6 +28,13 @@ export class Cacheiro {
     this.emitter.on(event, listener);
   }
 
+  off<K extends keyof CacheiroEvents>(
+    event: K,
+    listener: (payload: CacheiroEvents[K]) => void,
+  ): void {
+    this.emitter.off(event, listener);
+  }
+
   async start(): Promise<FastifyInstance> {
     this.fastify = await createServer(this.store, this.config, this.emitter);
     return this.fastify;
