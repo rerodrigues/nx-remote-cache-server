@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.6.1](https://github.com/rerodrigues/nx-remote-cache-server/compare/@renatorodrigues/cacheiro-runner@1.6.0...@renatorodrigues/cacheiro-runner@1.6.1) (2026-10-29)
+
+**Note:** Version bump only for package @renatorodrigues/cacheiro-runner
+
+
+
+
+
 ## [1.6.0](https://github.com/rerodrigues/nx-remote-cache-server/compare/@renatorodrigues/cacheiro-runner@1.5.1...@renatorodrigues/cacheiro-runner@1.6.0) (2026-10-28)
 
 ### Features

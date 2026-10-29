@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.6.0](https://github.com/rerodrigues/nx-remote-cache-server/compare/@renatorodrigues/cacheiro@1.5.1...@renatorodrigues/cacheiro@1.6.0) (2026-10-29)
+
+### Features
+
+* **cacheiro:** add off() to remove event listeners ([1730d73](https://github.com/rerodrigues/nx-remote-cache-server/commit/1730d7346ae63b261a1613cff370c22c932c544f))
+
+### Bug Fixes
+
+* **cacheiro:** emit cacheMiss when an artifact cannot be read ([1b72827](https://github.com/rerodrigues/nx-remote-cache-server/commit/1b7282741d7cb3bd7d1ac0e2da3e3b9d9ba9a73d))
+* **cacheiro:** keep the standard 500 when a serverError listener throws ([01e29e3](https://github.com/rerodrigues/nx-remote-cache-server/commit/01e29e3b8095e880d9278065f0edc1b905d887ea))
+* **cacheiro:** report rejected async listeners through serverError ([49c14fb](https://github.com/rerodrigues/nx-remote-cache-server/commit/49c14fb9003176b3fa6862322b2de96ad091f3aa))
+
+
 ## [1.5.1](https://github.com/rerodrigues/nx-remote-cache-server/compare/@renatorodrigues/cacheiro@1.5.0...@renatorodrigues/cacheiro@1.5.1) (2026-10-27)
 
 **Note:** Version bump only for package @renatorodrigues/cacheiro
