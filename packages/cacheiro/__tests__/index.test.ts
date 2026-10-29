@@ -74,6 +74,59 @@ describe('Cacheiro', () => {
     expect(misses).toEqual([{ hash: 'missing' }]);
   });
 
+  it('.off() removes a listener so it is no longer called', async () => {
+    const misses: { hash: string }[] = [];
+    const listener = (e: { hash: string }) => misses.push(e);
+    const cacheiro = new Cacheiro(store, testConfig);
+    cacheiro.on('cacheMiss', listener);
+    cacheiro.off('cacheMiss', listener);
+    const app = await cacheiro.start();
+
+    await app.inject({
+      method: 'GET',
+      url: '/v1/cache/missing',
+      headers: { Authorization: AUTH },
+    });
+
+    expect(misses).toEqual([]);
+  });
+
+  it('.off() leaves other listeners on the same event registered', async () => {
+    const removed: { hash: string }[] = [];
+    const kept: { hash: string }[] = [];
+    const removedListener = (e: { hash: string }) => removed.push(e);
+    const cacheiro = new Cacheiro(store, testConfig);
+    cacheiro.on('cacheMiss', removedListener);
+    cacheiro.on('cacheMiss', (e) => kept.push(e));
+    cacheiro.off('cacheMiss', removedListener);
+    const app = await cacheiro.start();
+
+    await app.inject({
+      method: 'GET',
+      url: '/v1/cache/missing',
+      headers: { Authorization: AUTH },
+    });
+
+    expect(removed).toEqual([]);
+    expect(kept).toEqual([{ hash: 'missing' }]);
+  });
+
+  it('.off() removes a hook passed to the constructor by function reference', async () => {
+    const misses: { hash: string }[] = [];
+    const onCacheMiss = (e: { hash: string }) => misses.push(e);
+    const cacheiro = new Cacheiro(store, testConfig, { onCacheMiss });
+    cacheiro.off('cacheMiss', onCacheMiss);
+    const app = await cacheiro.start();
+
+    await app.inject({
+      method: 'GET',
+      url: '/v1/cache/missing',
+      headers: { Authorization: AUTH },
+    });
+
+    expect(misses).toEqual([]);
+  });
+
   it('emits cacheMiss when the artifact disappears between exists() and read()', async () => {
     const misses: { hash: string }[] = [];
     const vanishingStore = new MemoryStore();

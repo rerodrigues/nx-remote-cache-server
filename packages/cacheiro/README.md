@@ -101,16 +101,19 @@ const validate = ajv.compile(configSchema);
 
 ### Hooks
 
-`Cacheiro` exposes lifecycle events for metrics, logging, or custom side effects. Register them either via the third constructor argument (`hooks` object) or by calling `.on()` — both funnel into the same event bus, so you can mix and match, and `.on()` supports multiple listeners per event:
+`Cacheiro` exposes lifecycle events for metrics, logging, or custom side effects. Register them either via the third constructor argument (`hooks` object) or by calling `.on()` — both funnel into the same event bus, so you can mix and match, and `.on()` supports multiple listeners per event. Remove a listener with `.off(event, listener)` by passing the same function reference you registered; this also works for hooks passed to the constructor:
 
 ```ts
 const cacheiro = new Cacheiro(store, config, {
   onCacheSet: ({ hash }) => metrics.increment('cache.set'),
 });
 
-cacheiro.on('cacheHit', ({ hash, expired }) => {
+const onHit = ({ hash, expired }) => {
   if (!expired) metrics.increment('cache.hit_total');
-});
+};
+
+cacheiro.on('cacheHit', onHit);
+cacheiro.off('cacheHit', onHit);
 ```
 
 | Hook            | Payload             | Fires when                                                                                                                                                                                                                                        |
