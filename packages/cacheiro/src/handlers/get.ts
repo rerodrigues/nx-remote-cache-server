@@ -21,6 +21,7 @@ export function createGetHandler(store: CacheiroStore, emitter: CacheiroEmitter)
       if ((err as NodeJS.ErrnoException).code !== 'ENOENT') {
         req.log.warn({ err, hash }, 'cache read failed');
       }
+      emitter.emit('cacheMiss', { hash });
       reply.status(404).send();
       return;
     }

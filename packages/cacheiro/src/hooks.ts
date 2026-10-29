@@ -2,6 +2,20 @@ import { EventEmitter } from 'node:events';
 import type { CacheiroEvents, CacheiroHooks } from '@renatorodrigues/cacheiro-types';
 
 export class CacheiroEmitter extends EventEmitter {
+  constructor() {
+    super({ captureRejections: true });
+  }
+
+  [EventEmitter.captureRejectionSymbol](error: unknown, event: string | symbol): void {
+    const err = error instanceof Error ? error : new Error(String(error));
+    if (event === 'serverError') return;
+    try {
+      this.emit('serverError', { error: err });
+    } catch {
+      return;
+    }
+  }
+
   override on<K extends keyof CacheiroEvents>(
     event: K,
     listener: (payload: CacheiroEvents[K]) => void,
