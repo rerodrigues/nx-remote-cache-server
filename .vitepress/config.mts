@@ -142,6 +142,7 @@ export default defineConfig({
             { text: 'Getting started', link: '/guide/getting-started' },
             { text: 'Architecture', link: '/guide/architecture' },
             { text: 'Security', link: '/guide/security' },
+            { text: 'Event hooks', link: '/guide/event-hooks' },
           ],
         },
         {
