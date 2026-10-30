@@ -136,16 +136,6 @@ npm run preview   # serve the production build
 
 The `Docs` workflow lives on `main`. It checks out `main` and the `site` branch together, builds the site, and deploys it. It builds on pull requests that touch package READMEs, and deploys on pushes to `main` that change a README, on every push to `site` (through the `Dispatch docs deploy` workflow on that branch), and after each successful `Release`. One-time setup: in the repository settings, set Pages source to "GitHub Actions".
 
-## Roadmap
-
-- [x] TLS / native HTTPS support
-- [x] GCS store (v1.0.0)
-- [x] Azure Blob Storage store (v1.0.0)
-- [x] S3 store (v0.3.0)
-- [x] Decoupled pluggable store architecture (v0.3.0)
-- [x] Separate runner and server packages (v0.2.0)
-- [x] Basic cache server (v0.1.0)
-
 ---
 
 <br/>
