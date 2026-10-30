@@ -113,6 +113,10 @@ docker compose up local-azure local-azure-init
 
 Then configure `packages/cacheiro-runner/config/local.json` using the emulator snippets in `local.json.example`.
 
+## Security
+
+Report vulnerabilities privately through the repository's [Security tab](https://github.com/rerodrigues/nx-remote-cache-server/security). See [`SECURITY.md`](./SECURITY.md) for the policy.
+
 ## Documentation site
 
 The docs site and blog are built with [VitePress](https://vitepress.dev) and published to GitHub Pages at <https://rerodrigues.github.io/nx-remote-cache-server/>. Their source lives on the `site` branch of this repository, not on `main`, so site changes never touch the Cacheiro code. The `site` branch is a standalone project (not an npm workspace) and shares no history with `main`.
