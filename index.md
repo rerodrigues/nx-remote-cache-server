@@ -40,7 +40,7 @@ features:
 ```sh
 docker run -p 3000:3000 \
   -e CACHEIRO_AUTH_TOKEN=my-secret-token \
-  -v $(pwd)/cache:/cache \
+  -v cacheiro-cache:/cache \
   ghcr.io/rerodrigues/cacheiro-instants-fs
 ```
 

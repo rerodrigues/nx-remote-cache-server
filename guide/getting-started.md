@@ -11,7 +11,7 @@ Each store flavor has its own image on GHCR: `cacheiro-instants-fs`, `-s3`, `-gc
 ```sh
 docker run -p 3000:3000 \
   -e CACHEIRO_AUTH_TOKEN=my-secret-token \
-  -v $(pwd)/cache:/cache \
+  -v cacheiro-cache:/cache \
   ghcr.io/rerodrigues/cacheiro-instants-fs
 ```
 

@@ -8,7 +8,7 @@ In May 2026, Nx deprecated its official self-hosted cache packages because of [C
 
 Set `auth.token` (or `CACHEIRO_AUTH_TOKEN` in the runner and Docker images) and every `/v1/cache/*` request needs an `Authorization: Bearer <token>` header. Nx sends it for you when `NX_SELF_HOSTED_REMOTE_CACHE_ACCESS_TOKEN` is set. `/health` needs no auth.
 
-If `auth` is omitted entirely, authentication is disabled. Only do that on a trusted network.
+If `auth` is omitted entirely, authentication is disabled and anyone who can reach the server can read and write the cache. Only do that on a trusted network. Startup prints an `auth DISABLED` warning as a reminder.
 
 ## Read-only token
 
@@ -31,6 +31,16 @@ Cache keys are content-addressed, so an existing hash is never legitimately over
 ## HTTPS
 
 Set `server.tls.certFile` and `server.tls.keyFile` (`CACHEIRO_TLS_CERT_FILE` and `CACHEIRO_TLS_KEY_FILE`) to serve HTTPS natively. `server.tls.caFile` is optional.
+
+## Docker images
+
+The Cacheiro Instants images are signed with cosign and carry a GitHub build provenance attestation, so you can verify where an image came from before you run it. See [Instants: verifying images](/packages/instants#verifying-images) for the commands.
+
+The images run as the unprivileged `node` user, not root. Named volumes work out of the box. A host folder mounted at `/cache` must be writable by uid `1000`. See [Instants: non-root user](/packages/instants#non-root-user).
+
+## Reporting a vulnerability
+
+Please report security problems privately through the Security tab of the [GitHub repository](https://github.com/rerodrigues/nx-remote-cache-server/security) and not in a public issue. The [security policy](https://github.com/rerodrigues/nx-remote-cache-server/blob/main/SECURITY.md) lists what to include.
 
 ## Reference
 
