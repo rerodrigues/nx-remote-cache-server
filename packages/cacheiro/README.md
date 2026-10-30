@@ -160,6 +160,8 @@ Without it, anyone who can reach the server can read and write the cache. Startu
 
 Requests bearing `auth.readOnlyToken` may `GET` but get a `403` on `PUT`. Give it to untrusted CI (e.g. PR builds) so it can't poison the cache (CVE-2025-36852 / CREEP).
 
+The `:hash` may only contain letters, digits, `-` and `_`. Anything else gets a `400`.
+
 ## Stores
 
 Store packages implement the `CacheiroStore` interface and are independent of this package. Instantiate the store of your choice and pass it to the `Cacheiro` constructor.
