@@ -78,7 +78,7 @@ docker run -p 3000:3000 -e CACHEIRO_AUTH_TOKEN=my-secret-token -v cacheiro-cache
 - `ghcr.io/rerodrigues/cacheiro-instants-gcs`
 - `ghcr.io/rerodrigues/cacheiro-instants-azure`
 
-See [`packages/cacheiro-instants`](./packages/cacheiro-instants) for env vars, TLS setup, health check, and per-flavor examples.
+See [`packages/cacheiro-instants`](./packages/cacheiro-instants) for env vars, TLS setup, health check, image signature verification, and per-flavor examples.
 
 ## Local emulators
 

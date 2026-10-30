@@ -101,6 +101,22 @@ docker run --no-healthcheck -p 3000:3000 ghcr.io/rerodrigues/cacheiro-instants-f
 
 Kubernetes ignores the Dockerfile `HEALTHCHECK`. Configure probes instead, for example `livenessProbe` and `readinessProbe` of type `httpGet` on path `/health`, port `3000` (scheme `HTTPS` when TLS is enabled).
 
+## Verifying images
+
+Every image published to GHCR is signed with [cosign](https://docs.sigstore.dev/cosign/overview/) and carries a GitHub build provenance attestation. Verify an image before running it:
+
+```sh
+cosign verify \
+  --certificate-identity-regexp '^https://github.com/rerodrigues/nx-remote-cache-server/' \
+  --certificate-oidc-issuer https://token.actions.githubusercontent.com \
+  ghcr.io/rerodrigues/cacheiro-instants-fs:<tag>
+
+gh attestation verify oci://ghcr.io/rerodrigues/cacheiro-instants-fs:<tag> \
+  --repo rerodrigues/nx-remote-cache-server
+```
+
+Replace `fs` with your flavor and `<tag>` with the version you deploy. Pin the image by digest (`@sha256:...`) in production so the verified image is the one that runs.
+
 ## Building locally
 
 Build from the repo root (the Dockerfile needs access to the full monorepo). `STORE_TYPE` picks which store the image runs — `fs` (default), `s3`, `gcs`, or `azure`:
