@@ -17,7 +17,7 @@ Each flavor is published as its own image: `ghcr.io/rerodrigues/cacheiro-instant
 ```sh
 docker run -p 3000:3000 \
   -e CACHEIRO_AUTH_TOKEN=my-secret-token \
-  -v $(pwd)/cache:/cache \
+  -v cacheiro-cache:/cache \
   ghcr.io/rerodrigues/cacheiro-instants-fs
 ```
 
@@ -64,6 +64,14 @@ docker run -p 3000:3000 \
   -v $(pwd)/certs:/certs:ro \
   ghcr.io/rerodrigues/cacheiro-instants-fs
 ```
+
+## Non-root user
+
+The images run as the unprivileged `node` user (uid `1000`). Named Docker volumes mounted at `/cache` work out of the box.
+
+For a host bind mount of the `fs` cache directory, make it writable by uid `1000` (`chown 1000:1000 ./cache`), or run the container with `--user "$(id -u):$(id -g)"`.
+
+Files you mount read-only, such as TLS certificates and the GCS credentials file, must be readable by that user as well.
 
 ## Health check
 

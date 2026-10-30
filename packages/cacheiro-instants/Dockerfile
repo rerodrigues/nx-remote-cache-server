@@ -75,9 +75,13 @@ COPY --from=builder /app/packages/cacheiro-instants/dist ./packages/cacheiro-ins
 
 WORKDIR /app/packages/cacheiro-instants
 
+RUN mkdir -p $CACHEIRO_CACHE_DIRECTORY && chown node:node $CACHEIRO_CACHE_DIRECTORY
+
 EXPOSE $CACHEIRO_PORT
 # only used by the fs flavor — harmless no-op mount point on s3/gcs/azure images
 VOLUME $CACHEIRO_CACHE_DIRECTORY
+
+USER node
 
 HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
   CMD ["node", "-e", "const e=process.env;require(e.CACHEIRO_TLS_CERT_FILE?'https':'http').get({host:'127.0.0.1',port:e.CACHEIRO_PORT,path:'/health',rejectUnauthorized:false},r=>process.exit(r.statusCode===200?0:1)).on('error',()=>process.exit(1))"]

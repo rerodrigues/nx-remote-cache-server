@@ -77,7 +77,7 @@ Run:
 docker run -p 3000:3000 \
   -e CACHEIRO_AUTH_TOKEN=my-secret-token \
   -e NODE_ENV=production \
-  -v $(pwd)/cache:/cache \
+  -v cacheiro-cache:/cache \
   cacheiro-runner
 ```
 
@@ -89,7 +89,7 @@ docker run -p 3000:3000 \
   -e CACHEIRO_TLS_CERT_FILE=/certs/cert.pem \
   -e CACHEIRO_TLS_KEY_FILE=/certs/key.pem \
   -e NODE_ENV=production \
-  -v $(pwd)/cache:/cache \
+  -v cacheiro-cache:/cache \
   -v $(pwd)/certs:/certs:ro \
   cacheiro-runner
 ```
@@ -99,6 +99,14 @@ The image sets `CACHEIRO_HOST=0.0.0.0` so the published port is reachable. `conf
 To use a cloud store (S3, GCS, Azure), use this runner as a starting point: update `src/index.ts` to import and instantiate the appropriate store package, and update the config files to match. See each store package's README for config fields and conventional env var names. `config/local.jsonc.example` includes working `storeOptions` examples for all supported stores.
 
 > **Note:** The `Dockerfile` is wired for `FileSystemStore` only. If you swap the store, update the `Dockerfile` accordingly — add the store package's `package.json` copy, build step, and `dist` copy to both stages, and copy its `configSchema.json` into the final stage.
+
+#### Non-root user
+
+The image runs as the unprivileged `node` user (uid `1000`). Named Docker volumes mounted at `/cache` work out of the box.
+
+For a host bind mount, make the directory writable by uid `1000` (`chown 1000:1000 ./cache`), or run the container with `--user "$(id -u):$(id -g)"`.
+
+Files you mount read-only, such as TLS certificates, must be readable by that user as well.
 
 #### Health check
 

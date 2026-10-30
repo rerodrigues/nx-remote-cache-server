@@ -41,7 +41,11 @@ COPY packages/cacheiro-runner/ecosystem.config.cjs ./packages/cacheiro-runner/ec
 
 WORKDIR /app/packages/cacheiro-runner
 
+RUN mkdir -p /cache && chown node:node /cache
+
 VOLUME /cache
+
+USER node
 
 EXPOSE 3000
 
