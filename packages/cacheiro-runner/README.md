@@ -77,7 +77,7 @@ Run:
 docker run -p 3000:3000 \
   -e CACHEIRO_AUTH_TOKEN=my-secret-token \
   -e NODE_ENV=production \
-  -v $(pwd)/cache:/cache \
+  -v cacheiro-cache:/cache \
   cacheiro-runner
 ```
 
@@ -89,7 +89,7 @@ docker run -p 3000:3000 \
   -e CACHEIRO_TLS_CERT_FILE=/certs/cert.pem \
   -e CACHEIRO_TLS_KEY_FILE=/certs/key.pem \
   -e NODE_ENV=production \
-  -v $(pwd)/cache:/cache \
+  -v cacheiro-cache:/cache \
   -v $(pwd)/certs:/certs:ro \
   cacheiro-runner
 ```
@@ -99,6 +99,14 @@ The image sets `CACHEIRO_HOST=0.0.0.0` so the published port is reachable. `conf
 To use a cloud store (S3, GCS, Azure), use this runner as a starting point: update `src/index.ts` to import and instantiate the appropriate store package, and update the config files to match. See each store package's README for config fields and conventional env var names. `config/local.jsonc.example` includes working `storeOptions` examples for all supported stores.
 
 > **Note:** The `Dockerfile` is wired for `FileSystemStore` only. If you swap the store, update the `Dockerfile` accordingly — add the store package's `package.json` copy, build step, and `dist` copy to both stages, and copy its `configSchema.json` into the final stage.
+
+#### Non-root user
+
+The image runs as the unprivileged `node` user (uid `1000`). Named Docker volumes mounted at `/cache` work out of the box.
+
+For a host bind mount, make the directory writable by uid `1000` (`chown 1000:1000 ./cache`), or run the container with `--user "$(id -u):$(id -g)"`.
+
+Files you mount read-only, such as TLS certificates, must be readable by that user as well.
 
 #### Health check
 
@@ -132,22 +140,22 @@ npm run fmt:check      # oxfmt --check
 
 ## Config values reference
 
-| Key                               | Default       | Description                                                                                                                                                                           |
-| --------------------------------- | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `server.port`                     | `3000`        | Port to listen on                                                                                                                                                                     |
-| `server.host`                     | `127.0.0.1`   | Host to bind to. Use `0.0.0.0` to expose on all interfaces.                                                                                                                           |
-| `server.bodyLimitMb`              | `100`         | Max request body size in MB                                                                                                                                                           |
-| `server.banner`                   | `true`        | Show ASCII art startup banner. When `false`, prints a compact single-line header instead.                                                                                             |
-| `server.infobox`                  | `true`        | Show the info box with version, URL, and store details. When `false`, the version is shown inline instead.                                                                            |
-| `server.logFormat`                | unset         | `pretty` or `json`. Unset means `pretty` outside `NODE_ENV=production` and `json` in production.                                                                                      |
-| `server.tls.certFile`             | —             | Path to PEM certificate file. When set (with `keyFile`), enables HTTPS.                                                                                                               |
-| `server.tls.keyFile`              | —             | Path to PEM private key file.                                                                                                                                                         |
-| `server.tls.caFile`               | —             | Path to CA certificate file (optional).                                                                                                                                               |
-| `auth.token`                      | `"change-me"` | Bearer token required on all requests. Omit `auth` (or `token`) entirely to disable auth — passing `""` still works but is deprecated and will be rejected in the next major version. |
-| `auth.readOnlyToken`              | —             | Optional bearer token granting read-only access (GET only, no PUT). Requires `auth.token` to be set. Must differ from `auth.token`.                                                   |
-| `storeOptions.cacheDirectory`     | `"./cache"`   | Directory where artifacts are stored.                                                                                                                                                 |
-| `storeOptions.ttlDays`            | `7`           | Artifact TTL in days. `0` disables expiration.                                                                                                                                        |
-| `storeOptions.sweepIntervalHours` | `24`          | How often to sweep for expired artifacts (hours). `0` disables the sweep.                                                                                                             |
+| Key                               | Default       | Description                                                                                                                               |
+| --------------------------------- | ------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| `server.port`                     | `3000`        | Port to listen on                                                                                                                         |
+| `server.host`                     | `127.0.0.1`   | Host to bind to. Use `0.0.0.0` to expose on all interfaces.                                                                               |
+| `server.bodyLimitMb`              | `100`         | Max request body size in MB                                                                                                               |
+| `server.banner`                   | `true`        | Show ASCII art startup banner. When `false`, prints a compact single-line header instead.                                                 |
+| `server.infobox`                  | `true`        | Show the info box with version, URL, and store details. When `false`, the version is shown inline instead.                                |
+| `server.logFormat`                | unset         | `pretty` or `json`. Unset means `pretty` outside `NODE_ENV=production` and `json` in production.                                          |
+| `server.tls.certFile`             | —             | Path to PEM certificate file. When set (with `keyFile`), enables HTTPS.                                                                   |
+| `server.tls.keyFile`              | —             | Path to PEM private key file.                                                                                                             |
+| `server.tls.caFile`               | —             | Path to CA certificate file (optional).                                                                                                   |
+| `auth.token`                      | `"change-me"` | Bearer token required on all requests. Omit `auth` (or `token`) entirely to disable auth. Startup then prints an `auth DISABLED` warning. |
+| `auth.readOnlyToken`              | —             | Optional bearer token granting read-only access (GET only, no PUT). Requires `auth.token` to be set. Must differ from `auth.token`.       |
+| `storeOptions.cacheDirectory`     | `"./cache"`   | Directory where artifacts are stored.                                                                                                     |
+| `storeOptions.ttlDays`            | `7`           | Artifact TTL in days. `0` disables expiration.                                                                                            |
+| `storeOptions.sweepIntervalHours` | `24`          | How often to sweep for expired artifacts (hours). `0` disables the sweep.                                                                 |
 
 ## Environment variables reference
 

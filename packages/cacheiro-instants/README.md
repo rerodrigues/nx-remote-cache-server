@@ -17,7 +17,7 @@ Each flavor is published as its own image: `ghcr.io/rerodrigues/cacheiro-instant
 ```sh
 docker run -p 3000:3000 \
   -e CACHEIRO_AUTH_TOKEN=my-secret-token \
-  -v $(pwd)/cache:/cache \
+  -v cacheiro-cache:/cache \
   ghcr.io/rerodrigues/cacheiro-instants-fs
 ```
 
@@ -65,6 +65,14 @@ docker run -p 3000:3000 \
   ghcr.io/rerodrigues/cacheiro-instants-fs
 ```
 
+## Non-root user
+
+The images run as the unprivileged `node` user (uid `1000`). Named Docker volumes mounted at `/cache` work out of the box.
+
+For a host bind mount of the `fs` cache directory, make it writable by uid `1000` (`chown 1000:1000 ./cache`), or run the container with `--user "$(id -u):$(id -g)"`.
+
+Files you mount read-only, such as TLS certificates and the GCS credentials file, must be readable by that user as well.
+
 ## Health check
 
 The images define a Docker `HEALTHCHECK` that calls `GET /health` (unauthenticated, returns `200 OK`) every 30 seconds from inside the container, with a 5 second timeout, a 10 second start period and 3 retries before the container is marked `unhealthy`. The check reads `CACHEIRO_PORT` and switches to HTTPS (certificate verification skipped, since it targets `127.0.0.1`) when `CACHEIRO_TLS_CERT_FILE` is set, so it keeps working if you change the port or enable TLS. It uses the Node.js runtime already in the image, so nothing extra is installed.
@@ -93,6 +101,22 @@ docker run --no-healthcheck -p 3000:3000 ghcr.io/rerodrigues/cacheiro-instants-f
 
 Kubernetes ignores the Dockerfile `HEALTHCHECK`. Configure probes instead, for example `livenessProbe` and `readinessProbe` of type `httpGet` on path `/health`, port `3000` (scheme `HTTPS` when TLS is enabled).
 
+## Verifying images
+
+Every image published to GHCR is signed with [cosign](https://docs.sigstore.dev/cosign/overview/) and carries a GitHub build provenance attestation. Verify an image before running it:
+
+```sh
+cosign verify \
+  --certificate-identity-regexp '^https://github.com/rerodrigues/nx-remote-cache-server/' \
+  --certificate-oidc-issuer https://token.actions.githubusercontent.com \
+  ghcr.io/rerodrigues/cacheiro-instants-fs:<tag>
+
+gh attestation verify oci://ghcr.io/rerodrigues/cacheiro-instants-fs:<tag> \
+  --repo rerodrigues/nx-remote-cache-server
+```
+
+Replace `fs` with your flavor and `<tag>` with the version you deploy. Pin the image by digest (`@sha256:...`) in production so the verified image is the one that runs.
+
 ## Building locally
 
 Build from the repo root (the Dockerfile needs access to the full monorepo). `STORE_TYPE` picks which store the image runs — `fs` (default), `s3`, `gcs`, or `azure`:
@@ -101,7 +125,7 @@ Build from the repo root (the Dockerfile needs access to the full monorepo). `ST
 docker build -f packages/cacheiro-instants/Dockerfile --build-arg STORE_TYPE=s3 -t cacheiro-instants-s3 .
 ```
 
-Each image ships only its own flavor's store package and cloud SDK (the stores are optional peer dependencies of this package), so the `fs` image doesn't carry the AWS, GCS or Azure SDKs.
+The base image is pinned by digest, and Dependabot proposes updates to it. Each image ships only its own flavor's store package and cloud SDK (the stores are optional peer dependencies of this package), so the `fs` image doesn't carry the AWS, GCS or Azure SDKs.
 
 Multi-arch (`linux/amd64` + `linux/arm64`), no QEMU needed — none of the 4 store SDKs use native addons, so cross-arch builds are plain JS file copies:
 
