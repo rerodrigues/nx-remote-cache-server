@@ -2,6 +2,7 @@ import type { Context } from 'openapi-backend';
 import type { FastifyReply, FastifyRequest } from 'fastify';
 import type { CacheiroStore } from '@renatorodrigues/cacheiro-types';
 import type { CacheiroEmitter } from '../hooks.js';
+import { isValidHash } from '../hash.js';
 
 export function createPutHandler(store: CacheiroStore, emitter: CacheiroEmitter) {
   return async (c: Context, req: FastifyRequest, reply: FastifyReply): Promise<void> => {
@@ -9,6 +10,11 @@ export function createPutHandler(store: CacheiroStore, emitter: CacheiroEmitter)
 
     if (c.security.bearerToken?.readOnly) {
       reply.status(403).type('text/plain').send('Forbidden');
+      return;
+    }
+
+    if (!isValidHash(hash)) {
+      reply.status(400).send({ error: 'Bad Request' });
       return;
     }
 

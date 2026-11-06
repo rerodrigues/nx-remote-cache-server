@@ -69,7 +69,7 @@ See [`packages/cacheiro`](./packages/cacheiro) for the server core library API.
 Ready-to-use Docker images, one per store flavor, published to GHCR:
 
 ```sh
-docker run -p 3000:3000 -e CACHEIRO_AUTH_TOKEN=my-secret-token -v $(pwd)/cache:/cache \
+docker run -p 3000:3000 -e CACHEIRO_AUTH_TOKEN=my-secret-token -v cacheiro-cache:/cache \
   ghcr.io/rerodrigues/cacheiro-instants-fs
 ```
 
@@ -78,7 +78,7 @@ docker run -p 3000:3000 -e CACHEIRO_AUTH_TOKEN=my-secret-token -v $(pwd)/cache:/
 - `ghcr.io/rerodrigues/cacheiro-instants-gcs`
 - `ghcr.io/rerodrigues/cacheiro-instants-azure`
 
-See [`packages/cacheiro-instants`](./packages/cacheiro-instants) for env vars, TLS setup, health check, and per-flavor examples.
+See [`packages/cacheiro-instants`](./packages/cacheiro-instants) for env vars, TLS setup, health check, image signature verification, and per-flavor examples.
 
 ## Local emulators
 
@@ -113,6 +113,10 @@ docker compose up local-azure local-azure-init
 
 Then configure `packages/cacheiro-runner/config/local.json` using the emulator snippets in `local.json.example`.
 
+## Security
+
+Report vulnerabilities privately through the repository's [Security tab](https://github.com/rerodrigues/nx-remote-cache-server/security). See [`SECURITY.md`](./SECURITY.md) for the policy.
+
 ## Documentation site
 
 The docs site and blog are built with [VitePress](https://vitepress.dev) and published to GitHub Pages at <https://rerodrigues.github.io/nx-remote-cache-server/>. Their source lives on the `site` branch of this repository, not on `main`, so site changes never touch the Cacheiro code. The `site` branch is a standalone project (not an npm workspace) and shares no history with `main`.
@@ -131,16 +135,6 @@ npm run preview   # serve the production build
 ```
 
 The `Docs` workflow lives on `main`. It checks out `main` and the `site` branch together, builds the site, and deploys it. It builds on pull requests that touch package READMEs, and deploys on pushes to `main` that change a README, on every push to `site` (through the `Dispatch docs deploy` workflow on that branch), and after each successful `Release`. One-time setup: in the repository settings, set Pages source to "GitHub Actions".
-
-## Roadmap
-
-- [x] TLS / native HTTPS support
-- [x] GCS store (v1.0.0)
-- [x] Azure Blob Storage store (v1.0.0)
-- [x] S3 store (v0.3.0)
-- [x] Decoupled pluggable store architecture (v0.3.0)
-- [x] Separate runner and server packages (v0.2.0)
-- [x] Basic cache server (v0.1.0)
 
 ---
 

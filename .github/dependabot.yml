@@ -16,6 +16,15 @@ updates:
         update-types:
           - minor
           - patch
+  - package-ecosystem: docker
+    directories:
+      - "/packages/cacheiro-instants"
+      - "/packages/cacheiro-runner"
+    schedule:
+      interval: weekly
+    commit-message:
+      prefix: "build"
+      include: scope
   - package-ecosystem: github-actions
     directory: "/"
     schedule:

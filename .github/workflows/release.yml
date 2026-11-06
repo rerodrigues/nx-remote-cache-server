@@ -86,6 +86,8 @@ jobs:
     permissions:
       contents: read
       packages: write
+      id-token: write
+      attestations: write
     strategy:
       matrix:
         include:
@@ -136,6 +138,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and push
+        id: build
         if: steps.check.outputs.build == 'true'
         uses: docker/build-push-action@v7
         with:
@@ -155,3 +158,19 @@ jobs:
             io.renatorodrigues.store-version=${{ steps.check.outputs.store_version }}
           annotations: |
             index:org.opencontainers.image.description=${{ steps.check.outputs.package_description }}
+
+      - name: Install cosign
+        if: steps.check.outputs.build == 'true'
+        uses: sigstore/cosign-installer@v3
+
+      - name: Sign image
+        if: steps.check.outputs.build == 'true'
+        run: cosign sign --yes ghcr.io/${{ github.repository_owner }}/cacheiro-instants-${{ matrix.flavor }}@${{ steps.build.outputs.digest }}
+
+      - name: Attest build provenance
+        if: steps.check.outputs.build == 'true'
+        uses: actions/attest-build-provenance@v3
+        with:
+          subject-name: ghcr.io/${{ github.repository_owner }}/cacheiro-instants-${{ matrix.flavor }}
+          subject-digest: ${{ steps.build.outputs.digest }}
+          push-to-registry: true

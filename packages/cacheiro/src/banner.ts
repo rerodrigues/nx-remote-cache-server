@@ -12,6 +12,7 @@ const RESET = isProd ? '' : '\x1b[0m';
 
 const PKG_NAME = 'Cacheiro';
 const TAGLINE = 'NX remote cache';
+const AUTH_DISABLED_NOTE = 'anyone who can reach the server can read and write';
 const PKG_VERSION: string = createRequire(import.meta.url)('../package.json').version;
 
 const LOGO = figlet.textSync(PKG_NAME, { font: 'ANSI Shadow' }).trimEnd().split('\n');
@@ -71,6 +72,10 @@ export function printBanner(store: CacheiroStore, config: CacheiroConfig): void 
       ...(config.auth?.readOnlyToken ? [['auth (read-only)', 'enabled'] as [string, string]] : []),
     ];
     parts.push(buildBox(rows, server.banner ? LOGO_WIDTH : 0));
+  }
+
+  if (!config.auth?.token) {
+    parts.push(`${BOLD}auth DISABLED${RESET}: ${AUTH_DISABLED_NOTE}`);
   }
 
   console.log('\n\n' + parts.join('\n\n') + '\n');

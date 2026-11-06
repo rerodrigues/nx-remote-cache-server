@@ -169,6 +169,52 @@ describe('GET /v1/cache/:hash', () => {
   });
 });
 
+describe('hash validation', () => {
+  const invalidHashes = ['abc.def', 'abc%20def', 'abc%5Cdef'];
+
+  it.each(invalidHashes)('returns 400 on GET for hash %s', async (hash) => {
+    const app = await createServer(new MemoryStore(), testConfig);
+    const res = await app.inject({
+      method: 'GET',
+      url: `/v1/cache/${hash}`,
+      headers: { Authorization: AUTH },
+    });
+    expect(res.statusCode).toBe(400);
+  });
+
+  it.each(invalidHashes)('returns 400 on PUT for hash %s', async (hash) => {
+    const store = new MemoryStore();
+    const app = await createServer(store, testConfig);
+    const res = await app.inject({
+      method: 'PUT',
+      url: `/v1/cache/${hash}`,
+      headers: {
+        Authorization: AUTH,
+        'Content-Type': 'application/octet-stream',
+        'Content-Length': '5',
+      },
+      payload: Buffer.from('hello'),
+    });
+    expect(res.statusCode).toBe(400);
+  });
+
+  it('still accepts hashes made of letters, digits, dashes and underscores', async () => {
+    const app = await createServer(new MemoryStore(), testConfig);
+    const res = await app.inject({
+      method: 'GET',
+      url: '/v1/cache/Abc-123_xyz',
+      headers: { Authorization: AUTH },
+    });
+    expect(res.statusCode).toBe(404);
+  });
+
+  it('answers 401 before validating the hash when the token is missing', async () => {
+    const app = await createServer(new MemoryStore(), testConfig);
+    const res = await app.inject({ method: 'GET', url: '/v1/cache/abc.def' });
+    expect(res.statusCode).toBe(401);
+  });
+});
+
 describe('hooks', () => {
   let store: MemoryStore;
 
