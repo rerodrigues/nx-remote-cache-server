@@ -14,14 +14,14 @@ jobs:
     steps:
       - name: Fetch Dependabot metadata
         id: metadata
-        uses: dependabot/fetch-metadata@v2
+        uses: dependabot/fetch-metadata@v3
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Create approver app token
         if: steps.metadata.outputs.update-type != 'version-update:semver-major'
         id: app-token
-        uses: actions/create-github-app-token@v2
+        uses: actions/create-github-app-token@v3
         with:
           app-id: ${{ vars.APPROVER_APP_ID }}
           private-key: ${{ secrets.APPROVER_APP_PRIVATE_KEY }}

@@ -39,14 +39,14 @@
     "@renatorodrigues/cacheiro-store-fs": "1.1.4",
     "ajv": "^8.20.0",
     "config": "^5.0.1",
-    "pm2": "^7.1.1"
+    "pm2": "^7.1.2"
   },
   "devDependencies": {
     "@types/node": "^22",
     "concurrently": "^10.0.6",
     "lint-staged": "^17.6.0",
-    "oxfmt": "^0.75.0",
-    "oxlint": "^1.90.0",
+    "oxfmt": "^0.76.0",
+    "oxlint": "^1.91.0",
     "tsx": "^4.23.15",
     "typescript": "^7.0.2",
     "vitest": "^5.1.0"
