@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.7.0](https://github.com/rerodrigues/nx-remote-cache-server/compare/@renatorodrigues/cacheiro@1.6.0...@renatorodrigues/cacheiro@1.7.0) (2026-11-07)
+
+### Features
+
+* **cacheiro:** warn at startup when auth is disabled ([07ef96b](https://github.com/rerodrigues/nx-remote-cache-server/commit/07ef96bf623479843cec8d2e7765b5de28a538e3))
+
+### Bug Fixes
+
+* **cacheiro:** answer 400 for invalid cache hashes ([3016fb2](https://github.com/rerodrigues/nx-remote-cache-server/commit/3016fb2fc27f3a51d3741221ab060c9456957bea))
+* **deps:** bump fastify from 5.12.7 to 5.12.8 ([c27d179](https://github.com/rerodrigues/nx-remote-cache-server/commit/c27d179c52fb45ffe8922c1dc195743a543979bf))
+* **deps:** bump non-breaking deps ([8c1ae1c](https://github.com/rerodrigues/nx-remote-cache-server/commit/8c1ae1c00ad1008a5da81dc95f0fc4e6bf4304fc))
+* **deps:** bump openapi-backend from 5.22.0 to 5.23.0 ([9ed65c6](https://github.com/rerodrigues/nx-remote-cache-server/commit/9ed65c6899a35d1e9f4e517915c276d7544122e4))
+
+
 ## [1.6.0](https://github.com/rerodrigues/nx-remote-cache-server/compare/@renatorodrigues/cacheiro@1.5.1...@renatorodrigues/cacheiro@1.6.0) (2026-10-29)
 
 ### Features

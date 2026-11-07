@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.5.0](https://github.com/rerodrigues/nx-remote-cache-server/compare/@renatorodrigues/cacheiro-instants@0.4.1...@renatorodrigues/cacheiro-instants@0.5.0) (2026-11-07)
+
+### Features
+
+* **cacheiro-instants,cacheiro-runner:** run Docker images as the node user ([936563c](https://github.com/rerodrigues/nx-remote-cache-server/commit/936563c2ca0c3ed1dba1e8b1e83b1cd92e8464ab))
+
+### Bug Fixes
+
+* **deps:** bump non-breaking deps ([8c1ae1c](https://github.com/rerodrigues/nx-remote-cache-server/commit/8c1ae1c00ad1008a5da81dc95f0fc4e6bf4304fc))
+
+
 ## [0.4.1](https://github.com/rerodrigues/nx-remote-cache-server/compare/@renatorodrigues/cacheiro-instants@0.4.0...@renatorodrigues/cacheiro-instants@0.4.1) (2026-10-29)
 
 **Note:** Version bump only for package @renatorodrigues/cacheiro-instants

@@ -1,6 +1,6 @@
 {
   "name": "@renatorodrigues/cacheiro",
-  "version": "1.6.0",
+  "version": "1.7.0",
   "private": false,
   "description": "NX remote cache server",
   "homepage": "https://github.com/rerodrigues/nx-remote-cache-server/tree/main/packages/cacheiro#readme",
@@ -44,7 +44,7 @@
     "fmt:check": "oxfmt --check"
   },
   "dependencies": {
-    "@renatorodrigues/cacheiro-types": "1.2.2",
+    "@renatorodrigues/cacheiro-types": "1.2.3",
     "fastify": "^5.12.8",
     "figlet": "^1.12.0",
     "openapi-backend": "^5.23.0",

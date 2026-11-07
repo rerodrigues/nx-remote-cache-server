@@ -1,6 +1,6 @@
 {
   "name": "@renatorodrigues/cacheiro-store-s3",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "private": false,
   "description": "S3 store implementation for @renatorodrigues/cacheiro",
   "homepage": "https://github.com/rerodrigues/nx-remote-cache-server/tree/main/packages/cacheiro-store-s3#readme",
@@ -51,10 +51,10 @@
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1164.0",
     "@aws-sdk/credential-providers": "^3.1164.0",
-    "@renatorodrigues/cacheiro-encryption": "0.0.0"
+    "@renatorodrigues/cacheiro-encryption": "0.1.0"
   },
   "devDependencies": {
-    "@renatorodrigues/cacheiro-types": "1.2.2",
+    "@renatorodrigues/cacheiro-types": "1.2.3",
     "@types/node": "^22",
     "aws-sdk-client-mock": "^4.1.0",
     "lint-staged": "^17.6.0",

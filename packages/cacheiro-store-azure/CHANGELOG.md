@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.9](https://github.com/rerodrigues/nx-remote-cache-server/compare/@renatorodrigues/cacheiro-store-azure@1.0.8...@renatorodrigues/cacheiro-store-azure@1.0.9) (2026-11-07)
+
+### Bug Fixes
+
+* **deps:** bump @azure/identity from 4.14.0 to 4.14.1 ([b450dfb](https://github.com/rerodrigues/nx-remote-cache-server/commit/b450dfbe5455c75f8a9e4d9df1688a6e19f6c3e1))
+* **deps:** bump non-breaking deps ([8c1ae1c](https://github.com/rerodrigues/nx-remote-cache-server/commit/8c1ae1c00ad1008a5da81dc95f0fc4e6bf4304fc))
+
+
 ## [1.0.8](https://github.com/rerodrigues/nx-remote-cache-server/compare/@renatorodrigues/cacheiro-store-azure@1.0.7...@renatorodrigues/cacheiro-store-azure@1.0.8) (2026-10-27)
 
 ### Bug Fixes

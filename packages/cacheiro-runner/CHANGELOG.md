@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.7.0](https://github.com/rerodrigues/nx-remote-cache-server/compare/@renatorodrigues/cacheiro-runner@1.6.1...@renatorodrigues/cacheiro-runner@1.7.0) (2026-11-07)
+
+### Features
+
+* **cacheiro-instants,cacheiro-runner:** run Docker images as the node user ([936563c](https://github.com/rerodrigues/nx-remote-cache-server/commit/936563c2ca0c3ed1dba1e8b1e83b1cd92e8464ab))
+* **cacheiro:** warn at startup when auth is disabled ([07ef96b](https://github.com/rerodrigues/nx-remote-cache-server/commit/07ef96bf623479843cec8d2e7765b5de28a538e3))
+
+### Bug Fixes
+
+* **deps:** bump non-breaking deps ([8c1ae1c](https://github.com/rerodrigues/nx-remote-cache-server/commit/8c1ae1c00ad1008a5da81dc95f0fc4e6bf4304fc))
+* **deps:** bump pm2 from 7.1.1 to 7.1.2 ([f9419b4](https://github.com/rerodrigues/nx-remote-cache-server/commit/f9419b4ba9120f923c1bf9016afd63154473e724))
+
+
 ## [1.6.1](https://github.com/rerodrigues/nx-remote-cache-server/compare/@renatorodrigues/cacheiro-runner@1.6.0...@renatorodrigues/cacheiro-runner@1.6.1) (2026-10-29)
 
 **Note:** Version bump only for package @renatorodrigues/cacheiro-runner

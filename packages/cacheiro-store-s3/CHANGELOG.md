@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.9](https://github.com/rerodrigues/nx-remote-cache-server/compare/@renatorodrigues/cacheiro-store-s3@1.0.8...@renatorodrigues/cacheiro-store-s3@1.0.9) (2026-11-07)
+
+### Bug Fixes
+
+* **deps:** bump @aws-sdk/client-s3 from 3.1157.0 to 3.1161.0 ([a6ab5d9](https://github.com/rerodrigues/nx-remote-cache-server/commit/a6ab5d9835f4179194c025f9cdb4056c8dedf0a5))
+* **deps:** bump @aws-sdk/credential-providers from 3.1157.0 to 3.1161.0 ([3b7fac2](https://github.com/rerodrigues/nx-remote-cache-server/commit/3b7fac2fc7274e23353096bea85139f666d59111))
+* **deps:** bump non-breaking deps ([8c1ae1c](https://github.com/rerodrigues/nx-remote-cache-server/commit/8c1ae1c00ad1008a5da81dc95f0fc4e6bf4304fc))
+
+
 ## [1.0.8](https://github.com/rerodrigues/nx-remote-cache-server/compare/@renatorodrigues/cacheiro-store-s3@1.0.7...@renatorodrigues/cacheiro-store-s3@1.0.8) (2026-10-27)
 
 ### Bug Fixes
