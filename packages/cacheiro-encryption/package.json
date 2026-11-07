@@ -1,0 +1,61 @@
+{
+  "name": "@renatorodrigues/cacheiro-encryption",
+  "version": "0.0.0",
+  "private": false,
+  "description": "Client-side encryption (AES-256-CBC) for @renatorodrigues/cacheiro stores",
+  "homepage": "https://github.com/rerodrigues/nx-remote-cache-server/tree/main/packages/cacheiro-encryption#readme",
+  "bugs": {
+    "url": "https://github.com/rerodrigues/nx-remote-cache-server/issues"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Renato Rodrigues",
+    "email": "renato@renatorodrigues.com",
+    "url": "http://renatorodrigues.com/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:rerodrigues/nx-remote-cache-server.git"
+  },
+  "directories": {
+    "lib": "dist",
+    "test": "__tests__"
+  },
+  "files": [
+    "dist"
+  ],
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsc",
+    "prepublishOnly": "lerna run build --scope=$npm_package_name --include-dependencies",
+    "watch": "tsc --watch",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "oxlint",
+    "lint:fix": "oxlint --fix",
+    "fmt": "oxfmt",
+    "fmt:check": "oxfmt --check"
+  },
+  "devDependencies": {
+    "@types/node": "^22",
+    "lint-staged": "^17.6.0",
+    "oxfmt": "^0.74.0",
+    "oxlint": "^1.89.0",
+    "typescript": "^7.0.2",
+    "vitest": "^5.0.5"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

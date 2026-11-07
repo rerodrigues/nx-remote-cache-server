@@ -9,11 +9,13 @@ import {
 } from '@aws-sdk/client-s3';
 import type { CacheiroStore, Describable } from '@renatorodrigues/cacheiro-types';
 import configSchema from '../configSchema.json' with { type: 'json' };
-import { DecryptTransform, deriveKey, encryptBuffer } from './encryption.js';
+import { createEncryption } from '@renatorodrigues/cacheiro-encryption';
 import { classifyError, isNotFound, isPreconditionFailed } from './errors.js';
 import { buildCredentials } from './credentials.js';
 
 export { configSchema };
+
+const encryption = createEncryption({ store: 'S3Store', salt: 'cacheiro-store-s3:v1' });
 
 export interface S3StoreConfig {
   bucket: string;
@@ -51,7 +53,7 @@ export class S3Store implements CacheiroStore, Describable {
     } else {
       this.useSse = sseEnabled;
     }
-    if (hasKey) this.encryptionKey = deriveKey(this.config.encryptionKey!);
+    if (hasKey) this.encryptionKey = encryption.deriveKey(this.config.encryptionKey!);
 
     this.client = new S3Client({
       region: this.config.region,
@@ -99,7 +101,7 @@ export class S3Store implements CacheiroStore, Describable {
 
   async write(hash: string, data: Buffer): Promise<void> {
     const client = this.requireClient();
-    const body = this.encryptionKey ? encryptBuffer(data, this.encryptionKey) : data;
+    const body = this.encryptionKey ? encryption.encrypt(data, this.encryptionKey) : data;
     const params: PutObjectCommandInput = {
       Bucket: this.config.bucket,
       Key: this.buildKey(hash),
@@ -144,7 +146,7 @@ export class S3Store implements CacheiroStore, Describable {
       }
       const onErr = (e: unknown) => out.destroy(classifyError(e, 'read', this.config.bucket));
       if (this.encryptionKey) {
-        const decrypt = new DecryptTransform(this.encryptionKey);
+        const decrypt = encryption.createDecryptStream(this.encryptionKey);
         body.on('error', onErr);
         decrypt.on('error', onErr);
         body.pipe(decrypt).pipe(out);

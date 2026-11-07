@@ -1,29 +1,15 @@
 import { Transform, type TransformCallback } from 'node:stream';
-import { createCipheriv, createDecipheriv, randomBytes, scryptSync } from 'node:crypto';
+import { createDecipheriv } from 'node:crypto';
+import { ALGORITHM, IV_LENGTH } from './format.js';
 
-const ALGORITHM = 'aes-256-cbc';
-const IV_LENGTH = 16;
-const KEY_LENGTH = 32;
-const KEY_SALT = Buffer.from('cacheiro-store-gcs:v1', 'utf8');
-
-export function deriveKey(key: string): Buffer {
-  return scryptSync(key, KEY_SALT, KEY_LENGTH);
-}
-
-export function encryptBuffer(data: Buffer, key: Buffer): Buffer {
-  const iv = randomBytes(IV_LENGTH);
-  const cipher = createCipheriv(ALGORITHM, key, iv);
-  return Buffer.concat([iv, cipher.update(data), cipher.final()]);
-}
-
-function mapDecryptError(err: unknown): Error {
+function mapDecryptError(err: unknown, store: string): Error {
   if (
     err &&
     typeof err === 'object' &&
     'code' in err &&
     (err as { code?: string }).code === 'ERR_OSSL_BAD_DECRYPT'
   ) {
-    return new Error('GcsStore: failed to decrypt — encryption key may be incorrect');
+    return new Error(`${store}: failed to decrypt — encryption key may be incorrect`);
   }
   return err instanceof Error ? err : new Error(String(err));
 }
@@ -32,7 +18,10 @@ export class DecryptTransform extends Transform {
   private decipher: ReturnType<typeof createDecipheriv> | null = null;
   private ivBuf: Buffer = Buffer.alloc(0);
 
-  constructor(private readonly key: Buffer) {
+  constructor(
+    private readonly key: Buffer,
+    private readonly store: string,
+  ) {
     super();
   }
 
@@ -62,7 +51,7 @@ export class DecryptTransform extends Transform {
       if (this.decipher) this.push(this.decipher.final());
       callback();
     } catch (err) {
-      callback(mapDecryptError(err));
+      callback(mapDecryptError(err, this.store));
     }
   }
 }

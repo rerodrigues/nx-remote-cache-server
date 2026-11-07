@@ -3,10 +3,12 @@ import { posix } from 'node:path';
 import { Storage, type StorageOptions } from '@google-cloud/storage';
 import type { CacheiroStore, Describable } from '@renatorodrigues/cacheiro-types';
 import configSchema from '../configSchema.json' with { type: 'json' };
-import { DecryptTransform, deriveKey, encryptBuffer } from './encryption.js';
+import { createEncryption } from '@renatorodrigues/cacheiro-encryption';
 import { classifyError, isNotFound, isPreconditionFailed } from './errors.js';
 
 export { configSchema };
+
+const encryption = createEncryption({ store: 'GcsStore', salt: 'cacheiro-store-gcs:v1' });
 
 export interface GcsStoreConfig {
   bucket: string;
@@ -25,7 +27,7 @@ export class GcsStore implements CacheiroStore, Describable {
     if (!this.config.bucket) throw new Error('GcsStore: "bucket" is required');
 
     if (typeof this.config.encryptionKey === 'string' && this.config.encryptionKey.length > 0) {
-      this.encryptionKey = deriveKey(this.config.encryptionKey);
+      this.encryptionKey = encryption.deriveKey(this.config.encryptionKey);
     }
 
     const options: StorageOptions = {};
@@ -57,7 +59,7 @@ export class GcsStore implements CacheiroStore, Describable {
   }
 
   async write(hash: string, data: Buffer): Promise<void> {
-    const body = this.encryptionKey ? encryptBuffer(data, this.encryptionKey) : data;
+    const body = this.encryptionKey ? encryption.encrypt(data, this.encryptionKey) : data;
     const file = this.requireStorage().bucket(this.config.bucket).file(this.buildKey(hash));
     try {
       await file.save(body, { preconditionOpts: { ifGenerationMatch: 0 } });
@@ -86,7 +88,7 @@ export class GcsStore implements CacheiroStore, Describable {
       const body = storage.bucket(this.config.bucket).file(this.buildKey(hash)).createReadStream();
       const onErr = (e: unknown) => out.destroy(classifyError(e, 'read', this.config.bucket));
       if (this.encryptionKey) {
-        const decrypt = new DecryptTransform(this.encryptionKey);
+        const decrypt = encryption.createDecryptStream(this.encryptionKey);
         body.on('error', onErr);
         decrypt.on('error', onErr);
         body.pipe(decrypt).pipe(out);

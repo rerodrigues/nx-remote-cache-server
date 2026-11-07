@@ -9,6 +9,7 @@ WORKDIR /app
 
 COPY package.json package-lock.json ./
 COPY packages/cacheiro-types/package.json ./packages/cacheiro-types/
+COPY packages/cacheiro-encryption/package.json ./packages/cacheiro-encryption/
 COPY packages/cacheiro-store-fs/package.json ./packages/cacheiro-store-fs/
 COPY packages/cacheiro-store-s3/package.json ./packages/cacheiro-store-s3/
 COPY packages/cacheiro-store-gcs/package.json ./packages/cacheiro-store-gcs/
@@ -18,6 +19,7 @@ COPY packages/cacheiro-instants/package.json ./packages/cacheiro-instants/
 RUN npm ci
 
 COPY packages/cacheiro-types/ ./packages/cacheiro-types/
+COPY packages/cacheiro-encryption/ ./packages/cacheiro-encryption/
 COPY packages/cacheiro-store-fs/ ./packages/cacheiro-store-fs/
 COPY packages/cacheiro-store-s3/ ./packages/cacheiro-store-s3/
 COPY packages/cacheiro-store-gcs/ ./packages/cacheiro-store-gcs/
@@ -25,6 +27,7 @@ COPY packages/cacheiro-store-azure/ ./packages/cacheiro-store-azure/
 COPY packages/cacheiro/ ./packages/cacheiro/
 COPY packages/cacheiro-instants/ ./packages/cacheiro-instants/
 RUN npm run build -w packages/cacheiro-types
+RUN npm run build -w packages/cacheiro-encryption
 RUN npm run build -w packages/cacheiro-store-fs
 RUN npm run build -w packages/cacheiro-store-s3
 RUN npm run build -w packages/cacheiro-store-gcs
@@ -39,7 +42,7 @@ ARG STORE_TYPE
 # optional peers of instants, so only the chosen store's cloud SDK ends up in node_modules.
 # Runs natively on $BUILDPLATFORM (no QEMU); --ignore-scripts skips the root husky "prepare".
 RUN node -e "const fs = require('fs'); const p = require('./package.json'); \
-    p.workspaces = ['cacheiro-types', 'cacheiro', 'cacheiro-instants', 'cacheiro-store-${STORE_TYPE}'].map((n) => 'packages/' + n); \
+    p.workspaces = ['cacheiro-types', 'cacheiro-encryption', 'cacheiro', 'cacheiro-instants', 'cacheiro-store-${STORE_TYPE}'].map((n) => 'packages/' + n); \
     fs.writeFileSync('package.json', JSON.stringify(p, null, 2));" \
     && rm -rf node_modules \
     && npm ci --omit=dev --ignore-scripts
@@ -60,6 +63,9 @@ COPY --from=builder /app/package.json /app/package-lock.json ./
 
 COPY --from=builder /app/packages/cacheiro-types/package.json ./packages/cacheiro-types/package.json
 COPY --from=builder /app/packages/cacheiro-types/dist ./packages/cacheiro-types/dist
+
+COPY --from=builder /app/packages/cacheiro-encryption/package.json ./packages/cacheiro-encryption/package.json
+COPY --from=builder /app/packages/cacheiro-encryption/dist ./packages/cacheiro-encryption/dist
 
 COPY --from=builder /app/packages/cacheiro-store-${STORE_TYPE}/package.json ./packages/cacheiro-store-${STORE_TYPE}/package.json
 COPY --from=builder /app/packages/cacheiro-store-${STORE_TYPE}/dist ./packages/cacheiro-store-${STORE_TYPE}/dist

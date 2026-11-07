@@ -18,6 +18,10 @@ Each `write` lands in `<final>.tmp-<random>` (same shard), is `fsync`-ed, then a
 - **Background sweep**: when both `ttlDays > 0` and `sweepIntervalHours > 0`, a `setInterval` timer walks the two-level shard tree and deletes expired files. Timer is `unref()`-ed so it does not keep the process alive.
 - **Sweep errors** are logged via `console.warn` and do not crash the server.
 
+## Security
+
+The filesystem store has no encryption and no tamper detection: Cacheiro serves whatever is in the cache directory. Anyone who can write there can plant artifacts your builds will trust, so only the Cacheiro service user should have write access, and the directory should not live on a shared or network volume. For confidentiality, use disk or volume encryption, or the [S3](https://github.com/rerodrigues/nx-remote-cache-server/tree/main/packages/cacheiro-store-s3), [GCS](https://github.com/rerodrigues/nx-remote-cache-server/tree/main/packages/cacheiro-store-gcs) or [Azure](https://github.com/rerodrigues/nx-remote-cache-server/tree/main/packages/cacheiro-store-azure) store with `encryptionKey`.
+
 ## Events
 
 `FileSystemStore` is an `EventEmitter` with two store-local events, separate from [`cacheiro`](https://www.npmjs.com/package/@renatorodrigues/cacheiro)'s `onCacheHit`/`onCacheMiss`/`onCacheSet` hooks — subscribe directly on the store instance:

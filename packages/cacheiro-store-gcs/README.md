@@ -66,7 +66,7 @@ GCS encrypts every object at rest by default with Google-managed keys — no con
 | unset           | Google-managed server-side encryption only.                  |
 | set             | Client-side AES-256-CBC on top of Google-managed encryption. |
 
-Client-side keys are stretched with `scrypt` (fixed salt, default cost) to a 32-byte AES key. The IV is randomly generated per write and prepended to the ciphertext: `[16-byte IV][ciphertext]`. The salt is scoped to this store (`cacheiro-store-gcs:v1`), so GCS and S3 stores with the same passphrase produce incompatible ciphertexts.
+Client-side encryption (key derivation, IV and blob format) is documented in [`@renatorodrigues/cacheiro-encryption`](https://github.com/rerodrigues/nx-remote-cache-server/tree/main/packages/cacheiro-encryption). This KDF differs from the deprecated official Nx GCS plugin, so buckets encrypted with the upstream plugin are not interoperable.
 
 ## Environment variables reference
 

@@ -120,7 +120,7 @@ cacheiro.off('cacheHit', onHit);
 | --------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `onCacheHit`    | `{ hash, expired }` | A `GET` finds and returns an artifact. `expired: true` means the artifact was past its TTL but is served one last time before removal — see the [`cacheiro-store-fs`](https://www.npmjs.com/package/@renatorodrigues/cacheiro-store-fs) TTL docs. |
 | `onCacheMiss`   | `{ hash }`          | A `GET` finds no artifact for the hash, or the artifact cannot be read.                                                                                                                                                                           |
-| `onCacheSet`    | `{ hash }`          | A `PUT` successfully stores a new artifact. Cacheiro is a fixed-purpose NX remote cache — keys are content-addressed, so a hash is never legitimately overwritten (a repeat `PUT` gets a `409` instead), hence there is no `onCacheUpdate`.       |
+| `onCacheSet`    | `{ hash }`          | A `PUT` successfully stores a new artifact. Cacheiro is a fixed-purpose NX remote cache — an existing hash is never legitimately overwritten (a repeat `PUT` gets a `409` instead), hence there is no `onCacheUpdate`.                            |
 | `onServerStart` | —                   | After `cacheiro.listen()` successfully binds.                                                                                                                                                                                                     |
 | `onServerStop`  | —                   | After `cacheiro.stop()` closes the server.                                                                                                                                                                                                        |
 | `onServerError` | `{ error }`         | A request handler throws an uncaught error (mirrors the 500 response), or an async listener rejects.                                                                                                                                              |
@@ -161,6 +161,13 @@ Without it, anyone who can reach the server can read and write the cache. Startu
 Requests bearing `auth.readOnlyToken` may `GET` but get a `403` on `PUT`. Give it to untrusted CI (e.g. PR builds) so it can't poison the cache (CVE-2025-36852 / CREEP).
 
 The `:hash` may only contain letters, digits, `-` and `_`. Anything else gets a `400`.
+
+### Integrity
+
+Nx keys artifacts by task-input hash, not content, and clients cannot verify downloads. Cacheiro adds no content digest, so tokens only control who can write. Nothing detects tampering or corruption in the storage backend. To limit that risk:
+
+- Restrict write access to the bucket, container, or cache directory to the Cacheiro service, and serve over HTTPS.
+- Set `encryptionKey` on the S3, GCS, or Azure store to encrypt artifacts at rest. This protects confidentiality only: AES-256-CBC is not authenticated, so a modified artifact may not be rejected on read.
 
 ## Stores
 
