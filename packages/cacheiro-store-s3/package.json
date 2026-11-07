@@ -49,8 +49,8 @@
     "fmt:check": "oxfmt --check"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.1161.0",
-    "@aws-sdk/credential-providers": "^3.1161.0",
+    "@aws-sdk/client-s3": "^3.1164.0",
+    "@aws-sdk/credential-providers": "^3.1164.0",
     "@renatorodrigues/cacheiro-encryption": "0.0.0"
   },
   "devDependencies": {
@@ -58,8 +58,8 @@
     "@types/node": "^22",
     "aws-sdk-client-mock": "^4.1.0",
     "lint-staged": "^17.6.0",
-    "oxfmt": "^0.76.0",
-    "oxlint": "^1.91.0",
+    "oxfmt": "^0.77.0",
+    "oxlint": "^1.92.0",
     "typescript": "^7.0.2",
     "vitest": "^5.1.0"
   },

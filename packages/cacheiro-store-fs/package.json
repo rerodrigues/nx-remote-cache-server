@@ -52,8 +52,8 @@
     "@renatorodrigues/cacheiro-types": "1.2.2",
     "@types/node": "^22",
     "lint-staged": "^17.6.0",
-    "oxfmt": "^0.76.0",
-    "oxlint": "^1.91.0",
+    "oxfmt": "^0.77.0",
+    "oxlint": "^1.92.0",
     "typescript": "^7.0.2",
     "vitest": "^5.1.0"
   },
