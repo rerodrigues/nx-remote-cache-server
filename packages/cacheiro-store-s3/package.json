@@ -50,7 +50,7 @@
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1164.0",
-    "@aws-sdk/credential-providers": "^3.1164.0",
+    "@aws-sdk/credential-providers": "^3.1169.0",
     "@renatorodrigues/cacheiro-encryption": "0.1.0"
   },
   "devDependencies": {
