@@ -39,8 +39,8 @@
   },
   "devDependencies": {
     "@types/node": "^22",
-    "lint-staged": "^17.6.0",
-    "oxfmt": "^0.78.0",
+    "lint-staged": "^17.6.1",
+    "oxfmt": "^0.79.0",
     "typescript": "^7.0.2"
   },
   "engines": {
