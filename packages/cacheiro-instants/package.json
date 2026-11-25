@@ -46,12 +46,12 @@
     "@renatorodrigues/cacheiro-types": "1.2.3",
     "@types/node": "^22",
     "concurrently": "^10.0.7",
-    "lint-staged": "^17.6.1",
-    "oxfmt": "^0.79.0",
-    "oxlint": "^1.94.0",
+    "lint-staged": "^17.6.2",
+    "oxfmt": "^0.80.0",
+    "oxlint": "^1.95.0",
     "tsx": "^4.23.15",
     "typescript": "^7.0.2",
-    "vitest": "^5.1.1"
+    "vitest": "^5.1.2"
   },
   "peerDependencies": {
     "@renatorodrigues/cacheiro-store-azure": "1.0.6",
