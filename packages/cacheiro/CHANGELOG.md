@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.7.1](https://github.com/rerodrigues/nx-remote-cache-server/compare/%40renatorodrigues%2Fcacheiro%401.7.0...%40renatorodrigues%2Fcacheiro%401.7.1) (2026-11-26)
+
+### Bug Fixes
+
+* **deps:** bump aws-sdk, openapi-backend and figlet ([6b5f797](https://github.com/rerodrigues/nx-remote-cache-server/commit/6b5f797b1fa1cf4f3387ae90ba19f8c0205c6d5a))
+* **deps:** bump openapi-backend from 5.23.0 to 5.24.0 ([a769f46](https://github.com/rerodrigues/nx-remote-cache-server/commit/a769f461fd04fde5a95a80605cc90ba4e2ea1287))
+
+
 ## [1.7.0](https://github.com/rerodrigues/nx-remote-cache-server/compare/@renatorodrigues/cacheiro@1.6.0...@renatorodrigues/cacheiro@1.7.0) (2026-11-07)
 
 ### Features

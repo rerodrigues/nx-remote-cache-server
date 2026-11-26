@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.6](https://github.com/rerodrigues/nx-remote-cache-server/compare/%40renatorodrigues%2Fcacheiro-store-fs%401.1.5...%40renatorodrigues%2Fcacheiro-store-fs%401.1.6) (2026-11-26)
+
+**Note:** Version bump only for package @renatorodrigues/cacheiro-store-fs
+
+
+
+
+
 ## [1.1.5](https://github.com/rerodrigues/nx-remote-cache-server/compare/@renatorodrigues/cacheiro-store-fs@1.1.4...@renatorodrigues/cacheiro-store-fs@1.1.5) (2026-11-07)
 
 ### Bug Fixes

@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.10](https://github.com/rerodrigues/nx-remote-cache-server/compare/%40renatorodrigues%2Fcacheiro-store-gcs%401.0.9...%40renatorodrigues%2Fcacheiro-store-gcs%401.0.10) (2026-11-26)
+
+### Bug Fixes
+
+* **cacheiro-store-gcs:** bump @google-cloud/storage to 9.0.0 ([7246110](https://github.com/rerodrigues/nx-remote-cache-server/commit/724611069a9d96d4fbb8f9c1e8c6613b5443792d))
+
+
 ## [1.0.9](https://github.com/rerodrigues/nx-remote-cache-server/compare/@renatorodrigues/cacheiro-store-gcs@1.0.8...@renatorodrigues/cacheiro-store-gcs@1.0.9) (2026-11-07)
 
 ### Bug Fixes

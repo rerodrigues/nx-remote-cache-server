@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.4](https://github.com/rerodrigues/nx-remote-cache-server/compare/%40renatorodrigues%2Fcacheiro-types%401.2.3...%40renatorodrigues%2Fcacheiro-types%401.2.4) (2026-11-26)
+
+**Note:** Version bump only for package @renatorodrigues/cacheiro-types
+
+
+
+
+
 ## [1.2.3](https://github.com/rerodrigues/nx-remote-cache-server/compare/@renatorodrigues/cacheiro-types@1.2.2...@renatorodrigues/cacheiro-types@1.2.3) (2026-11-07)
 
 ### Bug Fixes
